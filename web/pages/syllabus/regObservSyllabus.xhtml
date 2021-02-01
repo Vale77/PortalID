@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions" >
+    <style>
+        .ui-dialog .ui-dialog-buttonpane{text-align: center;margin: 0 0;background-color: #F5F5DC;}
+        .ui-dialog .ui-dialog-titlebar{color: brown;}
+        .myPanelSylabus{border-style: outset; height: 98%;background-color: oldlace;}
+        .myPanelSylabus .ui-panel-title{color:brown;}
+        .myPanelMant .ui-panel-content{ padding: 0.1em;}
+        .panelMant .ui-panel-content{padding: 0px 0px;}
+        .titulosVistaPrevia{font-weight: bold;color: blue;font-size: 9pt;text-transform: uppercase}
+        .col1InfoGen{width: 185px;font-weight: bold;color: black;border: 1px solid #a8a8a8}
+        .col2InfoGen{width: 600px;border: 1px solid #a8a8a8}        
+    </style>
+    <p:panel id="panelMant"  style="border-width: thin;background-color: transparent" styleClass="myPanelMant" >
+        <h:panelGrid  style="width: 1024px;" id="layoutSyllabus"  >
+            <p:scrollPanel style="height:300px" mode="native" id="idWest" widgetVar="panel1">
+                <h:panelGrid  cellpadding="5" cellspacing="10" style="text-align: justify;width:975px;">
+                    <p:outputLabel value="1. INFORMACION GENERAL DE LA ASIGNATURA" styleClass="titulosVistaPrevia"/>   
+                    <h:panelGrid  columns="2" cellpadding="3" cellspacing="0" columnClasses="col1InfoGen,col2InfoGen">
+                        <p:outputLabel value="Área académica:" />
+                        <h:outputText value="#{aprobSyllabusBean.asignaturaSelected.area}" /> 
+                        <p:outputLabel value="Nombre del programa:" />
+                        <h:outputText value="#{aprobSyllabusBean.asignaturaSelected.programa}" />    
+                        <p:outputLabel value="Nombre de la asignatura: " />
+                        <h:outputText style="text-transform: uppercase" value="#{aprobSyllabusBean.asignaturaSelected.nombreMateria}" />  
+                        <p:outputLabel value="Código de la asignatura: " style=""/>
+                        <h:outputText style="text-transform: uppercase" value="#{aprobSyllabusBean.asignaturaSelected.identifMateria}"/>
+                        <p:outputLabel value="Trimestre:" />
+                        <h:outputText value="#{aprobSyllabusBean.asignaturaSelected.nombreNivel}" /> 
+                        <p:outputLabel value="Nombre del docente: " />
+                        <h:outputText value="#{aprobSyllabusBean.asignaturaSelected.apellidoProfesor} #{aprobSyllabusBean.asignaturaSelected.nombreProfesor}" />                                                    
+                        <p:outputLabel value="Modalidad:" />
+                        <h:outputText value="Presencial" />  
+                        <p:outputLabel value="N° Créditos UASB:" />
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.numeroCreditos}" />  
+                        <p:outputLabel value="N° Clases:" />
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.numeroClases}" />  
+                        <p:outputLabel value="Reglamento de Régimen Académico:" />
+                        <h:outputText value="#{aprobSyllabusBean.asignaturaSelected.regsilago}" />  
+                    </h:panelGrid> <br/>               
+                    <h:panelGrid  columns="2" cellpadding="5" cellspacing="0" columnClasses="col1InfoGen,col2InfoGen" >    
+                        <p:outputLabel value="Fecha de registro:" />
+                        <h:outputText value="#{aprobSyllabusBean.formatDate(aprobSyllabusBean.sylabusDocente.fechaUltmodific, 'dd MMMM yyyy')}" style="color:brown;"/>                            
+                        <p:outputLabel value="Fecha aprobación:" />
+                        <h:outputText value="#{aprobSyllabusBean.formatDate(aprobSyllabusBean.sylabusDocente.fechaAprobacion, 'dd MMMM yyyy')}"
+                                      style="color: blue;visibility: #{aprobSyllabusBean.sylabusDocente.estadoSylabus eq 'A'?'visible':'hidden'}"/>
+                    </h:panelGrid>
+
+                    <p:outputLabel value="2. ASIGNATURA" styleClass="titulosVistaPrevia"/> 
+                    <h:panelGrid  columns="1" cellpadding="5" cellspacing="10" > 
+                        <p:outputLabel value="2.1. Descripción de la asignatura" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.descripcionMateria}" escape="false" />
+                        <p:outputLabel value="2.2. Objetivo general de la asignatura" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.objetivoGeneral}" escape="false" />
+                        <p:outputLabel value="2.3. Objetivos específicos de la asignatura" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.objetivoEspecifico}" escape="false" />
+                    </h:panelGrid>
+                    <p:outputLabel value="3. ARTICULACIÓN" styleClass="titulosVistaPrevia"/>  
+                    <h:panelGrid  columns="1" cellpadding="5" cellspacing="10" > 
+                        <p:outputLabel value="#{aprobSyllabusBean.titUniCurr}" styleClass="titulosVistaPrevia"/>                    
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.articUnidCurricular}" escape="false" />
+                        <p:outputLabel value="3.2. Ámbito curricular" styleClass="titulosVistaPrevia" rendered="#{aprobSyllabusBean.asignaturaSelected.regsilago eq 2016}"/>
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.articAmbiCurricular}" rendered="#{aprobSyllabusBean.asignaturaSelected.regsilago eq 2016}" escape="false" />
+                        <p:outputLabel value="#{aprobSyllabusBean.titCampForm}" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.articCampFormacion}" escape="false" />
+                        <!--p:outputLabel value="3.4. Otras carácteristicas" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.articOtrasCarac}" escape="false" /-->
+                    </h:panelGrid>
+                    <p:outputLabel value="4. CONTENIDOS" styleClass="titulosVistaPrevia"/>
+                    <p:dataTable id="vistaTemas" var="tema" value="#{aprobSyllabusBean.temasSylabus}"  
+                                 emptyMessage="No ha ingresado tema alguno !"  rowIndexVar="rowIndex" >
+                        <p:column headerText="N° Clases"  width="8%" style="text-align: center;">#{tema.clase}</p:column> 
+                        <p:column headerText="Tema"  width="40%"><h:outputText value="#{tema.tema}" escape="false"/></p:column> 
+                        <p:column headerText="Subtemas"  width="50%"><h:outputText value="#{tema.subtema}" escape="false" /></p:column>     
+                    </p:dataTable>                    
+                    <p:outputLabel value="5. PROCESO DOCENTE" styleClass="titulosVistaPrevia"/>
+                    <h:panelGrid  columns="1" cellpadding="5" cellspacing="10"  rendered="#{aprobSyllabusBean.asignaturaSelected.regsilago eq 2016}" >                            
+                        <p:outputLabel value="5.1. Componentes Docencia" styleClass="titulosVistaPrevia"/>                            
+                        <p:outputLabel value="5.1.1. Horas en aula." styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.procesoDocente}" escape="false" /> 
+                        <p:outputLabel value="5.1.2. Horas trabajo colaborativo." styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.procesoDocenteAcomp}" escape="false" /> 
+                        <p:outputLabel value="5.2. Componente otras actividades" styleClass="titulosVistaPrevia"/>  
+                        <p:outputLabel value="5.2.1. Horas prácticas de aprendizaje." styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.coaHorasParcticas}" escape="false" />
+                        <p:outputLabel value="5.2.2. Horas trabajo autónomo." styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.coaTrabajoAutonomo}" escape="false" />
+                    </h:panelGrid>
+                    <h:panelGrid  columns="1" cellpadding="5" cellspacing="10" rendered="#{regSyllabusBean.asignaturaSelected.regsilago eq 2019}" > 
+                        <p:outputLabel value="5.1. Componentes Contacto con docente" styleClass="titulosVistaPrevia"/> 
+                        <p:outputLabel value="5.1.1. Horas lectivas." styleClass="titulosVistaPrevia"/> 
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.procesoDocente}" escape="false" />
+                        <p:outputLabel value="5.1.2. Seguimiento y tutoría." styleClass="titulosVistaPrevia"/> 
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.ccdSeguimientoTutoria}" escape="false" />
+                        <p:outputLabel value="5.2. Componente otras actividades" styleClass="titulosVistaPrevia"/> 
+                        <p:outputLabel value="5.2.1. Aprendizaje autónomo." styleClass="titulosVistaPrevia"/> 
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.coaTrabajoAutonomo}" escape="false" />
+                        <p:outputLabel value="5.2.2. Aprendizaje práctico." styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.coaHorasParcticas}" escape="false" />
+                    </h:panelGrid> 
+                    <!--p:outputLabel value="5.1. Formas de trabajo en aula" styleClass="titulosVistaPrevia"/>
+                    <h:outputText value="#{aprobSyllabusBean.sylabusDocente.procesoDocente}" escape="false" />                        
+                    <p:outputLabel value="5.2. Formas de acompañamiento" styleClass="titulosVistaPrevia"/>
+                    <h:outputText value="#{aprobSyllabusBean.sylabusDocente.procesoDocenteAcomp}" escape="false" />
+                    <p:outputLabel value="5.3. Actividades de aprendizaje" styleClass="titulosVistaPrevia"/>
+                    <h:outputText value="#{aprobSyllabusBean.sylabusDocente.procesoDocenteActiv}" escape="false" /-->
+
+                    <p:outputLabel value="6. EVALUACIÓN" styleClass="titulosVistaPrevia"/>
+                    <h:panelGrid  columns="1" cellpadding="5" cellspacing="10" > 
+                        <p:outputLabel value="6.1. Criterios para evaluar" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.evaluacion}" escape="false" />  
+                        <p:outputLabel value="6.2.  Elementos de calificación" styleClass="titulosVistaPrevia"/> 
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.evaluacionElementos}" escape="false" />      
+                    </h:panelGrid>
+                    <p:outputLabel value="7. BIBLIOGRAFÍA" styleClass="titulosVistaPrevia"/>  
+                    <p:outputLabel value="7.1. Lectura obligatoria" styleClass="titulosVistaPrevia" />                        
+                    <p:dataTable id="vistaBiblio" var="biblio" value="#{aprobSyllabusBean.biblioSylabus}"
+                                 emptyMessage="No ha ingresado bibliografía alguna !"  rowIndexVar="rowIndex" >
+                        <p:column headerText="N° Clases" style="text-align: center;" width="8%">  
+                            <span style="font-weight: bold">#{biblio.clase}</span>
+                        </p:column>                          
+                        <p:column headerText="Tema"  width="40%"><h:outputText value="#{biblio.tema}" escape="false"/></p:column> 
+                        <p:column headerText="Bibliografía"  width="52%"><h:outputText 
+                                style="color:#{biblio.biblioTema eq null or biblio.biblioTema.trim() eq '' ? 'red':'black'};"
+                                value="#{biblio.biblioTema eq null or biblio.biblioTema.trim() eq ''? 'SIN DEFINIR !':biblio.biblioTema}" escape="false" /></p:column>     
+                    </p:dataTable>      
+                    <p:outputLabel value="7.2. Lectura de apoyo" styleClass="titulosVistaPrevia" />                          
+                    <p:dataTable id="vistaBiblioG" var="biblioG" value="#{aprobSyllabusBean.bibliografias}"
+                                 emptyMessage="No ha ingresado bibliografía de apoyo alguna !"  rowIndexVar="rowIndex" >
+                        <p:column headerText="Ord." style="text-align: center;" width="8%">  
+                            <span style="font-weight: bold">#{rowIndex+1}</span>
+                        </p:column>                          
+                        <p:column headerText="Bibliografía"  width="52%"><h:outputText 
+                                style="color:#{biblioG.bibliografia eq null or biblioG.bibliografia.trim() eq '' ? 'red':'black'};"
+                                value="#{biblioG.bibliografia eq null or biblioG.bibliografia.trim() eq ''? 'SIN DEFINIR !':biblioG.bibliografia}" escape="false" /></p:column>     
+                    </p:dataTable>     
+                    <p:outputLabel value="8. RECURSOS" styleClass="titulosVistaPrevia"/>    
+                    <h:outputText value="#{aprobSyllabusBean.sylabusDocente.observacionesUtilRec}" escape="false" />   
+                    <p:outputLabel value="9. INFORMACIÓN ADICIONAL" styleClass="titulosVistaPrevia"/>                               
+                    <h:panelGrid  columns="2" cellpadding="3" cellspacing="0" columnClasses="col1InfoGen,col2InfoGen">
+                        <p:outputLabel value="Horario de atención del docente:" />
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.observaciones}" /> 
+                        <p:outputLabel value="Lugar de atención:" />
+                        <h:outputText value="#{aprobSyllabusBean.sylabusDocente.lugarAtencion}" /> 
+                    </h:panelGrid>
+                </h:panelGrid>
+            </p:scrollPanel>
+            <h:panelGrid columns="3" >  
+                <p:outputLabel value="Acción: " styleClass="titulosVistaPrevia"/>  
+                <p:selectOneMenu id="options" value="#{aprobSyllabusBean.accion}" >  
+                    <f:selectItem itemLabel="Seleccione una ..." itemValue="" noSelectionOption="true" />
+                    <f:selectItem itemLabel="Poner observación" itemValue="P" />  
+                    <f:selectItem itemLabel="Aprobar sílabo" itemValue="A" />  
+                    <p:ajax event="change" update="panelDescrip"/>
+                </p:selectOneMenu>  
+                <p:panel id="panelDescrip" header="OBSERVACIONES" styleClass="myPanelSylabus"  >
+                    <span style="color:blue;font-weight: bold;padding-right: 5px;">SI TIENE OBSERVACIONES, primero seleccione la 'ACCIÓN' correspondiente</span>
+                    <pe:ckEditor width="775"  height="120"  value="#{aprobSyllabusBean.sylabusDocente.observacionCoordinador}"   
+                                 readOnly="#{aprobSyllabusBean.accion ne 'P'}"  widgetVar="widgetEditorDescrip"
+                                 customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config_observ.js" />    
+                </p:panel>      
+            </h:panelGrid>  
+        </h:panelGrid>
+    </p:panel>
+    <div align="right" style="font-size: 9pt;margin-top: 5px;">
+        <p:commandButton  id="commandButtonGrabar" value="Guardar" icon="ui-icon-disk" title="Guardar datos ingresados" 
+                          update=":formLogin:growlLogin :formMant:commandButtonGrabar :formMant:commandButtonCancelar"
+                          onstart="blockUIContentenidoWidgetMant.block();document.getElementById('formMant:commandButtonGrabar').disabled=true;document.getElementById('formMant:commandButtonCancelar').disabled=true;" 
+                          oncomplete="blockUIContentenidoWidgetMant.unblock();document.getElementById('formMant:commandButtonGrabar').disabled=false;document.getElementById('formMant:commandButtonCancelar').disabled=false;"
+                          actionListener="#{aprobSyllabusBean.guardarButton_processAction(ae)}" process="@form" />
+        <p:commandButton  id="commandButtonCancelar" value="Cancelar" icon="ui-icon-cancel" title="Cancelar registro"  onclick="mantWidget.hide();" process="@this" 
+                          actionListener="#{aprobSyllabusBean.cancelarButton_processAction(ae)}" />
+    </div> 
+    <pe:blockUI target="panelMant"  widgetVar="blockUIContentenidoWidgetMant">
+        <h:panelGrid columns="2" >  
+            <h:graphicImage library="images" name="ajax-loader1.gif"  
+                            style="margin-right: 12px; vertical-align: middle;"/>  
+            <h:outputText value="Por favor espere, los datos estan siendo procesados..." style="white-space: nowrap;"/>  
+        </h:panelGrid>    
+    </pe:blockUI> 
+</ui:composition>
+
+

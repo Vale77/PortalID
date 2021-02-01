@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid id="gasigext">
+        <p:dataTable value="#{docencia.listAsigexterna}" var="asigexte" 
+                     paginator="true"  paginatorPosition="top" 
+                     rows="5" 
+                     style=" font-family: Arial; font-size: 6pt;width: 100%"
+                     rowKey="#{asigexte.otraActividadAcademicaPK}"  
+                     resizableColumns="true"
+                     selection="#{docencia.selectedAsigExt}" selectionMode="single"
+                     emptyMessage="#{docencia.msgtablavacia}"  id="tabdatAsiExt" >  
+            <p:ajax event="rowSelect" listener="#{docencia.onRowSelect}" update="btnAEEditar btnAEEliminar" />  
+            <p:ajax event="rowUnselect" listener="#{docencia.onRowUnselect}" update="btnAEEditar btnAEEliminar"/> 
+            <f:facet name="header">
+                <div align="right" >
+                    <p:commandButton icon="ui-icon-document" id="btnAENuevo"  value="Nuevo" actionListener="#{docencia.nuevoRegistro}" update=":finggeneral btnAEEditar btnAEEliminar" />
+                    <p:commandButton icon="ui-icon-pencil" id="btnAEEditar" value="Editar" actionListener="#{docencia.editarRegistro}" update=":finggeneral" disabled="#{docencia.selectedAsigExt eq null}" />
+                    <p:commandButton  icon="ui-icon-trash" id="btnAEEliminar" value="Eliminar" onclick="cconfelgeneral.show()" update=":finfoanual:messagedato" disabled="#{docencia.selectedAsigExt eq null}" />                          
+                </div>
+            </f:facet>
+            <p:column headerText="Nombre de la Institución" style="width: 25%">
+                <h:outputText value="#{asigexte.institucionActividad}"  style="text-transform: uppercase"/>                                            
+            </p:column>
+            <p:column headerText="Carrera/Programa" style="width: 20%">
+                <h:outputText value="#{asigexte.programaActividad}" style="text-transform: uppercase"/>                                            
+            </p:column>
+            <p:column headerText="Asignatura" style="width: 15%">
+                <h:outputText value="#{asigexte.nombreActividad}" style="text-transform: uppercase" />                                            
+            </p:column>
+            <!--p:column headerText="N° Créditos" style="width: 5%; text-align: center">
+                <h:outputText value="#{asigexte.num1Actividad}" />                                            
+            </p:column>
+            <p:column headerText="N° Clases" style="width: 5%; text-align: center">
+                <h:outputText value="#{asigexte.duracionActividad}" />                                            
+            </p:column-->
+            <p:column headerText="N° Horas" style="width: 5%; text-align: center">
+                <h:outputText value="#{asigexte.num2Actividad}" />                                            
+            </p:column>
+            <p:column headerText="Fec. Inicio" style="width: 7%; text-align: center">
+                <h:outputText value="#{asigexte.finicioActividad}" id="feciniasigext">
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="feciniasigext" timeZone="America/Guayaquil"  />
+                </h:outputText>                                           
+            </p:column>
+            <p:column headerText="Fec. Fin" style="width: 7%; text-align: center">
+                <h:outputText value="#{asigexte.ffinActividad}"  id="fecfinasigext" >
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="fecfinasigext" timeZone="America/Guayaquil"  />
+                </h:outputText>
+            </p:column>                                          
+            <p:column headerText="Origen Participación" style="width: 10%; text-align: center">
+                <h:outputText value="#{asigexte.origenParticipacion}" style="text-transform: uppercase" />                                            
+            </p:column>                                                                               
+        </p:dataTable>  
+    </h:panelGrid>
+</ui:composition>

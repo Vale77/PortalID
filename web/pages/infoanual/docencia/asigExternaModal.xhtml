@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:panelGrid columns="2" id="datasigext">
+        <h:outputText  value="País *" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gpais">
+            <p:selectOneMenu value="#{docencia.smpais.value}" id="ipais"
+                             required="true" requiredMessage="Asignatura Externa/País: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItems  value="#{docencia.listPais}" var="lpais" itemLabel="#{lpais.nomPais}" itemValue="#{lpais.codPais}"/>
+                <p:ajax update="gpais aenominst" listener="#{docencia.paisvalueChangeListener}"/>                  
+            </p:selectOneMenu> 
+            <p:message for="ipais" display="icon"/>
+        </h:panelGrid>
+        <h:outputText id="oninst" value="Nombre Institucion *" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="aenominst">  
+            <p:selectOneMenu value="#{docencia.sminstitucion.value}" id="iaenominst"
+                             required="true" requiredMessage="Asignatura Externa/Institución: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItems  value="#{docencia.listInstitucion}" var="linst" itemLabel="#{linst[1]}" itemValue="#{linst[1]}"/>
+                <p:ajax update="aenominst" immediate="true"/>
+            </p:selectOneMenu> 
+
+            <p:message for="iaenominst" display="icon"/> 
+        </h:panelGrid>
+        <h:outputText  value="Carrera/Programa *" style="font-weight: bold" />
+        <h:panelGrid columns="2" id="aenomprog">
+            <h:inputText id="iaeprog"  binding="#{docencia.itxtPrograma}" style=" width: 200px; text-transform: uppercase" required="true" requiredMessage="Asignatura Externa/Programa: se requiere un valor">
+                <p:ajax update="aenomprog" immediate="true"/>
+            </h:inputText>
+            <p:message for="iaeprog" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Asignatura/Módulo *" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="aeasignatura">                    
+            <h:inputText id="iaeasignatura" binding="#{docencia.itxtAsignatura}" style="width: 200px; text-transform: uppercase" required="true" requiredMessage="Asignatura Externa/Nombre Asignatura: se requiere un valor">
+                <p:ajax update="aeasignatura" immediate="true"/>
+            </h:inputText>
+            <p:message for="iaeasignatura" display="icon"/>
+        </h:panelGrid>
+        <!--h:outputText  value="N° creditos" style="font-weight: bold"/>
+        <h:inputText binding="#{docencia.itxtncreditos}" style="width: 50px"/>
+        <h:outputText  value="N° clases" style="font-weight: bold"/>
+        <h:inputText binding="#{docencia.itxtnclases}" style="width: 50px"/-->
+        <h:outputText  value="N° Horas" style="font-weight: bold"/>
+        <p:inputMask mask="9?9" value="#{docencia.itxtnhoras}" style=" width: 50px; text-align: center">
+        </p:inputMask>
+        
+        <h:outputText  value="Fecha Inicio *" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="aecfecini">
+            <p:calendar  value="#{docencia.feciniasigext}" id="feciniasigext"
+                         pattern="dd/MM/yyyy" timeZone="America/Guayaquil" required="true" requiredMessage="Asignatura Externa/Fecha Inicio: se requiere un valor"
+                         locale="es" mindate="#{docencia.feciniciclo}" maxdate="#{docencia.fecfinciclo}">
+                <p:ajax update="aecfecini" immediate="true"/>                
+            </p:calendar>
+            <p:message for="feciniasigext" display="icon"/>                                         
+        </h:panelGrid>
+        <h:outputText  value="Fecha Fin *" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="aecfecfin">
+            <p:calendar  value="#{docencia.fecfinasigext}" id="fecfinasigext" 
+                         pattern="dd/MM/yyyy" timeZone="America/Guayaquil" required="true" requiredMessage="Asignatura Externa/Fecha Fin: se requiere un valor"
+                         locale="es" mindate="#{docencia.feciniciclo}" >
+                <p:ajax update="aecfecfin" immediate="true"/>
+
+            </p:calendar>   
+            <p:message for="fecfinasigext" display="icon"/>  
+        </h:panelGrid>
+        <h:outputText  value="Origen Participación *" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="aeorigpart">                    
+            <p:selectOneMenu value="#{docencia.smorigenpart.value}" id="origpart"
+                             style="width: 150px " required="true" requiredMessage="Asignatura Externa/Origen Participación:se requiere un valor" >
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="CONVENIO CON UASB" itemValue="convenioUASB" />
+                <f:selectItem  itemLabel="CUENTA PROPIA" itemValue="cuentaPropia" />
+                <p:ajax update="aeorigpart" immediate="true"/>
+            </p:selectOneMenu>
+            <p:message for="origpart" display="icon"/> 
+        </h:panelGrid>                                 
+    </h:panelGrid>
+    <p:commandButton value="Guardar" id="btnAEGuardar" actionListener="#{docencia.SaveAsignExterna}" update=":finggeneral:messagesgeneral :finggeneral:datasigext :finfoanual:acpinfoanual:infoacade:gasigext" />
+    <p:commandButton value="Cancelar" id="btnAECancelar" oncomplete="cingdgeneral.hide()" actionListener="#{docencia.CancelAsigExt}"  update=":finggeneral:datasigext" immediate="true">
+        <p:resetInput target=":finggeneral:datasigext" />  
+    </p:commandButton>                    
+</ui:composition>

@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:panelGrid columns="2" id="datoseduccon">
+        <h:outputText  value="Programa*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gecprograma">
+            <p:selectOneMenu value="#{vinculacion.smprograma.value}" 
+                             id="iprograma"
+                             required="true"  requiredMessage="Educación Continua/Programa: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItems  value="#{vinculacion.listAreVinc}" var="lareaeducont" itemLabel="#{lareaeducont.avcNombre}" itemValue="#{lareaeducont.avcCodigo}"/>  
+                <p:ajax update="gecprograma gecproyecto" listener="#{vinculacion.programavalueChangeListener}"/>  
+            </p:selectOneMenu> 
+            <p:message for="iprograma" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Proyecto*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gecproyecto">
+            <p:selectOneMenu value="#{vinculacion.smproyecto.value}" 
+                             id="iproyecto"
+                             required="true"  requiredMessage="Educación Continua/Proyecto: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItems  value="#{vinculacion.listDetVinc}" var="ldeteducont" itemLabel="#{ldeteducont.davcNombre}" itemValue="#{ldeteducont.davcCodigo}"/>  
+                <p:ajax update="gecproyecto"  immediate="true"/>  
+            </p:selectOneMenu> 
+            <p:message for="iproyecto" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Tipo actividad*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gectipactividad">
+            <p:selectOneMenu value="#{vinculacion.smdtipacteducont.value}" id="itipactividad"
+                             required="true"  requiredMessage="Educación Continua/Tipo Actividad: se requiere un valor" >
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Curso Abierto" itemValue="3" />
+                <f:selectItem  itemLabel="Curso Avanzado" itemValue="4" />  
+                <f:selectItem  itemLabel="Curso de formación y capacitación" itemValue="1" />
+                <f:selectItem  itemLabel="Taller permanente" itemValue="2" />                                                                                            
+
+                <p:ajax update="gectipactividad"  immediate="true"/>  
+            </p:selectOneMenu> 
+            <p:message for="itipactividad" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Nombre Actividad*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gecnomactividad">
+            <h:inputText binding="#{vinculacion.itxtnomactividadeducont}"  style="text-transform: uppercase"
+                         id="inomactividad"
+                         required="true"  requiredMessage="Educación Continua/Nombre Actividad: se requiere un valor">
+                <p:ajax update="gecnomactividad"  immediate="true"/>  
+            </h:inputText>  
+            <p:message for="inomactividad" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Rol Docente*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="groldocente">
+            <p:selectOneMenu value="#{vinculacion.smedconroldoc.value}" id="iroldocente"
+                             required="true" requiredMessage="Educación Continua/Rol Docente: se requiere un valor"
+                             style="font-size: 7pt">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Coordinador" itemValue="C" />
+                <f:selectItem  itemLabel="Docente" itemValue="D" />                                                          
+                <p:ajax update="groldocente" immediate="true"/>
+            </p:selectOneMenu> 
+            <p:message for="iroldocente" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Fecha Inicio*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gfeciniedcon">
+            <p:calendar  value="#{vinculacion.dfecinieducont}" 
+                         pattern="dd/MM/yyyy" timeZone="America/Guayaquil"  locale="es"
+                         id="fecinicio" required="true" requiredMessage="Educación Continua/Fecha Inicio: se requiere un valor" 
+                         mindate="#{vinculacion.feciniciclo}" maxdate="#{vinculacion.fecfinciclo}">
+                <p:ajax update="gfeciniedcon" immediate="true"/>
+            </p:calendar>
+            <p:message for="fecinicio" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Fecha Fin*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gfecfinedcon">
+            <p:calendar  value="#{vinculacion.dfecfineducont}" 
+                         pattern="dd/MM/yyyy" timeZone="America/Guayaquil" locale="es"
+                         id="fecfin" required="true" requiredMessage="Educación Continua/Fecha Fin: se requiere un valor"
+                         mindate="#{vinculacion.feciniciclo}">
+                <p:ajax update="gfecfinedcon" immediate="true"/>
+            </p:calendar>
+            <p:message for="fecfin" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Institución cofinanciadora:" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gconf">
+            <p:selectOneRadio id="icofin"  value="#{vinculacion.scofinan}"
+                              required="true"  requiredMessage="Debe indicar si existe o no Cofinanciamiento">  
+                <f:selectItem itemLabel="Si" itemValue="0" />  
+                <f:selectItem itemLabel="No" itemValue="1" />   
+                <p:ajax  event="click" update="gconf finggeneral:gdatinstcofin" immediate="true" />                        
+            </p:selectOneRadio> 
+            <p:message for="icofin" display="icon"/>
+        </h:panelGrid>
+    </h:panelGrid>
+    <h:panelGrid columns="2" id="gdatinstcofin" style="visibility: #{vinculacion.scofinan eq 0? 'show': 'hidden'}">
+        <h:outputText  value="Tipo Institución:" style="font-weight: bold"   />
+        <h:panelGrid columns="2" id="gtipinstit" >
+            <p:selectOneMenu value="#{vinculacion.smtipinsteducont.value}" 
+                         required="true"  requiredMessage="Educación Continua/Tipo Institución: se requiere un valor"
+                         id="itipinsti"
+                         disabled="#{vinculacion.scofinan ne '0'}">
+            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+            <f:selectItem  itemLabel="Estado" itemValue="E" />
+            <f:selectItem  itemLabel="Organismo Internacional" itemValue="C" />                                                                                                                                                 
+            <f:selectItem  itemLabel="ONG" itemValue="O" /> 
+            <f:selectItem  itemLabel="Empresa privada" itemValue="M" /> 
+            <f:selectItem  itemLabel="Organización social" itemValue="R" /> 
+            <f:selectItem  itemLabel="Universidad" itemValue="U" /> 
+            <f:selectItem  itemLabel="Otra instancia académica" itemValue="T" /> 
+            <p:ajax   update="gtipinstit" immediate="true" />                        
+        </p:selectOneMenu>
+            <p:message for="itipinsti" display="icon"/>
+        </h:panelGrid>        
+        <h:outputText  value="Nombre Institución:" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gnominstit" >
+            <h:inputText binding="#{vinculacion.itxtnominstitucioneducont}"
+                         required="true"  requiredMessage="Educación Continua/Nombre Institución: se requiere un valor"
+                         id="inominsti" style="text-transform: uppercase"                         
+                         disabled="#{vinculacion.scofinan ne '0'}">
+                <p:ajax  update="gnominstit" immediate="true" />  
+            </h:inputText>
+            <p:message for="inominsti" display="icon"/>
+        </h:panelGrid> 
+    </h:panelGrid>
+    <p:commandButton value="Guardar" id="btnFCGuardar"  actionListener="#{vinculacion.SaveEducContUasb}" update=":finggeneral:messagesgeneral :finggeneral:datoseduccon :finfoanual:acpinfoanual:infovinculacion:gformcontinua" />
+    <p:commandButton value="Cancelar" id="btnFCCancelar" oncomplete="cingdgeneral.hide()"  actionListener="#{vinculacion.CancelEducContUasb}"  update=":finggeneral:datoseduccon" immediate="true">
+        <p:resetInput target=":finggeneral:datoseduccon" /> 
+    </p:commandButton>
+</ui:composition>

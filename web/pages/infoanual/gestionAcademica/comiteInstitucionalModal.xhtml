@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid columns="2" id="datoscominst">
+        <h:outputText  value="Comité Permanente*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gtipcominst" >
+            <p:selectOneMenu value="#{gestion.smtipcominst.value}" 
+                             required="true"  requiredMessage="Miembro Comité Institucional/Comité Permanente: se requiere un valor"
+                             id="itipcominst" >
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" /> 
+                <f:selectItem  itemLabel="Escalafón" itemValue="1" />
+                <f:selectItem  itemLabel="Licencias" itemValue="2" />
+                <f:selectItem  itemLabel="Docencia" itemValue="3" />
+                <f:selectItem  itemLabel="Publicaciones" itemValue="4" />
+                <f:selectItem  itemLabel="Planificación" itemValue="5" />
+                <f:selectItem  itemLabel="Evaluación Interna" itemValue="6" />
+                <f:selectItem  itemLabel="Investigación" itemValue="7" />
+                <f:selectItem  itemLabel="Vinculación" itemValue="8" />
+                <f:selectItem  itemLabel="Informática" itemValue="9" />
+                <f:selectItem  itemLabel="Normas" itemValue="10" />
+                <f:selectItem  itemLabel="Comité de Bienes" itemValue="11" />
+                <f:selectItem  itemLabel="Comité de Ayuda Financiera" itemValue="12" />
+                <f:selectItem  itemLabel="Junta de Licitaciones" itemValue="13" />
+                <f:selectItem  itemLabel="Fondo Construir" itemValue="14" />
+                <f:selectItem  itemLabel="Comité de Promoción" itemValue="15" />
+                <f:selectItem  itemLabel="Comité de Admisión" itemValue="16" />
+                <f:selectItem  itemLabel="Comité del Fondo de Jubilación" itemValue="17" />
+                <f:selectItem  itemLabel="Comité Editorial" itemValue="18" />
+                <p:ajax  update="gtipcominst" immediate="true" />   
+            </p:selectOneMenu>
+            <p:message for="itipcominst" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Participación*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gdetcominst">
+            <h:inputText binding="#{gestion.itxtdetcominst}"
+                         style=" width: 300px; text-transform: uppercase"
+                         required="true" requiredMessage="Miembro Comité Institucional/Participación: se requiere un valor"
+                         id="idetcominst">
+                <p:ajax  update="gdetcominst" immediate="true" />   
+            </h:inputText>
+            <p:message for="idetcominst" display="icon"/>
+        </h:panelGrid>
+        <!--h:outputText  value="N° Sesiones*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gnumsescominst">
+            <p:inputMask mask="9?9" value="#{gestion.numsesiones}" style=" width: 50px; text-align: center" requiredMessage="Miembro Comité Institucional/N° Sesiones: se requiere un valor" id="nsesiones">
+            </p:inputMask>
+            <p:message for="nsesiones" display="icon"/>
+        </h:panelGrid-->
+        <h:outputText  value="N° de Sesiones*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gnumasescominst">
+            <p:inputMask mask="9?99" value="#{gestion.numanualsesiones}" style=" width: 50px; text-align: center" requiredMessage="Miembro Comité Institucional/N° Anual de Sesiones: se requiere un valor" id="nasesiones">
+            </p:inputMask>
+            <p:message for="nasesiones" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Fecha Inicio*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gfdesde">
+            <p:calendar  value="#{gestion.dfecinicominst}" 
+                         pattern="dd/MM/yyyy"   timeZone="America/Guayaquil"  locale="es" 
+                         required="true" requiredMessage="Miembro Comité Institucional/Fecha Desde: se requiere un valor"
+                         mindate="#{gestion.feciniciclo}"  maxdate="#{gestion.fecfinciclo}"
+                         id="ifdesde">
+                <p:ajax  update="gfdesde" immediate="true" />
+            </p:calendar>
+            <p:message for="ifdesde" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Fecha Fin:" style="font-weight: bold"/>
+        <p:calendar  value="#{gestion.dfecfincominst}" 
+                     mindate="#{gestion.feciniciclo}"
+                     pattern="dd/MM/yyyy" timeZone="America/Guayaquil" locale="es" />
+        <h:outputText  value="Observaciones:" style="font-weight: bold"/>
+        <h:inputText binding="#{gestion.itxtobscominst}" style=" width: 300px; text-transform: uppercase" />     
+    </h:panelGrid>
+    <p:commandButton value="Guardar" id="btnFAGuardar"  actionListener="#{gestion.SaveComInst}" update=":finggeneral:messagesgeneral :finggeneral:datoscominst :finfoanual:acpinfoanual:infogestion:gcominst"/>
+    <p:commandButton value="Cancelar" id="btnFACancelar" oncomplete="cingdgeneral.hide()"  actionListener="#{gestion.CancelComInst}"  update=":finggeneral:datoscominst" immediate="true">
+        <p:resetInput target=":finggeneral:datoscominst" /> 
+    </p:commandButton>
+</ui:composition>

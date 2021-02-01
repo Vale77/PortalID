@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid columns="2" id="datosotrfun">
+        <h:outputText  value="Nombre de la Función" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gdetotrfun">
+            <h:inputText binding="#{gestion.itxtdetotrfun}"
+                         style=" width: 300px; text-transform: uppercase"
+                         required="true" requiredMessage="Otra Función/Nombre de la Función: se requiere un valor"
+                         id="idetotrfun">
+                <p:ajax  update="gdetotrfun" immediate="true" />   
+            </h:inputText>
+            <p:message for="idetotrfun" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Fecha Inicio*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gfdesde">
+            <p:calendar  value="#{gestion.dfeciniotrfun}" 
+                         pattern="dd/MM/yyyy"   timeZone="America/Guayaquil"  locale="es" 
+                         required="true" requiredMessage="Otra Función/Fecha Inicio: se requiere un valor"
+                         mindate="#{gestion.feciniciclo}"  maxdate="#{gestion.fecfinciclo}"
+                         id="ifdesde">
+                <p:ajax  update="gfdesde" immediate="true" />
+            </p:calendar>
+            <p:message for="ifdesde" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Fecha Fin:" style="font-weight: bold"/>
+        <p:calendar  value="#{gestion.dfecfinotrfun}" 
+                     mindate="#{gestion.feciniciclo}"
+                     pattern="dd/MM/yyyy" timeZone="America/Guayaquil" locale="es" />
+        <h:outputText  value="Observaciones:" style="font-weight: bold"/>
+        <h:inputText binding="#{gestion.itxtobsotrfun}" style=" width: 300px; text-transform: uppercase" />     
+    </h:panelGrid>
+    <p:commandButton value="Guardar" id="btnFAGuardar"  actionListener="#{gestion.saveOtrFun}" update=":finggeneral:messagesgeneral :finggeneral:datosotrfun :finfoanual:acpinfoanual:infogestion:gotrfun"/>
+    <p:commandButton value="Cancelar" id="btnFACancelar" oncomplete="cingdgeneral.hide()"  actionListener="#{gestion.cancelOtrFun}"  update=":finggeneral:datosotrfun" immediate="true">
+        <p:resetInput target=":finggeneral:datosotrfun" /> 
+    </p:commandButton>
+</ui:composition>

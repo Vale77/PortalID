@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:panelGrid columns="1">
+        <p:dataTable value="#{docencia.listAsiguasb}" var="asiguasb" 
+                     paginator="true" rows="5" 
+                     paginatorPosition="top"
+                     resizableColumns="true" 
+                    style=" font-family: Arial; font-size: 6pt;width: 100%"
+                     emptyMessage="#{docencia.msgtablavacia}">                                          
+            <p:column headerText="Programa" style="width: 20%">
+                <h:outputText value="#{asiguasb[0]}" />                                            
+            </p:column>
+            <!--p:column headerText="Ciclo Académico" style="width: 15%">
+                <h:outputText value="#{asiguasb[6]}" />                                            
+            </p:column-->
+            <p:column headerText="Trimestre" style="width:7%; text-align: center">
+                <h:outputText value="#{asiguasb[1]}" />                                            
+            </p:column>
+            <p:column headerText="Asignatura/Módulo" style="width: 30%">
+                <h:outputText value="#{asiguasb[2]}" />                                            
+            </p:column>
+            <!--p:column headerText="N° Créditos" style=" width:7%;text-align: center" rendered="false">
+                <h:outputText value="#{asiguasb[3]}"  rendered="false"/>                                            
+            </p:column-->
+            <!--p:column headerText="N° Clases" style="width:7%; text-align: center" rendered="false">
+                <h:outputText value="#{asiguasb[3]}"  rendered="false"/>                                            
+            </p:column-->
+            <p:column headerText="N° Horas Aula" style="width:5%; text-align: center">
+                <h:outputText value="#{asiguasb[3]}" />                                            
+            </p:column>
+            <!--p:column headerText="N° H.Preparación de Clase" style="width:7%;text-align: center" rendered="false">
+                <h:outputText value="#{asiguasb[3]*4}"  rendered="false"/>                                            
+            </p:column-->    
+            <p:column headerText="N° Estudiantes" style="width:5%;text-align: center">
+                <h:outputText value="#{asiguasb[4]}"/>                                            
+            </p:column>
+            <p:column headerText="Asignatura Remedial" style="width:5%;text-align: center">
+                <h:outputText value="#{asiguasb[5]}"/>                                            
+            </p:column>
+        </p:dataTable> 
+        <h:panelGrid columns="1">
+            <h:outputText style="font-weight: bold" value="En caso de que desee modificar la información comuníquese con Secretaría General"/>
+        </h:panelGrid>
+    </h:panelGrid>
+</ui:composition>

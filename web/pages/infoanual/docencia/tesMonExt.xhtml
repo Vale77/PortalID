@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid id="gcotext">
+        <p:dataTable value="#{docencia.listCotexterna}" var="tesisexter" 
+                     paginator="true" rows="5" paginatorPosition="top" 
+                     style=" font-family: Arial; font-size: 6pt;width: 100%"
+                     rowKey="#{tesisexter.otraActividadAcademicaPK}"  
+                     selection="#{docencia.selectedCotExt}" selectionMode="single" 
+                     resizableColumns="true"
+                     emptyMessage="#{docencia.msgtablavacia}">   
+            <p:ajax event="rowSelect" listener="#{docencia.onRowSelect}" update="btnTOUEditar btnTOUEliminar" />  
+            <p:ajax event="rowUnselect" listener="#{docencia.onRowUnselect}" update="btnTOUEditar btnTOUEliminar"/> 
+            <f:facet name="header">
+                <div align="right" >
+                    <p:commandButton icon="ui-icon-document"   id="btnTOUNuevo" value="Nuevo" actionListener="#{docencia.nuevoRegistro}"  update=":finggeneral btnTOUEditar btnTOUEliminar"/>                                          
+                    <p:commandButton icon="ui-icon-pencil" id="btnTOUEditar" value="Editar" actionListener="#{docencia.editarRegistro}" update=":finggeneral" disabled="#{docencia.selectedCotExt eq null}"/>
+                    <p:commandButton icon="ui-icon-trash"  id="btnTOUEliminar" value="Eliminar" onclick="cconfelgeneral.show()"  update=":finfoanual:messagedato" disabled="#{docencia.selectedCotExt eq null}"/>                                                     
+                </div>
+            </f:facet>
+            <p:column headerText="Universidad" style="width: 20%">
+                <h:outputText value="#{tesisexter.institucionActividad}" style="text-transform: uppercase" />                                            
+            </p:column>
+            <p:column headerText="Tipo" style="width: 5%">
+                <h:outputText value="#{tesisexter.getnomtipo()}" style="text-transform: uppercase" />                                            
+            </p:column>
+            <p:column headerText="Programa" style="width: 10%">
+                <h:outputText value="#{tesisexter.programaActividad}" style="text-transform: uppercase" />   
+            </p:column>
+            <!--p:column headerText="Título Tesis/Monografía" style="width: 20%">
+                <h:outputText value="#{tesisexter.tituloActividad}" style="text-transform: uppercase" />                                            
+            </p:column-->
+            <p:column headerText="Rol docente" style="width: 5%; text-align: center">
+                <h:outputText value="#{tesisexter.getnomrolcotext()}" style="text-transform: uppercase" />                                            
+            </p:column>
+            <!--p:column headerText="Estudiante" style="width: 10%">
+                <h:outputText value="#{tesisexter.nombreActividad}" style="text-transform: uppercase" />                                            
+            </p:column-->
+
+            <p:column headerText="Fecha Inicio" style="width: 5% ; text-align: center">
+                <h:outputText value="#{tesisexter.finicioActividad}"  id="fecinicotext">
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="fecinicotext" timeZone="America/Guayaquil"  />
+                </h:outputText>                                            
+            </p:column>
+            <p:column headerText="Fecha Fin" style="width: 5% ; text-align: center">
+                <h:outputText value="#{tesisexter.ffinActividad}"  id="fecfincotext">
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="fecfincotext" timeZone="America/Guayaquil"  />
+                </h:outputText>                                            
+            </p:column>
+            <p:column headerText="N° consultas" style="width: 5% ; text-align: center">
+                <h:outputText value="#{tesisexter.num1Actividad}" />                                            
+            </p:column>
+            <p:column headerText="N° Total Horas Consulta" style="width: 5% ; text-align: center">
+                <h:outputText value="#{tesisexter.num2Actividad}" />                                            
+            </p:column>
+        </p:dataTable>   
+    </h:panelGrid>
+
+</ui:composition>

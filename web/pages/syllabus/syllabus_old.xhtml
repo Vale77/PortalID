@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:panel id="pnlContent" styleClass="myPanelHoja" header="#{regSyllabusBean.navigationJSFManagedBean.nombreOpcion}">
+        <style>
+            .red{color: red;}
+            .black{color: black;}
+            .ui-fieldset .ui-fieldset-legend{color: #FF0000;font-size: 8pt;}
+            .ui-icon.ui-confirm-dialog-severity.ui-icon-alert {background-position: 0 0 !important; width: 40px;height: 40px; background-image: url('#{resource['/images/trash-delete.png']}') !important;}            
+            .ui-state-default .ui-icon-refrescar {background-image: url("#{resource['/images/refresh.png'] }");background-size: 18px 18px;}
+            .ui-confirmdialog-yes{ font-size: 9pt;}  
+            .tablaSilabo {font-size: 7pt }
+            .mod-boxCopia {color: transparent;}   
+        </style>
+        <p:notificationBar id="notificationBarSyl" position="top" effect="slide" widgetVar="bar" styleClass="ui-notificationbarTop" 
+                           style="display:#{regSyllabusBean.sylabusPendientes?'block':'none'};">  
+            <h:outputText value="#{regSyllabusBean.msgNotificacion}"/>  
+        </p:notificationBar> 
+        <h:form id="formAsignaturas">
+            <h:panelGrid id="pnlCiclo" columns="5" cellpadding="5" cellspacing="0">
+                <p:outputLabel id="outputLabelCiclo" value="Ciclo Acacémico:" style="font-weight: bold;color: blue" for="selectOneMenuCiclo"/>
+                <p:selectOneMenu id="selectOneMenuCiclo" value="#{regSyllabusBean.anio}" style="width: 210px" 
+                                 requiredMessage="Seleccione un Ciclo Académico" required="true">  
+                    <f:selectItem itemValue="" itemLabel="Seleccione ..." noSelectionOption="true" />                        
+                    <f:selectItems value="#{regSyllabusBean.ciclos}"  var="ciclo" itemValue="#{ciclo.cicloAcademicoPK.anio}"
+                                   itemLabel="#{ciclo.nombreCiclo}" itemDescription="#{ciclo.nombreCiclo}"/>
+                    <p:ajax update="dataAsig :mantTema pnlCiclo"   listener="#{regSyllabusBean.handleCicloChange}" />                 
+                </p:selectOneMenu> 
+                <p:commandButton   icon="ui-icon-refrescar" title="Refrescar registros"   immediate="true" update=":formAsignaturas:dataAsig :mantTema" 
+                                   actionListener="#{regSyllabusBean.handleCicloChange}"/>     
+                <p:outputLabel value="Sólo los sílabos 'Aprobados' pueden ser copiados a traves del boton  " 
+                               rendered="#{not empty regSyllabusBean.asignaturaSyllabuses}" style="font-weight: bold;color: blue;padding-left: 20px;" />
+                <span class="ui-icon ui-icon-copy" style="visibility: #{not empty regSyllabusBean.asignaturaSyllabuses ? 'visible':'hidden'}"/>
+            </h:panelGrid>              
+            <p:dataTable id="dataAsig" var="asig" value="#{regSyllabusBean.asignaturaSyllabuses}"  widgetVar="asigWidgetVar"
+                         rowIndexVar="rowIndex" selectionMode="single" styleClass="evalFormStyle" rowStyleClass="tablaSilabo #{asig.estadoSyllabus eq 'A' ? 'black' : 'red'}"
+                         selection="#{regSyllabusBean.asignaturaSelected}" 
+                         rowKey="#{asig.asignaturaSyllabusPK.codigoProfesor}-#{asig.asignaturaSyllabusPK.codigoMateria}:#{asig.asignaturaSyllabusPK.codigoNivel};#{asig.asignaturaSyllabusPK.vacCodnum}=#{asig.asignaturaSyllabusPK.codParalelo}.#{asig.asignaturaSyllabusPK.codPrograma}"  
+                         emptyMessage="No existen asignaturas disponibles ! Por favor consulte con su secretaria de área">
+                <p:column headerText="Ord." style="text-align: center;" width="3%">  
+                    <span style="font-weight: bold">#{rowIndex+1}</span>
+                </p:column>             
+                <p:column headerText="Programa"  width="30%" style="text-transform: uppercase">   
+                    #{asig.programa} - #{asig.asignaturaSyllabusPK.codPrograma}
+                </p:column>                  
+                <p:column headerText="Asignatura"  width="25%" style="text-transform: uppercase">   
+                    #{asig.nombreMateria} - #{asig.identifMateria} - #{asig.asignaturaSyllabusPK.codigoMateria}
+                </p:column>    
+                <p:column headerText="Paralelo" style="text-align: center" width="3%">  
+                    #{asig.nombreParalelo}
+                </p:column>  
+                <p:column headerText="Trim." style="text-align: center"  width="2%">   
+                    #{asig.asignaturaSyllabusPK.codigoNivel} T
+                </p:column>     
+                <p:column headerText="Proceso"  style="text-align: center"  width="11%">
+                    <h:outputText value="#{asig.estadoSyllabus eq 'A' and asig.aprobadoPor ne null ?'Vto. Bueno del Coordinador':
+                                           asig.estadoSyllabus eq 'P' and asig.estadoEnvio eq 'P' ? asig.observacionCoordinador ne null ?'Respuesta del coordinador':
+                                           'No enviado al coordinador':asig.estadoSyllabus eq null and asig.estadoEnvio eq null? 'Pendiente de Ingreso':'Enviado al Coordinador'}" 
+                                  style="text-transform: uppercase; color:#{asig.estadoEnvio eq 'P' or asig.estadoEnvio eq null ?'red':'blue'};
+                                  font-weight:#{asig.estadoEnvio eq 'P' or asig.estadoEnvio eq null ?'normal':'bold'}"/>  
+                </p:column>                   
+                <p:column headerText="Observaciones Coordinador" style="text-align: center"  width="10%" >   
+                    <div>
+                        <h:outputText 
+                            value="#{asig.estadoSyllabus eq 'A' ? 'LISTO':asig.estadoEnvio eq 'P'? asig.observacionCoordinador eq null?null:'HAY OBSERVACIONES':null}"  
+                            style="padding-right: 10px; color:#{asig.estadoSyllabus eq 'A'?'limegreen':asig.estadoEnvio eq 'P' and asig.observacionCoordinador eq null?'blue':'red'}"/> 
+                        <p:commandButton id="copiarSylabusButton"  icon="ui-icon-copy" title="Copiar sílabo" style="visibility: #{asig.estadoSyllabus eq 'A'? 'visible' :'hidden'}" 
+                                         action="#{regSyllabusBean.prepCopiaSylabusButton_processAction}" update="dataAsig :mantDialog"
+                                         onstart="blockUIContentenidoWidget.block()" oncomplete="blockUIContentenidoWidget.unblock();mantWidget.show();">  
+                            <f:setPropertyActionListener value="#{asig}" target="#{regSyllabusBean.asignaturaSelected}" />  
+                        </p:commandButton>                    
+                    </div>
+                </p:column>  
+                <p:column headerText="Estado Sílabo"  style="text-align: center"  width="8%">
+                    <h:outputText value="#{asig.estadoSyllabus eq 'A'?'Aprobado':'Pendiente'}" style="color:#{asig.estadoSyllabus eq 'A'?'limegreen':'red'};
+                                  font-weight: #{asig.estadoSyllabus eq 'A'?'bold':'normal'};text-transform: uppercase"/>  
+                </p:column>                 
+                <p:column headerText="Editar"  style="text-align: center"  width="4%">  
+                    <p:commandButton id="editarSylabusButton"  icon="ui-icon-pencil" title="Editar"  update="dataAsig :mantDialog :mantTema"
+                                     action="#{regSyllabusBean.editarSylabusButton_processAction}" 
+                                     onstart="blockUIContentenidoWidget.block()" oncomplete="blockUIContentenidoWidget.unblock();mantWidget.show();">  
+                        <f:setPropertyActionListener value="#{asig}" target="#{regSyllabusBean.asignaturaSelected}" />  
+                    </p:commandButton>
+                </p:column>    
+                <p:column headerText="PDF Sílabo"  style="text-align: center"  width="4%">  
+                    <p:commandButton id="selectButton"  icon="ui-icon-search" title="Ver Sílabo"  update="dataAsig :pdfDialog"
+                                     style="visibility: #{asig.estadoSyllabus eq 'A'? 'visible' :'hidden'}" 
+                                     action="#{regSyllabusBean.imprimirSp}"  oncomplete="pdfWidget.show();">  
+                        <f:setPropertyActionListener value="#{asig}" target="#{regSyllabusBean.asignaturaSelected}" />  
+                    </p:commandButton>
+                </p:column>                   
+            </p:dataTable>
+        </h:form> 
+        <p:confirmDialog id="confirmDialogEliminar" showEffect="bounce" hideEffect="explode" header="Confirmación" 
+                         widgetVar="confirmeEliminar" appendToBody="true" closable="false" width="475"> 
+            <f:facet name="message">
+                <p:outputLabel style="color:blue;font-weight: bold;" value="Eliminar:"/><br/><br/>
+                <p:outputLabel escape="false"
+                               value=" #{regSyllabusBean.activeTabIndex eq 3? regSyllabusBean.temaSelected.tema:regSyllabusBean.biblioGenSelected.bibliografia}"/>
+            </f:facet>
+            <h:form id="confirmEliminar" style="font-size: 8pt;">
+                <p:commandButton value="Si" icon="ui-icon-check" update=":formLogin:growlLogin"
+                                 actionListener="#{regSyllabusBean.eliminarTemaButton_processAction}" oncomplete="confirmeEliminar.hide()"/> 
+                <p:spacer width="25"/>
+                <p:commandButton value="No" type="button" icon="ui-icon-close" onclick="confirmeEliminar.hide()"/>  
+            </h:form>
+        </p:confirmDialog>  
+    </p:panel>
+
+</ui:composition>
+

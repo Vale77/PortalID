@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <p:panel id="pnlContent" styleClass="myPanelHoja" header="Consulta de informes anuales" >
+        <h:form id="formInfo">
+            <h:panelGrid columns="4" cellpadding="5" cellspacing="0">
+                <p:outputLabel id="outputLabelCiclo" value="Ciclo Acacémico:" style="font-weight: bold;color: blue" for="selectOneMenuCiclo"/>
+                <p:selectOneMenu id="selectOneMenuCiclo" value="#{modal.anio}" style="width: 210px" >  
+                    <f:selectItem itemValue="" itemLabel="Seleccione ..." noSelectionOption="true" />                        
+                    <f:selectItems value="#{modal.ciclos}"  var="ciclo" itemValue="#{ciclo.cicloAcademicoPK.anio}"
+                                   itemLabel="#{ciclo.nombreCiclo}" itemDescription="#{ciclo.nombreCiclo}"/>
+                    <p:ajax listener="#{modal.imprimirSp()}" update=":pnlPdfDialog"/>                 
+                </p:selectOneMenu> 
+            </h:panelGrid> 
+        </h:form> 
+        <p:panel id="pnlPdfDialog" visible="#{modal.renderPdf}">
+            <p:media id="visorInfoPdf" width="100%" height="99%" player="pdf" value="#{modal.displayReporte}" style="height: 400px;" > 
+                <div align="center" style="padding-top: 100px;">
+                    <h:outputLabel value="Su explorador no soporta desplegar archivos en PDF" style="font-size: 14pt;"/><br/>
+                    <h:outputLink style="color:blue;font-size: 14pt;" value="#{modal.displayReporte}">Click Aqui</h:outputLink><br/>
+                    <h:outputLabel value="para Descargar el archivo." style="font-size: 14pt;"/>  
+                </div>
+            </p:media>     
+            <p:resizable for="visorInfoPdf" />
+        </p:panel>
+    </p:panel>
+
+</ui:composition>
+

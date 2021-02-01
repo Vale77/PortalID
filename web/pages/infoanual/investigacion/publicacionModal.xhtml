@@ -1,0 +1,350 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:panelGrid columns="1"  id="gdatpublicacion">
+        <p:tabView id="infopub" orientation="top" style=" font-family: Arial; font-size: 6pt ">
+            <p:tab title="Datos Publicación" id="ptabdatpub">
+                <h:panelGrid columns="2" id="datospub">
+                    <h:outputText  value="Tipo Publicación* " style="font-weight: bold"/>
+                    <h:panelGrid columns="2" id="gtippub">
+                        <p:selectOneMenu value="#{investigacion.smtippublicacion.value}" id="pubtippub"
+                                         required="true" requiredMessage="Publicación/Tipo Publicación: se requiere un valor"
+                                         style="font-size: 7pt">
+                            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                            <f:selectItem  itemLabel="Libros de autoría personal" itemValue="1" />
+                            <f:selectItem  itemLabel="Libros en que actúa como editor, compilador o coordinador" itemValue="2" />                           
+                            <f:selectItem  itemLabel="Participación como miembro del Comité Editorial" itemValue="3" />
+                            <f:selectItem  itemLabel="Autoría de capítulo dentro de un libro" itemValue="4" />
+                            <f:selectItem  itemLabel="Publicación de artículos en revistas académicas indexadas" itemValue="5" />
+                            <f:selectItem  itemLabel="Publicación de artículos en revistas académicas no indexadas" itemValue="6" />
+                            <f:selectItem  itemLabel="Ponencia con formato de artículo académico" itemValue="11" />                   
+                            <p:ajax update="gtippub gdetdatbiblio gtippart datospub" listener="#{investigacion.tipPublicvalueChangeListener}"/>
+                        </p:selectOneMenu> 
+                        <p:message for="pubtippub" display="icon"/>
+                    </h:panelGrid>
+                    <!--h:outputText  value="" />
+                    <h:outputText  value="" /-->
+                    <h:outputText  value="Tipo Participación* " style="font-weight: bold"/> 
+                    <h:panelGrid columns="2" id="gtippart">
+                        <p:selectOneMenu value="#{investigacion.smtipparticipacion.value}" id="pubtippart"
+                                         required="true" requiredMessage="Publicación/Tipo Participación: se requiere un valor">
+                            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                            <f:selectItems value="#{investigacion.listtippart}" />
+                            <p:ajax update="gtippart gdetdatbiblio" immediate="true"/>
+                        </p:selectOneMenu>
+                        <p:message for="pubtippart" display="icon"/>
+                    </h:panelGrid>
+                    <h:outputText  value="Parte de una Serie* " style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value ne '11'}"/> 
+                    <h:panelGrid columns="2" id="gpartserie"  rendered="#{investigacion.smtippublicacion.value ne '11'}">
+                        <p:selectOneRadio id="ipartserie"  value="#{investigacion.sompartserie}"
+                                          style=" font-family: Arial; font-size: 8pt" 
+                                          required="true"  requiredMessage="Publicación/Parte Serie: se requiere un valor"
+                                          disabled="#{investigacion.smtippublicacion.value eq '11'}">  
+                            <f:selectItem itemLabel="No" itemValue="0" />  
+                            <f:selectItem itemLabel="Si" itemValue="1" />  
+                            <p:ajax event="click" update="gpartserie gdetdatbiblio" immediate="true"/>                  
+                        </p:selectOneRadio>   
+                        <p:message for="ipartserie" display="icon"/>
+                    </h:panelGrid>
+
+                    <h:outputText  value="País* " style="font-weight: bold"/> 
+                    <h:panelGrid columns="2" id="gpaipub">
+                        <p:selectOneMenu value="#{investigacion.smpaispub.value}" id="pubpas"
+                                         filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Publicación/País: se requiere un valor">
+                            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                            <f:selectItems  value="#{investigacion.listPaistit}" var="lpaispub" itemLabel="#{lpaispub.nomPais}" itemValue="#{lpaispub.codPais}"/>
+                            <p:ajax update="gpaipub gciudadpub" listener="#{investigacion.paisPublicvalueChangeListener}"/>                  
+                        </p:selectOneMenu> 
+                        <p:message for="pubpas" display="icon"/>
+                    </h:panelGrid>
+                    <h:outputText  value="Ciudad" style="font-weight: bold"/>
+                    <h:panelGrid columns="2" id="gciudadpub">
+                        <p:selectOneMenu value="#{investigacion.smciudadpub.value}" id="ciudadpub"
+                                         filter="true" filterMatchMode="startsWith">
+                            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                            <f:selectItems  value="#{investigacion.listCiudadtit}" var="lciudadpub" itemLabel="#{lciudadpub.nomCiudad}" itemValue="#{lciudadpub.ciudadPK.codCiudad}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <h:outputText  value="Forma Publicación* " style="font-weight: bold"/>
+                    <h:panelGrid columns="2" id="gpubformpub">
+                        <p:selectOneMenu value="#{investigacion.smformpub.value}" id="pubformpub"
+                                         required="true" requiredMessage="Publicación/Forma Publicación: se requiere un valor">
+                            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                            <f:selectItem  itemLabel="Impreso" itemValue="I" />
+                            <f:selectItem  itemLabel="Digital" itemValue="D" />    
+                            <p:ajax update="gpubformpub gdetdatbiblio" listener="#{investigacion.formPublicvalueChangeListener}"/>  
+                        </p:selectOneMenu> 
+                        <p:message for="pubformpub" display="icon"/>
+                    </h:panelGrid>
+                    <h:outputText  value="Idioma* " style="font-weight: bold"/>
+                    <h:panelGrid columns="2" id="gpubidiopub">
+                        <p:selectOneMenu value="#{investigacion.smidiomapub.value}" id="pubidiopub"
+                                         required="true" requiredMessage="Publicación/Idioma: se requiere un valor">
+                            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                            <f:selectItem  itemLabel="Español" itemValue="1" />
+                            <f:selectItem  itemLabel="Inglés" itemValue="2" />                                                                       
+                            <f:selectItem  itemLabel="Francés" itemValue="3" />                                                                       
+                            <f:selectItem  itemLabel="Italiano" itemValue="4" />                                                                       
+                            <f:selectItem  itemLabel="Portugués" itemValue="5" />                                                                       
+                            <f:selectItem  itemLabel="Otro" itemValue="6" />    
+                            <p:ajax update="gpubidiopub" immediate="true"/>  
+                        </p:selectOneMenu> 
+                        <p:message for="pubidiopub" display="icon"/>
+                    </h:panelGrid>
+
+                    <h:outputText  value="Auspicio Publicación*" style="font-weight: bold"/>
+                    <h:panelGrid columns="2" id="gpubausppub">
+                        <p:selectOneMenu value="#{investigacion.smausppub.value}" id="pubausppub"
+                                         required="true" requiredMessage="Publicación/Auspicio: se requiere un valor">
+                            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                            <f:selectItem  itemLabel="UASB" itemValue="U" />
+                            <f:selectItem  itemLabel="Otro(Especifique)" itemValue="O" />                                                                       
+                            <f:selectItem  itemLabel="Cuenta Propia" itemValue="N" />    
+                            <p:ajax update="gpubausppub gdetasup gdetnomasup" listener="#{investigacion.auspPublicvalueChangeListener}"/>                  
+                        </p:selectOneMenu> 
+                        <p:message for="pubausppub" display="icon"/>
+
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" id="gdetasup">
+                        <h:outputText  value="Dellate Auspicio*" style="font-weight: bold"  rendered="#{investigacion.bhabdetotausp}"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" id="gdetnomasup">
+                        <h:inputText binding="#{investigacion.itxtdetotroausp}" id="idetnomausp"  
+                                     rendered="#{investigacion.bhabdetotausp}" 
+                                     required="true" requiredMessage="Publicación/Otro Auspicio: se requiere un valor"
+                                     style="width: 300px">
+                            <f:validateRequired disabled="#{investigacion.bhabdetotausp}"/>
+                        </h:inputText>
+                        <p:message for="idetnomausp" display="icon"/>
+                    </h:panelGrid>
+
+                </h:panelGrid>  
+            </p:tab>
+            <p:tab title="Datos Bibliográficos" id="ptabdatbiblio">
+                <h:panelGrid columns="4" id="gdetdatbiblio" >                
+                    <h:outputText  value="Apellido Autor*" style="font-weight: bold"/>
+                    <h:panelGrid columns="2" id="gdbapelautor">
+                        <h:inputText binding="#{investigacion.itxtdbapellautor}" 
+                                     id="idbapelautor" required="true" requiredMessage="Datos Bibliográficos/Apellido Autor: se requiere un valor">
+                            <p:ajax update="gdbapelautor" immediate="true" />
+                        </h:inputText>
+                        <p:message for="idbapelautor" display="icon"/>
+                    </h:panelGrid>
+                    <h:outputText  value="Nombre Autor*" style="font-weight: bold"/>
+                    <h:panelGrid columns="2" id="gdbnomautor">
+                        <h:inputText binding="#{investigacion.itxtdbnombreautor}"  id="idbnomautor"
+                                     required="true" requiredMessage="Datos Bibliográficos/Nombre Autor: se requiere un valor">
+                            <p:ajax update="gdbapelautor" immediate="true" />
+                        </h:inputText>
+                        <p:message for="idbnomautor" display="icon"/>
+                    </h:panelGrid>
+                    <h:outputText  value="Apellido Coautor*" style="font-weight: bold" rendered="#{investigacion.smtipparticipacion.value eq 'C' }" />
+                    <h:panelGrid columns="2" id="gdbapelcoautor" rendered="#{investigacion.smtipparticipacion.value eq 'C' }">
+                        <h:inputText binding="#{investigacion.itxtdbapellcoautor}" id="idbapelcoautor"
+                                     required="true" requiredMessage="Datos Bibliográficos/Apellido Coautor: se requiere un valor" disabled="#{investigacion.smtipparticipacion.value ne 'C' }" 
+                                     >
+                            <p:ajax update="gdbapelcoautor" immediate="true" />                                                       
+                        </h:inputText>
+                        <p:message for="idbapelcoautor" display="icon" />
+                    </h:panelGrid>
+                    <h:outputText  value="Nombre Coautor*" style="font-weight: bold" rendered="#{investigacion.smtipparticipacion.value eq 'C' }"/>
+                    <h:panelGrid columns="2" id="gdbnomcoautor" rendered="#{investigacion.smtipparticipacion.value eq 'C' }">
+                        <h:inputText binding="#{investigacion.itxtdbnombrecoautor}" id="idbnomcoautor"
+                                     required="true" requiredMessage="Datos Bibliográficos/Nombre Coautor: se requiere un valor" disabled="#{investigacion.smtipparticipacion.value ne 'C' }"
+                                     >
+                            <p:ajax update="gdbnomcoautor" immediate="true" />
+                        </h:inputText>
+                        <p:message for="idbnomcoautor" display="icon" />
+                    </h:panelGrid>
+                    <h:outputText  value="Título Serie*" style="font-weight: bold" rendered="#{investigacion.sompartserie eq '1' }" />
+                    <h:panelGrid columns="2" id="gdbtitserie" rendered="#{investigacion.sompartserie eq '1' }">
+                        <h:inputText binding="#{investigacion.itxtdtitserie}" id="idbtitserie"
+                                     required="true" requiredMessage="Datos Bibliográficos/Titulo Serie: se requiere un valor" disabled="#{investigacion.sompartserie ne '1' }"
+                                     >
+                            <p:ajax update="gdbtitserie" immediate="true" />
+                        </h:inputText>
+                        <p:message for="idbtitserie" display="icon" />
+                    </h:panelGrid>
+                    <h:outputText  value="#{investigacion.stettitulo}*" style="font-weight: bold"/>
+                    <h:panelGrid columns="1" id="gdbtit">
+                        <p:inputTextarea id="idbtit" rows="5" cols="40" maxlength="200" counter="counttit" counterTemplate="{0} Caracteres Restantes"  
+                                         autoResize="false" binding="#{investigacion.itxtdbtitulo}"
+                                         required="true" requiredMessage="Datos Bibliográficos/Titulo: se requiere un valor" >
+                            <p:ajax update="gdbtit" immediate="true" />
+                        </p:inputTextarea> 
+                        <h:outputText id="counttit"/>
+                        <p:message for="idbtit" display="icon" />
+                    </h:panelGrid>
+                    <h:outputText  value="Título Capítulo*" style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value eq '4' }" />
+                    <h:panelGrid columns="2" id="gdbtitcap" rendered="#{investigacion.smtippublicacion.value eq '4' }"  >
+                        <h:inputText binding="#{investigacion.itxtdbtitulocapi}" id="idbtitcap"
+                                     required="true" requiredMessage="Datos Bibliográficos/Titulo Capítulo: se requiere un valor" 
+                                     disabled="#{investigacion.smtippublicacion.value ne '4' }"
+                                     style="width: 200px"
+                                     >
+                            <p:ajax update="gdbtitcap" immediate="true" />
+                        </h:inputText>
+                        <p:message for="idbtitcap" display="icon" />
+                    </h:panelGrid>
+                    <h:outputText  value="Título Artículo* " style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value eq '5' || 
+                                                                                                   investigacion.smtippublicacion.value eq '6'}"/>
+                    <h:panelGrid columns="2" id="gdbtitart" rendered="#{investigacion.smtippublicacion.value eq '5' || 
+                                                                        investigacion.smtippublicacion.value eq '6'}"  >
+                        <h:inputText binding="#{investigacion.itxtdbsubtitulo}" disabled="#{investigacion.smtippublicacion.value ne '5' and 
+                                                investigacion.smtippublicacion.value ne '6'  }" 
+                                     required="true" requiredMessage="Datos Bibliográficos/Titulo Artículo: se requiere un valor"
+                                     id="idbtitart" style="width: 200px">
+                            <p:ajax update="gdbtitart" immediate="true" />
+                        </h:inputText>
+                        <p:message for="idbtitart" display="icon" />
+                    </h:panelGrid>
+                    <h:outputText  value="N° Edición:" style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value ne '11' }"/>
+                    <h:inputText binding="#{investigacion.itxtdbedicion}" rendered="#{investigacion.smtippublicacion.value ne '11' }"/>
+                    <h:outputText  value="Editorial" style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value ne '11' }"/>
+                    <h:panelGrid columns="2" id="gdbeditorial" rendered="#{investigacion.smtippublicacion.value ne '11' }">
+                        <h:inputText binding="#{investigacion.itxtdbeditorial}" id="idbeditorial"
+
+                                     disabled="#{investigacion.smtippublicacion.value eq '11'}"
+                                     style="width: 200px">
+                            <p:ajax update="gdbeditorial" immediate="true" />
+                        </h:inputText>
+                        <p:message for="idbeditorial" display="icon" />
+                    </h:panelGrid>
+                    <h:outputText  value="Año Edición*" style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value eq '1' ||
+                                                                                              investigacion.smtippublicacion.value eq '2'||
+                                                                                              investigacion.smtippublicacion.value eq '3' ||
+                                                                                              investigacion.smtippublicacion.value eq '4'}"/>  
+                    <h:panelGrid columns="2" id="gdbanedicion" rendered="#{investigacion.smtippublicacion.value eq '1' ||
+                                                                           investigacion.smtippublicacion.value eq '2'||
+                                                                           investigacion.smtippublicacion.value eq '3'||
+                                                                           investigacion.smtippublicacion.value eq '4'}">
+                        <p:inputMask mask="9999" id="ipanioedi" value="#{investigacion.sanioedicion}" style=" width: 50px; text-align: center" validatorMessage="Datos Bibliográficos/Año Edicion: fuera del Rango" >
+                            <f:validateLongRange  minimum="1993" disabled="#{investigacion.smtippublicacion.value ne '1' ||
+                                                                             investigacion.smtippublicacion.value ne '2' ||
+                                                                             investigacion.smtippublicacion.value ne '3' ||
+                                                                             investigacion.smtippublicacion.value ne '4'} " />                                        
+                        </p:inputMask> 
+                    </h:panelGrid>
+
+                    <h:outputText  value="#{investigacion.smtippublicacion.value== 5 || investigacion.smtippublicacion.value== 6 ? 'Fecha Edición*':'Fecha Actividad*'}" style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value eq '5' ||
+                                            investigacion.smtippublicacion.value eq '6' ||
+                                            investigacion.smtippublicacion.value eq '11'}"/> 
+
+                    <h:panelGrid columns="2" id="gdbfecedicion" rendered="#{investigacion.smtippublicacion.value eq '5' ||
+                                                                            investigacion.smtippublicacion.value eq '6' ||
+                                                                            investigacion.smtippublicacion.value eq '11' }">
+                        <p:calendar  value="#{investigacion.dbfecedicion}" id="fecedicion" 
+                                     required="true" requiredMessage="Datos Bibliográficos/Fecha Edicion: se requiere un valor"
+                                     pattern="dd/MM/yyyy" style=" text-align: center"   timeZone="America/Guayaquil"
+                                     disabled="#{investigacion.smtippublicacion.value ne '5' ||
+                                                 investigacion.smtippublicacion.value ne '6' ||
+                                                 investigacion.smtippublicacion.value ne '11' } " locale="es" >
+                            <p:ajax update="gdbfecedicion" immediate="true"/>
+                        </p:calendar>
+                        <p:message for="fecedicion" display="icon"/>
+                    </h:panelGrid>
+                    <h:outputText  value="#{investigacion.smtippublicacion.value== 4 || investigacion.smtippublicacion.value== 5 ? 'N° Páginas(Rango):':'N° Páginas:'}"  style="font-weight: bold"/>
+                    <h:inputText binding="#{investigacion.itxtdbnumpag}" id="idbnumpag"                              
+                                 style="width: 50px"/>
+                    <h:outputText  value="Volumen*" style="font-weight: bold" rendered="#{investigacion.sompartserie eq '1'  }"/>
+                    <h:panelGrid columns="2" id="gdbvolumen" rendered="#{investigacion.sompartserie eq '1' }">
+                        <h:inputText binding="#{investigacion.itxtdbvolumen}" id="idbvolumen"
+                                     required="true" requiredMessage="Datos Bibliográficos/Volumen: se requiere un valor" 
+                                     disabled="#{investigacion.sompartserie ne '1'}"
+                                     style="width: 100px">
+                            <p:ajax update="gdbvolumen" immediate="true" />
+                        </h:inputText>
+                        <p:message for="idbvolumen" display="icon" />
+                    </h:panelGrid>
+                    <h:outputText  value="#{investigacion.etcod}" style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value ne '11'}"/>
+                    <h:inputText binding="#{investigacion.itxtdbnumcod}" id="idbnumcod"  
+                                 style="width: 200px"  rendered="#{investigacion.smtippublicacion.value ne '11' }"/>
+                    <h:outputText  value="ODI/URI/URL:" style="font-weight: bold" />
+                    <h:inputText binding="#{investigacion.itxtdburl}" />
+                    <h:outputText  value="Revista Indexada en:" style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value eq '5' }"/>
+                    <h:panelGrid columns="2" id="gdbbase" rendered="#{investigacion.smtippublicacion.value eq '5' }">
+                        <p:selectOneMenu value="#{investigacion.smdbbaserev.value}" 
+                                         disabled="#{investigacion.bhabdbtitrev}" >
+                            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                            <f:selectItem  itemLabel="SCOPUS" itemValue="S" />
+                            <f:selectItem  itemLabel="DIALNET" itemValue="D" />                                                                                            
+                            <f:selectItem  itemLabel="LATIN INDEX" itemValue="L" />
+                            <f:selectItem  itemLabel="REDALYC" itemValue="R" />
+                            <f:selectItem  itemLabel="PRISMA" itemValue="P" />
+                            <f:selectItem  itemLabel="Otra indexación" itemValue="O" />
+                            <p:ajax update="gdnomba1 gdbnombase" listener="#{investigacion.basePublicvalueChangeListener}"/>  
+                        </p:selectOneMenu> 
+                    </h:panelGrid>          
+
+                    <h:outputText  value="Entidad Sede*" style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value eq '11' }"/>
+                    <h:panelGrid columns="2" id="gdbentsede" rendered="#{investigacion.smtippublicacion.value eq '11' }">
+                        <h:inputText binding="#{investigacion.itxtdbentidadsede}"  id="entsede"  
+                                     disabled="#{investigacion.smtippublicacion.value ne '11' }"
+                                     required="true" requiredMessage="Datos Bibliográficos/Entidad Sede: se requiere un valor" >
+                            <p:ajax update="gdbentsede" immediate="true" />
+                        </h:inputText>
+                        <p:message for="entsede" display="icon" />
+                    </h:panelGrid>
+                    <h:outputText  value="Evento*" style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value eq '11' }"/>
+                    <h:panelGrid columns="2" id="gdbevento" rendered="#{investigacion.smtippublicacion.value eq '11' }">
+                        <p:selectOneMenu value="#{investigacion.smevento.value}" 
+                                         id="ievento"
+                                         required="true" requiredMessage="Datos Bibliográficos/Evento: se requiere un valor"
+                                         disabled="#{investigacion.smtippublicacion.value ne '11' }" >
+                            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                            <f:selectItem  itemLabel="CONGRESO" itemValue="C" />
+                            <f:selectItem  itemLabel="SEMINARIO" itemValue="S" />                                                                                            
+                            <f:selectItem  itemLabel="SIMPOSIO" itemValue="I" />                               
+                            <p:ajax update="gdbevento"  immediate="true"/>  
+                        </p:selectOneMenu> 
+                        <p:message for="ievento" display="icon" />
+                    </h:panelGrid>
+                    <h:outputText  value="Mecanismos Difusión*" style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value eq '11' }"/>
+                    <h:panelGrid columns="2" id="gdbmecdif" rendered="#{investigacion.smtippublicacion.value eq '11' }">
+                        <p:selectOneMenu value="#{investigacion.smmeddif.value}" 
+                                         id="imeddifusion"
+                                         required="true" requiredMessage="Datos Bibliográficos/Mecanismo Difusión: se requiere un valor"
+                                         disabled="#{investigacion.smtippublicacion.value ne '11' }" >
+                            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                            <f:selectItem  itemLabel="Discusión en el Foro" itemValue="D" />
+                            <f:selectItem  itemLabel="Memoria" itemValue="M" />                                                                                            
+                            <f:selectItem  itemLabel="Página Web" itemValue="P" />                               
+                            <p:ajax update="gdbmecdif"  immediate="true"/>  
+                        </p:selectOneMenu> 
+                        <p:message for="imeddifusion" display="icon" />
+                    </h:panelGrid>
+
+                    <h:outputText  value="Revisión Pares:" style="font-weight: bold" rendered="#{investigacion.smtippublicacion.value eq '1' ||investigacion.smtippublicacion.value eq '2'}"/>
+                    <h:panelGrid columns="2" id="gdbrevpar" rendered="#{investigacion.smtippublicacion.value eq '1' ||investigacion.smtippublicacion.value eq '2'}">
+                        <p:selectOneMenu value="#{investigacion.smdbrevpar.value}" 
+                                         >
+                            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                            <f:selectItem  itemLabel="Si" itemValue="S" />
+                            <f:selectItem  itemLabel="No" itemValue="N" />                                                                                            
+                        </p:selectOneMenu> 
+                    </h:panelGrid>
+                    <h:panelGrid id="gdnomba1" columns="2" rendered="#{investigacion.smtippublicacion.value eq '5'}">
+                        <h:outputText  value="Nombre Base*" style="font-weight: bold" rendered="#{!investigacion.bhabdnombase}"/>
+                        <h:panelGrid columns="2" id="gdbnombase" rendered="#{!investigacion.bhabdnombase}">
+                            <h:inputText binding="#{investigacion.itxtdnombase}"  id="nombase"  disabled="#{investigacion.bhabdnombase}"
+                                         required="true" requiredMessage="Datos Bibliográficos/Nombre Base: se requiere un valor" >
+                                <p:ajax update="gdbnombase" immediate="true" />
+                            </h:inputText>
+                            <p:message for="nombase" display="icon" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:panelGrid> 
+            </p:tab>
+        </p:tabView>  
+    </h:panelGrid>
+
+    <p:commandButton value="Guardar" id="bntPUBGuardar"   actionListener="#{investigacion.SavePublicacion}" update=":finggeneral:messagesgeneral :finggeneral:gdatpublicacion :finfoanual:acpinfoanual:infoinvestigacion:gdetpub" />
+    <p:commandButton value="Cancelar" id="bntPUBCancelar"  oncomplete="cingdgeneral.hide()" actionListener="#{investigacion.CancelPub}" update=":finggeneral:gdatpublicacion" immediate="true">
+        <p:resetInput target=":finggeneral:gdatpublicacion" /> 
+    </p:commandButton>
+</ui:composition>

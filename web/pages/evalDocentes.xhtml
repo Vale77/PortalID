@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <p:panel id="pnlContent" styleClass="myPanelHoja" header=" EVALUACION #{navigationMgmtBean.nombreOpcion}" >
+        <h:form id="formEval" >
+            <p:dataTable id="dataEnc" var="enc" value="#{docenteFormBean.encuestaDatamodel}" selection="#{docenteFormBean.objSelected}"
+                         emptyMessage="No existen evaluaciones de Docentes Coordinados !" selectionMode="single" styleClass="evalFormStyle"
+                         scrollable="true" scrollHeight="150" style="font-size: 9px">
+                <p:ajax event="rowSelect" listener="#{docenteFormBean.onRowSelect}" update=":pnlForm" />
+                <p:ajax event="rowUnselect" listener="#{docenteFormBean.onRowUnselect}" update=":pnlForm" />   
+                <p:column headerText="Ord." style="text-align: center"  width="2%">   
+                    #{docenteFormBean.encuestaDatamodel.rowIndex+1}
+                </p:column>                          
+                <p:column headerText="Profesor(a)" width="25%">   
+                    #{enc.apellidos} #{enc.nombres} 
+                </p:column>  
+                <p:column headerText="Año" width="3%" style="text-align: center;text-transform: uppercase;">   
+                    #{enc.encuEvalDocentePK.anio}
+                </p:column>                   
+                <p:column headerText="Programa" width="25%" style="text-transform: uppercase; color: blue">   
+                    #{enc.programa} Mencion: #{enc.mencion} 
+                </p:column>                  
+                <p:column headerText="Asignatura" width="22%" style="text-transform: uppercase">   
+                    #{enc.nombreMateria} 
+                </p:column>                    
+                <p:column headerText="Trimestre" width="5%" style="text-align: center">   
+                    #{enc.nombreNivel} 
+                </p:column>                  
+                <p:column headerText="Fecha Cierre" style="text-align: center" width="8%">      
+                    <h:outputText value="#{enc.fechaFin}" style="color: blue">
+                        <f:convertDateTime locale="es" dateStyle="long"/>
+                    </h:outputText>  
+                </p:column>                 
+                <p:column headerText="Estado"  style="text-align: center;font-weight: bold" width="10%">
+                    <h:outputText value="#{enc.habilitado=='S' and enc.estado==0 ?'Por Realizar':enc.habilitado=='S' and enc.estado==1?'Realizada':enc.habilitado=='N' and enc.estado==1?'Período Cerrado - Realizada':'Período Cerrado - No Realizada'}"
+                                  style="color:#{enc.estado==1 ?'limegreen':enc.habilitado=='S'?'blue':'red'}"/>  
+                </p:column>    
+            </p:dataTable>
+        </h:form>    
+        <p:panel id="pnlForm"  styleClass="myPanelFormulario" header="Formulario de evaluación" rendered="#{docenteFormBean.encuestaDatamodel.rowCount ne 0}">
+            <h:form id="formCenter" style="text-align: center" >
+                <p:outputLabel style="color:red;font-size: 10pt;text-decoration: blink;text-transform: capitalize;font-weight: bold;" escape="false"
+                               value="#{docenteFormBean.objSelected==null?'Seleccione a un Docente....':
+                                        docenteFormBean.objSelected.estado==1?'Evaluación de: '.concat('&lt;br/&gt;').concat('&lt;br/&gt;').concat(' ').concat(docenteFormBean.objSelected.nombres).concat(' ').concat(docenteFormBean.objSelected.apellidos).concat('&lt;br/&gt;').concat('&lt;br/&gt;')
+                                        .concat(' con la asignatura: ').concat('&lt;br/&gt;').concat('&lt;br/&gt;').concat(docenteFormBean.objSelected.nombreMateria).concat('&lt;br/&gt;').concat('&lt;br/&gt;')
+                                        .concat('&lt;br/&gt;').concat(' ya realizada !'):
+                                        docenteFormBean.objSelected.habilitado=='N'?'No realizada - Período Cerrado':''}"/>
+
+                <h:panelGroup id="panelGroupCenter" >
+                    <!--p:messages id="messages"  showSummary="true"/--> 
+                    <ui:include src="#{navigationMgmtBean.openPage}.xhtml" >
+                        <ui:param name="beanForm" value="#{docenteFormBean}"/>
+                    </ui:include>
+                </h:panelGroup>
+            </h:form>        
+        </p:panel>        
+    </p:panel>
+
+
+</ui:composition>
+

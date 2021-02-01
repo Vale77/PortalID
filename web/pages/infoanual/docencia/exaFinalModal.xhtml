@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:panelGrid columns="2" id="datosarea">
+        <h:outputText  value="Escoja el Área:" style="font-weight: bold"/>
+        <p:commandButton value="..."  onclick="cbusarea.show()"/>
+        <h:outputText  value="Área Académica:" style="font-weight: bold"/>
+        <h:outputText  value="#{docencia.selectareaacad[3]}" />
+        <h:outputText  value="Programa:" style="font-weight: bold"/>
+        <h:outputText  value="#{docencia.selectareaacad[10]}" style="font-family: Arial; font-size: 7pt" />           
+        <h:outputText  value="Exámenes Preparados:" style="font-weight: bold"/>
+        <p:inputMask mask="9?9" id="iexprep" value="#{docencia.numpreparados}" style=" width: 50px; text-align: center">
+            <f:validateLongRange  minimum="0"  />                                        
+        </p:inputMask>                
+        <h:outputText  value="Exámenes Calificados:" style="font-weight: bold"/>
+        <p:inputMask mask="9?9" id="iexcal" value="#{docencia.numcalificado}" style=" width: 50px; text-align: center">
+            <f:validateLongRange  minimum="0"  />                                        
+        </p:inputMask>                         
+    </h:panelGrid>
+    <p:commandButton value="Guardar"  id="btnEFGuardar" actionListener="#{docencia.SaveExaComplex}" update=":finggeneral:messagesgeneral :finggeneral:datosarea :finfoanual:acpinfoanual:infoacade:gexacomplex"/>
+    <p:commandButton value="Cancelar" id="btnEFCancelar" oncomplete="cingdgeneral.hide()"  actionListener="#{docencia.CancelExaComplex}"  update=":finggeneral:datosarea" immediate="true">
+        <p:resetInput target=":finggeneral:datosarea" />  
+    </p:commandButton>             
+</ui:composition>

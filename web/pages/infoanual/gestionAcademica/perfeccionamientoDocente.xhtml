@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid id="gperfdocente">
+        <p:dataTable value="#{gestion.listPerfDoc}" var="perfdoc" 
+                     paginator="true" rows="4" paginatorPosition="top"
+                     style=" font-family: Arial; font-size: 6pt; width: 100%" 
+                     rowKey="#{perfdoc.otraActividadAcademicaPK}"  
+                     selection="#{gestion.selectedperfdoc}" selectionMode="single"
+                     resizableColumns="true"
+                     emptyMessage="#{gestion.msgtablavacia}">
+            <p:ajax event="rowSelect" listener="#{gestion.onRowSelect}" update="btnPDEditar btnPDEliminar" /> 
+            <p:ajax event="rowUnselect" listener="#{gestion.onRowUnselect}" update="btnPDEditar btnPDEliminar"/> 
+            <f:facet name="header">
+                <div align="right" >
+                    <p:commandButton icon="ui-icon-document"   id="btnPDNuevo" value="Nuevo" actionListener="#{gestion.nuevoRegistro}" update=":finggeneral btnPDEditar btnPDEliminar"/>                                          
+                    <p:commandButton icon="ui-icon-pencil" id="btnPDEditar" value="Editar" actionListener="#{gestion.editarRegistro}" update=":finggeneral" disabled="#{gestion.selectedperfdoc eq null}"/>
+                    <p:commandButton icon="ui-icon-trash"  id="btnPDEliminar" value="Eliminar" onclick="cconfelgeneral.show()" update=":finfoanual:messagedato" disabled="#{gestion.selectedperfdoc eq null}"/>                                                     
+
+                </div>
+            </f:facet>
+            <p:column headerText="Tipo Actividad" style="width: 10%">
+                <h:outputText value="#{perfdoc.getnomtipactperfdoc()}" style=" text-transform: uppercase" />
+            </p:column>
+            <p:column headerText="Detalle Otro tipo Actividad" style="width: 10%">
+                <h:outputText value="#{perfdoc.tituloActividad}" style=" text-transform: uppercase" />
+            </p:column>
+            <p:column headerText="Nombre Programa/Actividad/Curso" style="width: 10%">
+                <h:outputText value="#{perfdoc.nombreActividad}" style=" text-transform: uppercase"/>
+            </p:column>
+             <p:column headerText="Estado" style="width: 5%">
+                 <h:outputText value="#{perfdoc.getperfdocestado()}" style=" text-transform: uppercase"/>
+            </p:column>
+            <p:column headerText="Institución donde se realizo" style="width: 15%">
+                <h:outputText value="#{perfdoc.institucionActividad}" style=" text-transform: uppercase"/>
+            </p:column>
+            <p:column headerText="Tipo Institución" style="width: 10%">
+                <h:outputText value="#{perfdoc.getnomtipinsteducon()}" style=" text-transform: uppercase" />
+            </p:column>
+            <p:column headerText="N° Horas" style="width: 5%; text-align: center">
+                <h:outputText value="#{perfdoc.duracionActividad}" />
+            </p:column>
+            <p:column headerText="Fecha Inicio" style="width: 10%; text-align: center">
+                <h:outputText value="#{perfdoc.finicioActividad}" id="fecinipertorg">
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="fecinipertorg" timeZone="America/Guayaquil"  />
+                </h:outputText>                                        
+            </p:column> 
+            <p:column headerText="Fecha Fin" style="width: 10%; text-align: center">
+                <h:outputText value="#{perfdoc.ffinActividad}" id="fecfinpertorg">
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="fecfinpertorg" timeZone="America/Guayaquil"  />
+                </h:outputText>                                        
+            </p:column> 
+            <p:column headerText="Observación" style="width: 15%">
+                <h:outputText value="#{perfdoc.obsActividad}" style=" text-transform: uppercase"/>
+            </p:column>
+        </p:dataTable>
+    </h:panelGrid>
+
+
+</ui:composition>

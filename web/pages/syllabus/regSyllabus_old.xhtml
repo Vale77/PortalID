@@ -1,0 +1,432 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions" >
+    <style>
+        .ui-spinner-input{ width: 50px;}
+        .colorCounter{color: brown;font-weight: bold;font-size: 8pt}
+        .ui-dialog .ui-dialog-buttonpane{text-align: center;margin: 0 0;background-color: #F5F5DC;}
+        .ui-dialog .ui-dialog-titlebar{color: brown;}
+        .ui-confirm-dialog .ui-dialog-content p span { background-image: url("#{resource['primefaces:editor/images/toolbar.gif']}") no-repeat}
+        .ui-tabs .ui-tabs-panel{padding: 0.5em;}
+        .myPanelSylabus{border-style: outset; height: 450px;width: 100%;background-color: oldlace;}
+        .myPanelSylabus .ui-panel-title{color:brown;}
+        .titulosVistaPrevia{font-weight: bold;color: brown;font-size: 9pt;}
+        .ui-state-default .ui-icon-enviar {background-image: url("#{resource['/images/email.png']}");}
+        #cke_bottom_detail,.cke_bottom{display:none}
+        .panelMant .ui-panel-content{padding: 0px 0px;}
+        .col1InfoGen{width: 185px;font-weight: bold;color: black;border: 1px solid #a8a8a8}
+        .col2InfoGen{width: 600px;border: 1px solid #a8a8a8}
+        .colObserv{width: #{regSyllabusBean.sylabusDocente.estadoEnvio eq 'P'? regSyllabusBean.sylabusDocente.observacionCoordinador eq null? '950px':'73%':'950px'};font-size: 9pt;color: red;font-weight: bold;padding-left: 20px}        
+    </style>
+    <p:panel id="panelMant"  style="border:none;background-color: transparent;" styleClass="panelMant">
+        <p:tabView id="tabView" dynamic="true" 
+                   style="width: 1050px;height: 500px;background-color: #F5F5DC;padding: 0px 0px;" activeIndex="#{regSyllabusBean.activeTabIndex}">
+            <p:ajax event="tabChange" listener="#{regSyllabusBean.onTabChange(event)}" 
+                    update=":formMant:commandButtonGrabar :formMant:commandButtonEnviar :formMant:tabView:tabViewBiblio :formMant:tabView:tabViewArtic
+                    :formMant:tabView:tabViewProdDoc :formMant:tabView:tabViewEval :formMant:tabView:tabViewObs :formMant:tabView:preview"/>  
+            <p:tab id="tab1" title="1. Info. general" titletip="Información general" >
+                <p:panel id="panelDescrip" header="1. INFORMACION GENERAL DE LA ASIGNATURA" styleClass="myPanelSylabus">  
+                    <p:focus context="panelDescrip" />  <br/><br/><br/>
+                    <h:panelGrid  columns="2" cellpadding="5" cellspacing="0" columnClasses="col1InfoGen,col2InfoGen" >
+                        <p:outputLabel value="Código de la asignatura/módulo: " style=""/>
+                        <h:outputText style="text-transform: uppercase" value="#{regSyllabusBean.asignaturaSelected.identifMateria}"/>
+                        <p:outputLabel value="Asignatura: " />
+                        <h:outputText style="text-transform: uppercase" value="#{regSyllabusBean.asignaturaSelected.nombreMateria}" />     
+                        <p:outputLabel value="Paralelo: " />
+                        <h:outputText style="text-transform: uppercase" value="#{regSyllabusBean.asignaturaSelected.nombreParalelo}" />  
+                        <p:outputLabel value="Correo electrónico: " />
+                        <h:outputText value="#{sessionScope.user.usuEmail}" />                           
+                        <p:outputLabel value="Trimestre:" />
+                        <h:outputText value="#{regSyllabusBean.asignaturaSelected.nombreNivel}" />                          
+                        <p:outputLabel value="Programa:" />
+                        <h:outputText value="#{regSyllabusBean.asignaturaSelected.programa}" />     
+                        <p:outputLabel value="Área académica:" />
+                        <h:outputText value="#{regSyllabusBean.asignaturaSelected.area}" />    
+                    </h:panelGrid>        <br/><br/>                
+                    <h:panelGrid  columns="2" cellpadding="5" cellspacing="0" columnClasses="col1InfoGen,col2InfoGen">
+                        <p:outputLabel value="Modalidad:" />
+                        <h:outputText value="Presencial" />  
+                        <p:outputLabel value="N° Creditos UASB:" />
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.numeroCreditos}" />  
+                        <p:outputLabel value="N° Clases:" />
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.numeroClases}" />  
+                        <p:outputLabel value="Fecha de registro:" />
+                        <h:outputText value="#{regSyllabusBean.formatDate(regSyllabusBean.sylabusDocente.fechaUltmodific, 'dd MMMM yyyy')}" style="color:brown;"/>
+                        <p:outputLabel value="Fecha aprobación:" />
+                        <h:outputText value="#{regSyllabusBean.formatDate(regSyllabusBean.sylabusDocente.fechaAprobacion, 'dd MMMM yyyy')}"
+                                      style="color: blue;visibility: #{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'?'visible':'hidden'}"/>
+                    </h:panelGrid>
+                </p:panel>  
+            </p:tab>     
+            <p:tab id="tab2" title="2. Objetivos"  titletip="Objetivos de la asignatura">
+                <p:outputLabel value="2.1. Objetivo general de la asignatura/módulo" style="font-weight: bold"/><br/>
+                <p:outputLabel value="(Ampliar lo que consta en el Plan de Estudios del programa)" style="color: blue"/>
+                <pe:ckEditor width="auto" height="125" value="#{regSyllabusBean.sylabusDocente.objetivoGeneral}"  
+                             readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                             customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js"/>                        
+                <br/>
+                <p:outputLabel value="2.2. Objetivos específicos de la asignatura/módulo" style="font-weight: bold;"/><br/>
+                <p:outputLabel value=" (Formular considerando: el objetivo general y el aporte de la asignatura/módulo a uno o varios aspectos
+                               -resultados- del perfil de salida planteado por el programa)"  style="color: blue"/>                
+                <pe:ckEditor width="auto" height="150" value="#{regSyllabusBean.sylabusDocente.objetivoEspecifico}"  
+                             readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                             customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js"/>                        
+            </p:tab>
+            <p:tab id="tab3" title="3. Articulación"  titletip="Articulación de la asignatura/módulo al Plan de Estudios del programa">
+                <p:outputLabel value="ARTICULACIÓN DE LA ASIGNATURA/MODULO AL PLAN DE ESTUDIOS DEL PROGRAMA (No confundir con los objetivos de la asignatura/módulo)"  style="color: blue;font-weight: bold"/>                      
+                <p:tabView id="tabViewArtic" dynamic="true"  style="width: auto;height: 445px;background-color: #F5F5DC;padding: 0px 0px;"
+                           activeIndex="#{regSyllabusBean.activeTabIndexArtic}">
+                    <p:tab title="3.1. Unidad curricular" titletip="Unidad curricular" >
+                        <p:outputLabel value=" (Según consta en el Plan de Estudios)" style="color: blue"/>
+                        <pe:ckEditor width="auto" height="340" value="#{regSyllabusBean.sylabusDocente.articUnidCurricular}"  
+                                     readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                                     customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js" />      
+                    </p:tab>
+                    <p:tab title="3.2. Ámbito curricular" titletip="Ámbito curricular" >
+                        <p:outputLabel value=" (Según consta en el Plan de Estudios)" style="color: blue"/>
+                        <pe:ckEditor width="auto" height="340" value="#{regSyllabusBean.sylabusDocente.articAmbiCurricular}"  
+                                     readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                                     customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js" />      
+                    </p:tab>     
+                    <p:tab title="3.3. Campo de formación" titletip="Campo de formación" >
+                        <p:outputLabel value=" (Según consta en el Plan de Estudios)" style="color: blue"/>
+                        <pe:ckEditor width="auto" height="340" value="#{regSyllabusBean.sylabusDocente.articCampFormacion}"  
+                                     readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                                     customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js" />                              
+                    </p:tab>                        
+                    <p:tab title="3.4. Otras carácteristicas de la asignatura/módulo" titletip="Otras carácteristicas de la asignatura/módulo" >
+                        <p:outputLabel value=" (Por ejemplo, información del segundo profesor de las asignaturas/módulos 
+                                       cuyo desarrollo se haya previsto de esta manera)" style="color: blue" />
+                        <pe:ckEditor width="auto" height="340" value="#{regSyllabusBean.sylabusDocente.articOtrasCarac}"  
+                                     readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                                     customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js" />                              
+                    </p:tab> 
+                </p:tabView>
+            </p:tab>
+            <p:tab id="tab4" title="4. Contenidos"  titletip="Temas de la asgnatura" >  
+                <p:dataTable id="dataTemas" var="tema" value="#{regSyllabusBean.temasSylabus}" 
+                             scrollable="true"  scrollHeight="355" style="font-size: 8pt;" widgetVar="widgetDataTemas"
+                             rowIndexVar="rowIndex" selectionMode="single" styleClass="evalFormStyle" 
+                             rowKey="#{tema.sylabusContenidoPK.numContenido}"  
+                             emptyMessage="No ha ingresado tema alguno !">
+                    <p:ajax event="rowSelect" listener="#{regSyllabusBean.onRowSelect}" update="editarTemaButton eliminarTemaButton"/>                      
+                    <p:ajax event="rowUnselect" listener="#{regSyllabusBean.onRowUnselect}" update="editarTemaButton eliminarTemaButton"/>   
+                    <f:facet name="header">
+                        <div align="left" >
+                            <p:commandButton id="nuevoTemaButton" value="Nuevo" icon="ui-icon-document" title="Nuevo tema" 
+                                             actionListener="#{regSyllabusBean.nuevoButton_processAction}" update=":formTema editarTemaButton eliminarTemaButton"
+                                             disabled="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" />
+                            <p:commandButton id="editarTemaButton" value="Editar"  icon="ui-icon-pencil" title="Editar tema" oncomplete="mantWidgetTema.show();"
+                                             actionListener="#{regSyllabusBean.editarButton_processAction}"  update=":formTema"
+                                             disabled="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A' or regSyllabusBean.temaSelected eq null}" />  
+                            <p:commandButton id="eliminarTemaButton" value="Eliminar" icon="ui-icon-trash" title="Eliminar tema" oncomplete="confirmeEliminar.show();"
+                                             update=":confirmDialogEliminar" disabled="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A' or regSyllabusBean.temaSelected eq null}"/>  
+                        </div>
+                    </f:facet>
+
+                    <p:column width="15%" style="text-align: center;">   
+                        <f:facet name="header">
+                            <span style="color:brown;font-weight: bold;">Clase N°</span><br/>
+                            <span style="color:darkblue;">(Considerar el total de clases de la asignatura/módulo)</span>
+                        </f:facet>                        
+                        #{tema.clase}
+                    </p:column>                     
+                    <p:column width="37%">  
+                        <f:facet name="header">
+                            <span style="color:brown;font-weight: bold;">Tema</span><br/>
+                            <span style="color:darkblue;">(Guardar correspondencia con los contenidos generales que constan el Plan de Estudios del Programa - Incluir procesos de evaluación)</span>
+                        </f:facet>
+                        #{tema.tema}
+                    </p:column> 
+                    <p:column width="48%">   
+                        <f:facet name="header">
+                            <span style="color:brown;font-weight: bold;">Subtemas</span><br/>
+                            <span style="color:darkblue;">(Aspectos de desarrollo de cada tema)</span>
+                        </f:facet>                           
+                        <p:outputLabel value="#{tema.subtema}" escape="false" />
+                    </p:column>     
+                </p:dataTable>
+            </p:tab>  
+            <p:tab id="tab5" title="5. Proceso docente" titletip="Breve descripción de procesos de evaluación">  
+                <p:tabView id="tabViewProdDoc" dynamic="true"  style="width: auto;height: 460px;background-color: #F5F5DC;padding: 0px 0px;" activeIndex="#{regSyllabusBean.activeTabIndexProc}">
+                    <p:tab title="5.1. Formas de trabajo en aula" titletip="Formas con las que se desarrollará el trabajo en el aula" >
+                        <p:outputLabel value="Formas con las que se desarrollará el trabajo en el aula. &lt;br/&gt;(Conferencias, estudio de casos, prácticas, exposiciones de los estudiantes, etc.)" style="color: blue" escape="false"/>
+                        <pe:ckEditor width="auto" height="340" value="#{regSyllabusBean.sylabusDocente.procesoDocente}"  
+                                     readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                                     customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js" />      
+                    </p:tab>    
+                    <p:tab title="5.2. Formas de acompañamiento" titletip="Formas de acompañamiento del docente al trabajo de los estudiantes fuera del aula" >
+                        <p:outputLabel value="Formas de acompañamiento del docente al trabajo de los estudiantes fuera de aula.&lt;br/&gt;(Tutorías, trabajo de grupos con orientación del docente, etc.)" 
+                                       escape="false" style="color: blue"/>
+                        <pe:ckEditor width="auto" height="340" value="#{regSyllabusBean.sylabusDocente.procesoDocenteAcomp}"  
+                                     readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                                     customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js" />      
+                    </p:tab>    
+                    <p:tab title="5.3. Actividades de aprendizaje" titletip="Actividades de aprendizaje autónomo que contribuyen a los procesos descritos en los dos numerales anteriores" >
+                        <p:outputLabel value="Actividades de aprendizaje autónomo del estudiante que contribuyen a los procesos descritos en los dos numerales anteriores.&lt;br/&gt;
+                                       (Búsqueda de información, manejo de bases de datos y acervos bibliográficos, preparación de clases, lecturas, elaboración de ensayos, etc.)" 
+                                       escape="false" style="color: blue"/>
+                        <pe:ckEditor width="auto" height="340" value="#{regSyllabusBean.sylabusDocente.procesoDocenteActiv}"  
+                                     readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                                     customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js" />      
+                    </p:tab>                            
+                </p:tabView>
+            </p:tab>  
+            <p:tab id="tab6" title="6. Evaluación" titletip="Breve descripción de procesos de evaluación">
+                <p:tabView id="tabViewEval" dynamic="true"  style="width: auto;height: 460px;background-color: #F5F5DC;padding: 0px 0px;" activeIndex="#{regSyllabusBean.activeTabIndexEval}">
+                    <p:tab title="6.1. Criterios para evaluar" titletip="Criterios para evaluar el desempeño del estudiante, en relación con el proceso docente planteado" >
+                        <p:outputLabel value="Criterios para evaluar el desempeño del estudiante, en relación con el proceso docente planteado.
+                                       &lt;br/&gt;(Ver las 'Normas de Funcionamiento de programas de Posgrado' de la UASB, 2007, Sección Tercera)" 
+                                       escape="false" style="color: blue"/>
+                        <pe:ckEditor width="auto" height="340" value="#{regSyllabusBean.sylabusDocente.evaluacion}"  
+                                     readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                                     customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js" />      
+                    </p:tab>   
+                    <p:tab title="6.2. Elementos de calificación" titletip="Elementos que integrarán la calificación final" >
+                        <p:outputLabel value="Elementos que integrarán la calificación final" style="color: blue"/>
+                        <pe:ckEditor width="auto" height="355" value="#{regSyllabusBean.sylabusDocente.evaluacionElementos}"  
+                                     readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                                     customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js" />      
+                    </p:tab>                          
+                </p:tabView>
+            </p:tab>
+            <p:tab id="tab7" title="7. Bibliografía" titletip="Bibliografia obligatoria y de apoyo">    
+                <p:tabView id="tabViewBiblio" dynamic="true"  style="width: auto;height: 460px;background-color: #F5F5DC;padding: 0px 0px;" 
+                           activeIndex="#{regSyllabusBean.activeTabIndexBiblio}"  >
+                    <p:ajax event="tabChange" listener="#{regSyllabusBean.onTabChangeX(event)}" 
+                            update=":formMant:tabView:tabViewBiblio:dataBiblioGeneral :formMant:tabView:tabViewBiblio:dataBiblio"
+                            oncomplete="widgetDataBiblio.unselectAllRows();widgetDataBiblioGeneral.unselectAllRows();"/>
+                    <p:tab title="7.1. Lectura obligatoria" titletip="Bibliografía obligatoria" >
+                        <p:dataTable id="dataBiblio" var="biblio" value="#{regSyllabusBean.biblioSylabus}" 
+                                     scrollable="true"  scrollHeight="300" style="font-size: 8pt;" styleClass="evalFormStyle"
+                                     rowIndexVar="rowIndex" selectionMode="single" widgetVar="widgetDataBiblio"
+                                     rowKey="#{biblio.sylabusContenidoPK.numContenido}"  
+                                     emptyMessage="No ha ingresado bibliografía alguna !">
+                            <p:ajax event="rowSelect" listener="#{regSyllabusBean.onRowSelect}" update="editarBiblioButton :formMant:tabView:tabViewBiblio:dataBiblio"/>                      
+                            <p:ajax event="rowUnselect" listener="#{regSyllabusBean.onRowUnselect}" update="editarBiblioButton  :formMant:tabView:tabViewBiblio:dataBiblio"/>   
+                            <f:facet name="header">
+                                <div align="left" >
+                                    <p:commandButton id="editarBiblioButton" value="Editar"  icon="ui-icon-pencil" title="Editar bibliografía" oncomplete="mantWidgetTema.show();"
+                                                     actionListener="#{regSyllabusBean.editarButton_processAction}"  update=":formTema"
+                                                     disabled="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A' or regSyllabusBean.biblioSelected eq null}" />  
+                                </div>
+                            </f:facet>                            
+                            <p:column  style="width: 100px;text-align: center">  
+                                <f:facet name="header">
+                                    <span style="color:brown;font-weight: bold;">Clase N°</span><br/>
+                                    <span style="color:darkblue;">(Considerar el total de clases de la asignatura/módulo)</span>
+                                </f:facet>
+                                <span style="font-weight: bold;text-align: center;">#{biblio.clase}</span>
+                            </p:column>                          
+                            <p:column style="width: 300px">
+                                <f:facet name="header">
+                                    <span style="color:brown;font-weight: bold;">Tema</span><br/>
+                                    <span style="color:darkblue;">(Guardar correspondencia con los contenidos generales que constan el Plan de Estudios del Programa - Incluir procesos de evaluación)</span>
+                                </f:facet>
+                                <span style="font-weight: bold">#{biblio.tema}</span>
+                            </p:column> 
+                            <p:column style="width: auto">  
+                                <f:facet name="header">
+                                    <span style="color:brown;font-weight: bold;">Bibliografía</span><br/>
+                                    <span style="color:darkblue;">(Presentación en el estilo de citación Chicago)</span>
+                                </f:facet>                                
+                                <p:outputLabel escape="false" value="#{biblio.biblioTema eq null or biblio.biblioTema.trim() eq ''? 'SIN DEFINIR !':biblio.biblioTema}"
+                                               style="color:#{biblio.biblioTema eq null or biblio.biblioTema.trim() eq '' ? 'red':'black'};"/>  
+                            </p:column>     
+                        </p:dataTable>
+                    </p:tab>
+                    <p:tab title="7.2. Lectura de apoyo" titletip="Bibliografía de apoyo" >
+                        <p:dataTable id="dataBiblioGeneral" var="biblioG" value="#{regSyllabusBean.bibliografias}" 
+                                     scrollable="true"  scrollHeight="345" style="font-size: 8pt;" styleClass="evalFormStyle"
+                                     rowIndexVar="rowIndex" selectionMode="single" widgetVar="widgetDataBiblioGeneral"
+                                     rowKey="#{biblioG.sylabusBiblioPK.numeroBiblio}"  
+                                     emptyMessage="No ha ingresado bibliografía alguna !">
+                            <p:ajax event="rowSelect" listener="#{regSyllabusBean.onRowSelect}" update="editarBiblioButton eliminarBiblioButton"/>                      
+                            <p:ajax event="rowUnselect" listener="#{regSyllabusBean.onRowUnselect}" update="editarBiblioButton eliminarBiblioButton"/>   
+                            <f:facet name="header">
+                                <div align="left" >
+                                    <p:commandButton id="nuevoBiblioButton" value="Nuevo" icon="ui-icon-document" title="Nueva bibliografía" 
+                                                     actionListener="#{regSyllabusBean.nuevoButton_processAction}" update=":formTema editarBiblioButton eliminarBiblioButton"
+                                                     disabled="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" />
+                                    <p:commandButton id="editarBiblioButton" value="Editar"  icon="ui-icon-pencil" title="Editar bibliografía" oncomplete="mantWidgetTema.show();"
+                                                     actionListener="#{regSyllabusBean.editarButton_processAction}"  update=":formTema"
+                                                     disabled="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A' or regSyllabusBean.biblioGenSelected eq null}" />  
+                                    <p:commandButton id="eliminarBiblioButton" value="Eliminar" icon="ui-icon-trash" title="Eliminar bibliografía" oncomplete="confirmeEliminar.show();"
+                                                     update=":confirmDialogEliminar" disabled="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A' or regSyllabusBean.biblioGenSelected eq null}"/>  
+                                </div>
+                            </f:facet>                           
+                            <p:column style="text-align: center;" width="4%">  
+                                <f:facet name="header">
+                                    <span style="color:brown;font-weight: bold;">Ord.</span><br/>
+                                </f:facet>                                
+                                <span style="font-weight: bold">#{rowIndex+1}</span>
+                            </p:column>                          
+                            <p:column style="width: 96%">  
+                                <f:facet name="header">
+                                    <span style="color:brown;font-weight: bold;">Lectura de apoyo</span><br/>
+                                    <span style="color:darkblue;">(Presentación en el estilo de citación Chicago)</span>
+                                </f:facet>                                    
+                                <p:outputLabel escape="false" value="#{biblioG.bibliografia}"/>  
+                            </p:column>     
+                        </p:dataTable>                        
+                    </p:tab>
+                </p:tabView>                    
+            </p:tab>   
+            <p:tab id="tabObserv" title="8. Observaciones"  titletip="Observaciones adicionales" >
+                <p:tabView id="tabViewObs" dynamic="true"  style="width: auto;height: 460px;background-color: #F5F5DC;padding: 0px 0px;" activeIndex="#{regSyllabusBean.activeTabIndexObserv}">
+                    <p:tab title="8.1. Atención a los estudiantes fuera de clase" titletip="Atención a los estudiantes fuerra de clase" >
+                        <p:outputLabel value="Atención a los estudiantes fuera de clase.&lt;br/&gt; (Horario de oficina, uso de espacios virtuales)" 
+                                       escape="false" style="color: blue"/>
+                        <pe:ckEditor width="auto" height="340" value="#{regSyllabusBean.sylabusDocente.observaciones}"  
+                                     readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                                     customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js" />      
+                    </p:tab>   
+                    <p:tab title="8.2. Utilización de recursos" titletip="Utilización de recursos especializados en las clases que así lo requieran" >
+                        <p:outputLabel value="Utilización de recursos especializados en las clases que así lo requieran.&lt;br/&gt;(Software, equipos, materiales, etc.)" 
+                                       escape="false" style="color: blue"/>
+                        <pe:ckEditor width="auto" height="340" value="#{regSyllabusBean.sylabusDocente.observacionesUtilRec}"  
+                                     readOnly="#{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'}" 
+                                     customConfig="#{facesContext.externalContext.requestContextPath}/resources/ckeditor_config.js" />      
+                    </p:tab>                          
+                </p:tabView>                    
+            </p:tab>     
+            <p:tab id="tabPreview" title="Vista previa" titletip="Vista de sílabo registrado" >  
+                <p:scrollPanel style="height:450px;" id="preview" mode="native">
+                    <h:panelGrid  cellpadding="5" cellspacing="10" style="text-align: justify;width:975px;">
+                        <p:outputLabel value="1. INFORMACION GENERAL DE LA ASIGNATURA" styleClass="titulosVistaPrevia"/>   
+                        <h:panelGrid  columns="2" cellpadding="3" cellspacing="0" columnClasses="col1InfoGen,col2InfoGen">
+                            <p:outputLabel value="Código de la asignatura/módulo: " style=""/>
+                            <h:outputText style="text-transform: uppercase"
+                                          value="#{regSyllabusBean.asignaturaSelected.identifMateria}"/>
+                            <p:outputLabel value="Asignatura: " />
+                            <h:outputText style="text-transform: uppercase" value="#{regSyllabusBean.asignaturaSelected.nombreMateria}" />  
+                            <p:outputLabel value="Correo electrónico: " />
+                            <h:outputText value="#{sessionScope.user.usuEmail}" />                               
+                            <p:outputLabel value="Trimestre:" />
+                            <h:outputText value="#{regSyllabusBean.asignaturaSelected.nombreNivel}" />                          
+                            <p:outputLabel value="Programa:" />
+                            <h:outputText value="#{regSyllabusBean.asignaturaSelected.programa}" />     
+                            <p:outputLabel value="Área académica:" />
+                            <h:outputText value="#{regSyllabusBean.asignaturaSelected.area}" />                          
+                        </h:panelGrid>        <br/>               
+                        <h:panelGrid  columns="2" cellpadding="5" cellspacing="0" columnClasses="col1InfoGen,col2InfoGen" >    
+                            <p:outputLabel value="Modalidad:" />
+                            <h:outputText value="Presencial" />                              
+                            <p:outputLabel value="N° Creditos UASB:" />
+                            <h:outputText value="#{regSyllabusBean.sylabusDocente.numeroCreditos}" />  
+                            <p:outputLabel value="N° Clases:" />
+                            <h:outputText value="#{regSyllabusBean.sylabusDocente.numeroClases}" />  
+                            <p:outputLabel value="Fecha de registro:" />
+                            <h:outputText value="#{regSyllabusBean.formatDate(regSyllabusBean.sylabusDocente.fechaUltmodific, 'dd MMMM yyyy')}" style="color:brown;"/>                            
+                            <p:outputLabel value="Fecha aprobación:" />
+                            <h:outputText value="#{regSyllabusBean.formatDate(regSyllabusBean.sylabusDocente.fechaAprobacion, 'dd MMMM yyyy')}"
+                                          style="color: blue;visibility: #{regSyllabusBean.sylabusDocente.estadoSylabus eq 'A'?'visible':'hidden'}"/>
+                        </h:panelGrid> 
+                        <p:outputLabel value="2. OBJETIVOS" styleClass="titulosVistaPrevia"/>  
+                        <p:outputLabel value="2.1. General" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.objetivoGeneral}" escape="false" />
+                        <p:outputLabel value="2.2. Específicos" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.objetivoEspecifico}" escape="false" />
+                        <p:outputLabel value="3. ARTICULACION" styleClass="titulosVistaPrevia"/>  
+                        <p:outputLabel value="3.1. Unidad curricular" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.articUnidCurricular}" escape="false" />
+                        <p:outputLabel value="3.2. Ámbito curricular" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.articAmbiCurricular}" escape="false" />
+                        <p:outputLabel value="3.3. Campo de formación" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.articCampFormacion}" escape="false" />
+                        <p:outputLabel value="3.4. Otras carácteristicas" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.articOtrasCarac}" escape="false" />
+                        <p:outputLabel value="4. CONTENIDOS" styleClass="titulosVistaPrevia"/>
+                        <p:dataTable id="vistaTemas" var="tema" value="#{regSyllabusBean.temasSylabus}"  
+                                     emptyMessage="No ha ingresado tema alguno !"  rowIndexVar="rowIndex" >
+                            <p:column headerText="Clase N°"  width="8%" style="text-align: center;">#{tema.clase}</p:column> 
+                            <p:column headerText="Tema"  width="40%"><h:outputText value="#{tema.tema}" escape="false"/></p:column> 
+                            <p:column headerText="Subtemas"  width="50%"><h:outputText value="#{tema.subtema}" escape="false" /></p:column>     
+                        </p:dataTable>                    
+                        <p:outputLabel value="5. PROCESO DOCENTE" styleClass="titulosVistaPrevia"/>
+                        <p:outputLabel value="5.1. Formas de trabajo en aula" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.procesoDocente}" escape="false" />                        
+                        <p:outputLabel value="5.2. Formas de acompañamiento" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.procesoDocenteAcomp}" escape="false" />
+                        <p:outputLabel value="5.3. Actividades de aprendizaje" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.procesoDocenteActiv}" escape="false" />
+
+                        <p:outputLabel value="6. EVALUACIÓN" styleClass="titulosVistaPrevia"/>
+                        <p:outputLabel value="6.1. Criterios para evaluar" styleClass="titulosVistaPrevia"/>
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.evaluacion}" escape="false" />  
+                        <p:outputLabel value="6.2.  Elementos de calificación" styleClass="titulosVistaPrevia"/> 
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.evaluacionElementos}" escape="false" />      
+
+                        <p:outputLabel value="7. BIBLIOGRAFIA" styleClass="titulosVistaPrevia"/>  
+                        <p:outputLabel value="7.1. Lectura obligatoria" styleClass="titulosVistaPrevia" />                        
+                        <p:dataTable id="vistaBiblio" var="biblio" value="#{regSyllabusBean.biblioSylabus}"
+                                     emptyMessage="No ha ingresado bibliografía alguna !"  rowIndexVar="rowIndex" >
+                            <p:column headerText="Clase N°" style="text-align: center;" width="8%">  
+                                <span style="font-weight: bold">#{biblio.clase}</span>
+                            </p:column>                          
+                            <p:column headerText="Tema"  width="40%"><h:outputText value="#{biblio.tema}" escape="false"/></p:column> 
+                            <p:column headerText="Bibliografía"  width="52%"><h:outputText 
+                                    style="color:#{biblio.biblioTema eq null or biblio.biblioTema.trim() eq '' ? 'red':'black'};"
+                                    value="#{biblio.biblioTema eq null or biblio.biblioTema.trim() eq ''? 'SIN DEFINIR !':biblio.biblioTema}" escape="false" /></p:column>     
+                        </p:dataTable>      
+                        <p:outputLabel value="7.2. Lectura de apoyo" styleClass="titulosVistaPrevia" />                          
+                        <p:dataTable id="vistaBiblioG" var="biblioG" value="#{regSyllabusBean.bibliografias}"
+                                     emptyMessage="No ha ingresado bibliografía de apoyo alguna !"  rowIndexVar="rowIndex" >
+                            <p:column headerText="Ord." style="text-align: center;" width="8%">  
+                                <span style="font-weight: bold">#{rowIndex+1}</span>
+                            </p:column>                          
+                            <p:column headerText="Bibliografía"  width="52%"><h:outputText 
+                                    style="color:#{biblioG.bibliografia eq null or biblioG.bibliografia.trim() eq '' ? 'red':'black'};"
+                                    value="#{biblioG.bibliografia eq null or biblioG.bibliografia.trim() eq ''? 'SIN DEFINIR !':biblioG.bibliografia}" escape="false" /></p:column>     
+                        </p:dataTable>     
+                        <p:outputLabel value="8. OBSERVACIONES" styleClass="titulosVistaPrevia"/>      
+                        <p:outputLabel value="8.1. Atención a los estudiantes fuera de clase" styleClass="titulosVistaPrevia" />  
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.observaciones}" escape="false" />    
+                        <p:outputLabel value="8.2. Utilización de recursos" styleClass="titulosVistaPrevia" />  
+                        <h:outputText value="#{regSyllabusBean.sylabusDocente.observacionesUtilRec}" escape="false" />   
+                    </h:panelGrid>
+                </p:scrollPanel>
+            </p:tab>          
+        </p:tabView> 
+    </p:panel>
+
+    <h:panelGrid columns="2" columnClasses="colObserv">
+        <h:panelGroup id="panelEye"  rendered="#{regSyllabusBean.sylabusDocente.estadoEnvio eq 'P'? regSyllabusBean.sylabusDocente.observacionCoordinador eq null? false:true:false}">
+            <h:graphicImage id="eye" name="Eye.png" library="images" width="24" height="24" style="cursor:pointer;"/> 
+            Hay Observaciones
+        </h:panelGroup>
+        <h:panelGroup id="pnlBotones" >
+            <div align="right" style="margin-top: 1px;">
+                <p:commandButton  id="commandButtonEnviar" value="Enviar" icon="ui-icon-enviar" title="Enviar Sílabo al coordinador"  
+                                  update=":formLogin:growlLogin" 
+                                  onstart="blockUIContentenidoWidgetMant.block();document.getElementById('formMant:commandButtonEnviar').disabled=true;document.getElementById('formMant:commandButtonCancelar').disabled=true;" 
+                                  oncomplete="blockUIContentenidoWidgetMant.unblock();document.getElementById('formMant:commandButtonEnviar').disabled=false;document.getElementById('formMant:commandButtonCancelar').disabled=false;"
+                                  actionListener="#{regSyllabusBean.enviarButton_processAction(ae)}" process="@form" 
+                                  disabled="#{regSyllabusBean.sylabusDocente.estadoEnvio eq 'E' or regSyllabusBean.sylabusDocente.estadoSylabus eq 'A' or regSyllabusBean.activeTabIndex ne 8}"/>        
+                <p:commandButton  id="commandButtonGrabar" value="Guardar" icon="ui-icon-disk" title="Guardar datos ingresados"  update=":formLogin:growlLogin"
+                                  actionListener="#{regSyllabusBean.guardarButton_processAction(ae)}" process="@form" 
+                                  disabled="#{regSyllabusBean.sylabusDocente.estadoEnvio eq 'E' or regSyllabusBean.sylabusDocente.estadoSylabus eq 'A' or regSyllabusBean.activeTabIndex eq 8}"/>
+                <p:commandButton  id="commandButtonCancelar" value="Cancelar" icon="ui-icon-cancel" title="Cancelar registro" process="@this" update=":confirmDialogGrabar"
+                                  actionListener="#{regSyllabusBean.cancelarButton_processAction(ae)}"  onclick="mantWidget.hide();"/>
+            </div>
+        </h:panelGroup>
+    </h:panelGrid>
+    <p:tooltip for="formMant:eye" showEvent="click" >  
+        <p:panelGrid columns="1" style="opacity: 0.7;height: 175px;width: 750px;" >
+            <h:outputText value="#{regSyllabusBean.sylabusDocente.observacionCoordinador}" escape="false"/>
+        </p:panelGrid>
+
+    </p:tooltip>  
+
+    <pe:blockUI target="panelMant"  widgetVar="blockUIContentenidoWidgetMant">
+        <h:panelGrid columns="2" >  
+            <h:graphicImage library="images" name="ajax-loader1.gif"  
+                            style="margin-right: 12px; vertical-align: middle;"/>  
+            <h:outputText value="Por favor espere, los datos estan siendo procesados..." style="white-space: nowrap;"/>  
+        </h:panelGrid>    
+    </pe:blockUI> 
+</ui:composition>
+

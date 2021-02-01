@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form >  
+        <style>
+            .ui-accordion .ui-accordion-content{
+                padding: 1em 0em;
+                margin-left: 10px;
+            }
+            .cuaderno , .ui-accordion-content{
+                padding: 1em 0em;
+                margin-left: -10px;
+            }
+        </style>
+        <p:accordionPanel >
+            <p:tab title="Evaluaciones">
+                <p:accordionPanel >
+                    <p:tab title="Director">
+                        <h:panelGrid columns="1" cellpadding="2" cellspacing="2">   
+                            <p:commandLink actionListener="#{navigationMgmtBean.navigationPathChange}" immediate="true" update=":pnlContent" 
+                                           value="Reportes de evaluaciones bajo la Dirección" >  
+                                <f:param name="includePath" value="/pages/reportes/repDirector"/>
+                            </p:commandLink>    
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Coordinador">
+                        <h:panelGrid columns="1" cellpadding="2" cellspacing="2">                
+                            <p:commandLink actionListener="#{navigationMgmtBean.navigationPathChange}" immediate="true" update=":pnlContent"   
+                                           value="Del coordinador al docente" oncomplete="window.location.reload();"> 
+                                <f:param name="includePath" value="/pages/evalDocentes"/>
+                            </p:commandLink>
+                            <p:commandLink actionListener="#{navigationMgmtBean.navigationPathChange}" immediate="true" update=":pnlContent"   
+                                           value="Comité de posgrado" oncomplete="window.location.reload();"> 
+                                <f:param name="includePath" value="/pages/evalPrograma"/>
+                            </p:commandLink>
+                            <p:commandLink actionListener="#{navigationMgmtBean.navigationPathChange}" immediate="true" update=":pnlContent" 
+                                           value="Reportes de evaluaciones bajo la Coordinación" >  
+                                <f:param name="includePath" value="/pages/reportes/repcoordinador"/>
+                            </p:commandLink>    
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Docente">    
+                        <p:commandLink actionListener="#{navigationMgmtBean.navigationPathChange}" immediate="true" update=":pnlContent" 
+                                       value="Reporte evaluaciones docentes" >  
+                            <f:param name="includePath" value="/pages/reportes/repdocente"/>
+                        </p:commandLink> 
+                    </p:tab>   
+                </p:accordionPanel>
+            </p:tab>   
+            <p:tab title="Sílabo">
+                <h:panelGrid id="pnlMenu" columns="1" cellpadding="2" cellspacing="2">
+                    <p:commandLink actionListener="#{navigationMgmtBean.navigationPathChange}" immediate="true" update=":pnlContent" 
+                                   value="Ingreso de Sílabo" >  
+                        <f:param name="includePath" value="/pages/syllabus/syllabusnew"/>
+                    </p:commandLink>      
+                    <p:commandLink actionListener="#{navigationMgmtBean.navigationPathChange}" immediate="true" update=":pnlContent" 
+                                   value="Aprobar Sílabo" >  
+                        <f:param name="includePath" value="/pages/syllabus/syllaCoordinador"/>
+                    </p:commandLink>  
+
+
+                </h:panelGrid>
+                <p:accordionPanel styleClass="cuaderno" >
+                    <p:tab title="Programas de posgrado">
+                        <p:accordionPanel >
+                            <!--p:tab title="2016-2017">
+                                <p:accordionPanel >
+                                    <p:tab title="Convocatoria Enero" >
+                                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" style=" margin-left: -30px;" >
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Resumen_DERECHO_Maestria-en-Derecho-de-la-Empresa_(dic-2016).pdf', 'v1');">
+                                                <ul><li>Maestria en Derecho de la Empresa</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Resumen_DERECHO_Maestria-en-Derecho-Penal_(dic-2016).pdf', 'v1');">
+                                                <ul><li>Maestria en Derecho Penal</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Resumen_GESTION_Maestria-en-Gerencia-Calidad_(dic-2016).pdf', 'v1');">
+                                                <ul><li>Maestria en Gerencia Calidad</li></ul>
+                                            </h:outputLink>     
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Resumen_GESTION_Maestria-en-Gestion-del-desarrollo_(dic-2016).pdf', 'v1');">
+                                                <ul><li>Maestria en Gestion del desarrollo</li></ul>
+                                            </h:outputLink>                                             
+                                        </h:panelGrid>
+                                    </p:tab>
+                                    <p:tab title="Convocatoria Abril" >
+                                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" style=" margin-left: -30px;" >
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Resumen_DERECHO_Especializacion-en-Derecho-Procesal_(dic-2016).pdf', 'v1');">
+                                                <ul><li>Especializacion en Derecho Procesal</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Resumen_DERECHO_Especializacion-en-Derecho-Constitucional_(dic-2016).pdf', 'v1');">
+                                                <ul><li>Especializacion en Derecho Constitucional</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Resumen_EDUCACION_Especializacion-en-Gestion-Calidad-Educacion_(dic-2016).pdf', 'v1');">
+                                                <ul><li>Especializacion en Gestion Calidad Educacion</li></ul>
+                                            </h:outputLink>          
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Resumen_GESTION_Especializacion-en-Gerencia-Integrada-Calidad_(dic-2016)', 'v1');">
+                                                <ul><li>Especializacion en Gerencia Integrada Calidad</li></ul>
+                                            </h:outputLink>                                                
+                                        </h:panelGrid>
+                                    </p:tab>        
+                                </p:accordionPanel>
+                            </p:tab>
+                            <p:tab title="2017-2018">
+                                <p:accordionPanel >
+                                    <p:tab title="Convocatoria Octubre" >
+                                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" style=" margin-left: -30px;" >
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/LETRAS_ES_Gestión cultural y patrimonio_(OCT2027).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Gestión cultural y patrimonio</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/LETRAS_MI_Estudios Cultura_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria de Investigación en Estudios Cultura</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/HISTORIA_ES_Museos y patrimonio historico_(oct.2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Museos y patrimonio historico</li></ul>
+                                            </h:outputLink>     
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Historia_MI _ Historia_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria de Investigación en Historia</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/HISTORIA_MP_ Archiv y SG Documental(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Archivística y Sistemas de Gestión Documental</li></ul>
+                                            </h:outputLink>                                                  
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/GESTIÓN_ES_Administración_Empresas_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Administración de Empresas</li></ul>
+                                            </h:outputLink>  
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/GESTIÓN_ES_Dirreción_Personas y Talento_Humano(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Dirreción de Personas y Talento Humano</li></ul>
+                                            </h:outputLink>  
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/GESTION_ES_Gerencia para el desarrollo.pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Gerencia para el desarrollo</li></ul>
+                                            </h:outputLink>                
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/GESTION_ES_Gestion reducción riesgos de desastres_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Gestion para la reducción de Riesgos de Desastres</li></ul>
+                                            </h:outputLink>      
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/GESTIÓN_ES_Proyectos de Desarrollo_(oct.2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Proyectos de Desarrollo</li></ul>
+                                            </h:outputLink>      
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/GESTIÓN_ES_Tributación_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Tributación</li></ul>
+                                            </h:outputLink>                                                  
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/GESTION_Esp-Gerencia-Integrada-Calidad_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Gerencia Integrada para la Calidad</li></ul>
+                                            </h:outputLink>  
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/GESTION_MP_Desarrollo del Talento Humano_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Desarrollo del Talento Humano</li></ul>
+                                            </h:outputLink>                                              
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/GESTION_MP-Adm Finanzas y Gestión Riesgos_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Gestión Financiera y Administración de Riesgos Financieros</li></ul>
+                                            </h:outputLink>       
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/GESTION_MP-Gerencia-Calidad_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Gerencia de la Calidad e Innovación</li></ul>
+                                            </h:outputLink>    
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/GESTION_MP-Gestion-del-desarrollo_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Gestión del Desarrollo</li></ul>
+                                            </h:outputLink>     
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/ESG_ES_Cambio climático, biodiversidad y serv ecosistémicos_(Oct.2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Cambio climático, biodiversidad y servicios ecosistémicos</li></ul>
+                                            </h:outputLink>  
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/ESG_MI_Cambio Climático, Sustentabilidad y Desarrollo_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria de Investigación en Cambio Climático, Sustentabilidad y Desarrollo</li></ul>
+                                            </h:outputLink>                                            
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/ESG_MI_Estudios Latinoamericanos_8oct 2017).pdf', 'v1');">
+                                                <ul><li>Maestria de Investigación en Estudios Latinoamericanos</li></ul>
+                                            </h:outputLink>                                             
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/ESG_MP_Relaciones Internacionales_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Relaciones Internacionales</li></ul>
+                                            </h:outputLink>       
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/EDUCACIÓN_ES_Educación y TICS(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Educación y TICS</li></ul>
+                                            </h:outputLink>     
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/EDUCACION_ES-Gestion-Calidad-Educacion_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Gestion de la Calidad en Educación</li></ul>
+                                            </h:outputLink>  
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/EDUCACIÓN_MI_Investigación en Educación_(Oct. 2017).pdf', 'v1');">
+                                                <ul><li>Maestria de Investigación en Educación</li></ul>
+                                            </h:outputLink>   
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/EDUCACIÓN_MP-Innovación_Educación_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Innovación en Educación</li></ul>
+                                            </h:outputLink>     
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO_ES Derecho-Constitucional_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho Constitucional</li></ul>
+                                            </h:outputLink>  
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO_ES Derecho-Procesal_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho Procesal</li></ul>
+                                            </h:outputLink>    
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO_ES_DErecho Financiero Bursatil y Seguros (oct 2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho Financiero Bursatil y Seguros</li></ul>
+                                            </h:outputLink>        
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO_ES_Derecho_Empresa_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho de la Empresa</li></ul>
+                                            </h:outputLink>     
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO_ES_Derecho_Penal_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho Penal</li></ul>
+                                            </h:outputLink>      
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO_ES_Derechos_Humamos(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derechos Humamos</li></ul>
+                                            </h:outputLink>   
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO_ES_Económia_Popular y Solidaria(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Económia Popular y Solidaria</li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO_MI _ Derecho_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria de Investigación en Derecho</li></ul>
+                                            </h:outputLink>  
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO_MP_ Derecho_Admin_Contra_Pública(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Derecho Administrativo y Contratación Pública</li></ul>
+                                            </h:outputLink>  
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO_MP_ Derecho_Constitucional(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Derecho Constitucional</li></ul>
+                                            </h:outputLink>    
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO_MP-Derecho-Empresa_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Derecho de la Empresa</li></ul>
+                                            </h:outputLink>      
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO_MP-Derecho-Penal_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Derecho Penal</li></ul>
+                                            </h:outputLink>           
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO-PADH_MI_DDHH_América Latina_(oct.2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Derechos Humanos - América Latina</li></ul>
+                                            </h:outputLink>               
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/DERECHO-PADH_MP_DDHH exigibilidad estratégica_(oct.2017).pdf', 'v1');">
+                                                <ul><li>Maestria en Derechos Humanos - Exigibilidad Estratégica</li></ul>
+                                            </h:outputLink>    
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/COMUNICACIÓN_ES Comunicación Social_(oct-2017).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Comunicación Social</li></ul>
+                                            </h:outputLink>    
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/COMUNICACIÓN_MI-Comunicación_Mención Recep Mediática (oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestria de Investigación en Comunicación - Estudios de Recepción Mediática</li></ul>
+                                            </h:outputLink>    
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/COMUNICACIÓN_ MP_Comunicación Estratégica_(Oct-2017).pdf', 'v1');">
+                                                <ul><li>Maestría en Comunicación Estratégica</li></ul>
+                                            </h:outputLink>                                              
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </p:accordionPanel>
+                            </p:tab-->
+                            <p:tab title="2020-2021">
+                                <p:accordionPanel >
+                                    <p:tab title="Convocatoria Octubre" >
+                                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" style=" margin-left: -30px;" >
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/AS_MI_Ecología Política y Alternativas Desarrollo.pdf', 'v1');">
+                                                <ul><li>Maestría Investigación en Ecología Política y Alternativas Desarrollo</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/AS_PACC_MI_Cambio_Climático_Sustentabilidad_y_Desarrollo.pdf', 'v1');">
+                                                <ul><li>Maestría Investigación en Cambio Climático Sustentabilidad y Desarrollo</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/AS_PACC_ES_Cambio_Climático_Biodiversidad_y_Serv_Ecosistémicos.pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Pólicitas de Cambio Climático, Biodiversidad y Servicios Ecosistémicos</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/CO_MI_Comunicación_mención_Visualidad_y_Diversidades.pdf', 'v1');">
+                                                <ul><li>Maestría Investigación en Comunicación Mención Visualidad y Diversidades</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/CO_MI_Género_y_Comunicación.pdf', 'v1');">
+                                                <ul><li>Maestría Investigación en Género y Comunicación</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/CO_MP_Comunicación_Estratégica.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Comunicación Estratégica</li></ul>
+                                            </h:outputLink>
+
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_MI _ Derecho.pdf', 'v1');">
+                                                <ul><li>Maestría Investigación en Derecho</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_MP_ Derecho_Admin_Contra_Pública.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho Administrativo y Contratación Pública</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_MP_ Derecho_Constitucional.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho Constitucional</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_MP_Derecho_Financiero_Bursatil_Seguros.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho Financiero Bursátil y Seguros</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_MP_Derecho_Laboral_Seguridad_Social.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho Laboral y Seguridad Social</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_MP_Derecho_mención_Planif_Tributaria_Fiscal_Inter.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho mención Planificación Tributaria y  Fiscalidad Internacional</li></ul>
+                                            </h:outputLink>                                            
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_MP_Derecho_Penal.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho Penal</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_MP_Derecho_Procesal.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho Procesal</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_MP_Derecho_Tributario.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho Tributario</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_MP_Derechos_de_la_Naturaleza.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derechos de la Naturaleza</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_ES Derecho_Constitucional.pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho Constitucional</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_ES Derecho_Procesal.pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho Procesal</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_ES_Derecho_Administrativo.pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho Administrativo</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_ES_en_Contratación_Publica.pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Contratación Pública</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/DE_ES_en_Derecho_de_Control_Prevencion_Corrupcion.pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho de Control Prevención Corrupción</li></ul>
+                                            </h:outputLink>                                            
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/ED_MI_en_Educación.pdf', 'v1');">
+                                                <ul><li> Maestría Investigación en Educación</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/ED_MP_Políticas_Educativas.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Políticas Educativas</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/ED_MP-Innovación_Educación.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Innovación Educación</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/ED_ES_Educación_y_TICS.pdf', 'v1');">
+                                                <ul><li>Especialización Superior Educación y TICS</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/ED_ES_Gestion_Calidad_Educacion.pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Gestión Calidad Educacion</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/ESG_MI_Estudios_Latinoamericanos.pdf', 'v1');">
+                                                <ul><li> Maestría Investigación en Estudios Latinoamericanos</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/ESG_MI_Maestría en Gobierno.pdf', 'v1');">
+                                                <ul><li> Maestría Investigación en Gobierno</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/ESG_MP_Relaciones_Internacionales.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional Relaciones Internacionales</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/GE_ES_en_Gestión_del_Talento_Humano.pdf', 'v1');">
+                                                <ul><li> Especialización Superior en Gestión del Talento Humano</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/GE_ES_Gerencia_Integrada_Calidad.pdf', 'v1');">
+                                                <ul><li> Especialización Superior en Gerencia Integrada Calidad</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/GE_MP_Administracion_Empresas.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Administracion de Empresas</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/GE_MP_Economia_Finanzas_Populares_Solidaria.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Economía, Finanzas Populares y Solidaria</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/GE_MP_Gerencia_Calidad.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Gerencia de Calidad</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/GE_MP_Gestion_del_Desarrollo_(segundo-año).pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Gestión del Desarrollo (segundo-año)</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/GE_MP_Gestión_del_Riesgo_de_Desastres_(segundo-año).pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Gestión del Riesgo de Desastres (segundo-año)</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/GE_MP_Gestion_Financiera_ y_Adm._Riesgos_Financieros.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Gestion Financiera y Adm. Riesgos Financieros</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/GE_MP_Gestion_Talento_Humano.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Gestion del Talento Humano</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/HI_MI _ Historia.pdf', 'v1');">
+                                                <ul><li> Maestría Investigación en Historia</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/HI_MP_ Archivitica_y_Sistemas_Gest_Documental_(segundo-año).pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Archivística y Sistemas Gest Documental (segundo-año)</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/LE_MI_Esctudios_de_la_Cultura.pdf', 'v1');">
+                                                <ul><li> Maestría Investigación en Estudios de la Cultura</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/LE_MI_Literatura.pdf', 'v1');">
+                                                <ul><li> Maestría Investigación en Literatura</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OCTUBRE/SA_MP_Transtornos_del_Desarrollo_Infantil_(segundo-año).pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Transtornos del Desarrollo Infantil (segundo-año)</li></ul>
+                                            </h:outputLink>
+                                        </h:panelGrid>
+
+                                    </p:tab>
+                                    <p:tab title="Convocatoria Oferta Ecuador" >
+                                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" style=" margin-left: -30px;" >
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OFER_ECUADOR/OE_CO_ES_COMUNICACIaN DIGITAL.pdf', 'v1');">
+                                                <ul><li> Especialización Superior en Comunicación Digital</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OFER_ECUADOR/OE_DE_ES_DDHH.pdf', 'v1');">
+                                                <ul><li> Especialización Superior en Derechos Humanos</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OFER_ECUADOR/OE_ED_MP_INNOVACIaN_EDUCACIaN_ENSEÑANZA_SOCIALES.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Innovación Enseñanza Estudios Sociales</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OFER_ECUADOR/OE_ED_MP_INNOVACIaN_ENSEÑANZA_INICIAL.LENGUA_ESCRITA.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Innovación Enseñanza Inicial Lengua Escrita</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OFER_ECUADOR/OE_ED_ES_GESTIaN EDUCATIVA Y PEDAGaGICA.pdf', 'v1');">
+                                                <ul><li> Especialización Superior en Gestión Educativa y Pedagógica</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OFER_ECUADOR/OE_GE_MP_GESTIaN_DESARROLLO_CRISIS.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Gestión de Desarrollo de Crisis</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OFER_ECUADOR/OE_GE_MP_GESTIaN_DESARROLLO_LOCAL.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Gestión de Desarrollo Local</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OFER_ECUADOR/OE_GE_MP_GESTIaN_RIESGO_DESASTRES.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Gestión de Riesgo de Desastres</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OFER_ECUADOR/OE_GE_ES_ADMINISTRACIaN_EMPRESAS_EMPRENDIMIENTO.pdf', 'v1');">
+                                                <ul><li> Especialización Superior en Administración de Empresas y Emprendimiento</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OFER_ECUADOR/OE_GE_ES_PROYECTOS_DESARROLLO_LEVANTAMIENTO_FONDOS.pdf', 'v1');">
+                                                <ul><li> Especialización Superior en Proyectos de Desarrollo Levantamiento de Fondos</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OFER_ECUADOR/OE_GE_ES_PROYECTOS_DESARROLLO_REACTIVACIaN_PRODUCTIVA.pdf', 'v1');">
+                                                <ul><li> Especialización Superior en Proyectos de Desarrollo Reactivación Productiva</li></ul>
+                                            </h:outputLink>                                           
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CONV_OFER_ECUADOR/OE_HI_MP_ARCHIV+STICA_GESTIaN_DOCUMENTAL.pdf', 'v1');">
+                                                <ul><li> Maestría Profesional en Archivística y Gestión Documental</li></ul>
+                                            </h:outputLink>
+                                        </h:panelGrid>
+                                    </p:tab>       
+                                    <p:tab title="Convocatoria Enero">
+                                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" style=" margin-left: -30px;" >
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CON_ENERO/Resumen_DE-PADH_MI_DDHH_América_Latina_enero_2021.pdf', 'v1');">
+                                                <ul><li> Mestría en Derechos Humanos Mención America Latina</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CON_ENERO/Resumen_DE-PADH_MP_DDHH exigibilidad_Estratégica_enero_2021.pdf', 'v1');">
+                                                <ul><li> Mestría en Derechos Humanos Mención Exigibilidad Estratégica</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CON_ENERO/Resumen_HI_MP_Museologia_y_Paytrimonio_Historico_enero_2021.pdf', 'v1');">
+                                                <ul><li> Mestría en Museología y Patrimonio Histórico</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CON_ENERO/Resumen_LE_MP_Gestion_Cultural_y_Politicas_Culturales_enero_2021.pdf', 'v1');">
+                                                <ul><li> Mestría en Gestión Cultural y Políticas Culturales</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2020-21/CON_ENERO/Resumen_SA_ MP_Transtornos_del_Desarrollo Infantil_enero_2021.pdf', 'v1');">
+                                                <ul><li> Mestría en Trastornos del Desarrollo Infantil Mención Autismo </li></ul>
+                                            </h:outputLink>
+                                        </h:panelGrid>
+                                    </p:tab>                                    
+                                </p:accordionPanel>                                
+                            </p:tab>
+                            <p:tab title="2019-2020">
+                                <p:accordionPanel >
+                                    <p:tab title="Convocatoria Octubre" >
+                                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" style=" margin-left: -30px;" >
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/AS__ES_Cambio climatico, biodiversidad y serv ecosistemicos.pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Políticas de Cambio Climático, Biodiversidad y Servicios Ecosistémicos</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/AS_MI_Cambio Climatico, Sustentabilidad y Desarrollo_(agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría Investigación en Cambio Climatico, Sustentabilidad y Desarrollo</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/CO_ MP_Comunicacion Estrategica_(Agost o 2019).pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Comunicacion Estratégica</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/CO_ES Comunicacioon Social_(agosto 2019).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en  Comunicación Social</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/CO_ES_Comunicacion Digital (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Comunicación Digital</li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_CO_MI_Comunicacio´n mencio´n VIsualidad y  Diversidades (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría de Investigación en Comunicación mención VIsualidad y  Diversidades</li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_CO_MI-Comunicacio´n_Mencio´n Recep Media´ tica (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría de Investigación en Comunicación Mención Recepción Mediática</li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_DE_ES Derecho-Constitucional (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en  Derecho Constitucional</li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_DE_ES Derecho-Procesal (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho Procesal</li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_DE_ES_Derecho Administrativo (agosto 2019) cambios malla y docentes nov 2019.pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho Administrativo</li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_DE_ES_Derecho Financiero Bursatil y Seguros (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho Financiero Bursátil y Seguros </li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resu´men_DE_ES_en_Contratacio´n_Pu´blica (agosto 2019)-cambios docentes_nov2019 y malla dic19.pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Contratación Pública </li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_DE_MI _ Derecho (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría de Investigación en Derecho</li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_DE_MP_ Derecho_Constitucional (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho Constitucional</li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_DE_MP_Derecho Procesal (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho Procesal</li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_DE_MP_Derecho, mencio´n PTFI (agosto 2019). docx.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho  mención PTFI</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_DE_MP-Derecho-Penal (gosto 2019) - act oct 2019.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho Penal</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_DE_PADH_ES_Derechos_Humamos (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derechos Humamos</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_ED_ES_Educacio´n y TICS (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Educación y TICS </li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_ED_ES-Gestion-Calidad-Educacion (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Gestion Calidad Educacion </li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_ED_MI_en Educacio´n (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría de Investigación en Educación </li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_ED_MP-Innovacio´n_Educacio´n (agosto 2019) .pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Innovación en Educación  </li></ul>
+                                            </h:outputLink>                                     
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_ESG_MI_Estudios Latinoamericanos (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría de Investigación en Estudios Latinoamericanos</li></ul>
+                                            </h:outputLink>  
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_ESG_MP_Relaciones Internacionales (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Relaciones Internacionales</li></ul>
+                                            </h:outputLink>                                                   
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_GE_ES_Administracio´n_Empresas (agosto 20 19)).pdf', 'v1');">
+                                                <ul><li>Especialización en Administración de Empresas</li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resu´men_GE_ES_en_Gestio´n_del_Talento_Human o (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Especialización en Gestión del Talento Humano </li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_GE_ES_en_Proyectos_de_Desarrollo  (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Especialización en Proyectos de Desarrollo</li></ul>
+                                            </h:outputLink> 
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_GE_ES-Gerencia-Integrada-Calidad (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Especialización en Gerencia Integrada Calidad </li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_GE_MP_Gestio´n_del_Riesgo_de_Desast res  (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría Profesional Gestión del Riesgo de Desastres </li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_GE_MP-Administracion_Empresas (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Administracion Empresas </li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_GE_MP-Gerencia-Calidad (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Gerencia Calidad</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_GE_MP-Gestion_Financiera_ y_Adm._Riesgos_Financieros (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Gestion Financiera y Adm. Riesgos Financieros </li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_GE_MP-Gestion-del-desarrollo_(agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Gestion del desarrollo </li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_HI_MI _ Historia (agosto 2019).pdf', 'v1');">
+                                                <ul><li>Maestría de investigación en Historia</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_HI_MP_ Archivitica y Sistemas_G Documental (marzo 2020).pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Archísvitica y Sistemas G Documental</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_LE_ES_Gestio´n cultural y patrimonio (agost o 2019).pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Gestión Cultural y patrimonio</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_LE_MI_Esctudios_de_la_Cultura_(ago-2019).pdf', 'v1');">
+                                                <ul><li>Maestría de Investigación en Estudio de la Cultura</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_OCTUBRE/Resumen_SA_ MP_Transtornos del Desarrollo Infantil (agosto 2019) AGH.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Transtornos del Desarrollo Infantil</li></ul>
+                                            </h:outputLink>
+                                        </h:panelGrid> 
+
+                                    </p:tab> 
+                                    <p:tab title="Convocatoria Enero" >
+                                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" style=" margin-left: -30px;" >
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_ENERO/Resumen_DE_MP_Derecho_Laboral_Seguridad_Social.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho Laboral Seguridad Social</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_ENERO/Resumen_DE_MP_Derecho_Tributario.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Derecho Tributario</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_ENERO/Resumen_DE-PADH_MI_DDHH_Ame´rica Latina.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en DDHH América Latina</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_ENERO/Resumen_DE-PADH_MI_DDHH_Ame´rica Latina.pdf', 'v1');">
+                                                <ul><li>Maestría de Investigación en DDHH América Latina</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_ENERO/Resumen_DE-PADH_MP_DDHH exigibilidad estrate´gica.d ocx.pdf', 'v1');">
+                                                <ul><li>Maestría de Investigación en DDHH Exigibilidad Estratégica</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_ENERO/Resumen_GE_MP_Economia_Finanzas_Populares_Solidaria.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Economia,Finanzas Populares y Solidaria</li></ul>
+                                            </h:outputLink>
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_ENERO/Resumen_GE_MP_Gestion_Talento_Humano.pdf', 'v1');">
+                                                <ul><li>Maestría Profesional en Gestión del Talento Humano</li></ul>
+                                            </h:outputLink>
+                                        </h:panelGrid>
+                                    </p:tab>
+                                    <p:tab title="Convocatoria Abril" >
+                                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" style=" margin-left: -30px;" >
+                                            <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019-20/CONV_ABRIL/Resumen_DE_PADH_ES_Derecho_Humanos_mencion_Reparacion_Integral.pdf', 'v1');">
+                                                <ul><li>Especialización Superior en Derecho Humanos Mención Reparación Integral</li></ul>
+                                            </h:outputLink>
+                                        </h:panelGrid>
+
+                                    </p:tab>
+                                </p:accordionPanel>
+                            </p:tab>
+                            <p:tab title="2018-2019">
+                                <p:tab title="Convocatoria Octubre" >
+                                    <h:panelGrid columns="1" cellpadding="0" cellspacing="0" style=" margin-left: -30px;" >
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_COMUNICACIÓN_ MP_Comunicación Estratégica_(Ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Comunicación Estratégica</li></ul>
+                                        </h:outputLink>
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_COMUNICACIÓN_ES Comunicación Social_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Comunicación Social</li></ul>
+                                        </h:outputLink>  
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_DERECHO-PADH_MP_DDHH exigibilidad estratégica_(ago.2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Derechos Humanos mención en Exigibilidad Estratégica</li></ul>
+                                        </h:outputLink>    
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_DERECHO_ES Derecho-Constitucional_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Derecho Constitucional</li></ul>
+                                        </h:outputLink>                                            
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_DERECHO_ES Derecho-Procesal_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Derecho Procesal</li></ul>
+                                        </h:outputLink>    
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_DERECHO_ES_DErecho Financiero Bursatil y Seguros (ago 2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Derecho Financiero, Bursátil y de Seguros</li></ul>
+                                        </h:outputLink>  
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_DERECHO_ES_Derecho_Empresa_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Derecho de la Empresa</li></ul>
+                                        </h:outputLink>
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_DERECHO_ES_Derecho_Penal_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Derecho Penal</li></ul>
+                                        </h:outputLink>     
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_DERECHO_ES_Derechos_Humamos(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Derechos Humanos</li></ul>
+                                        </h:outputLink>  
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_DERECHO_ES_Tributación_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Tributación</li></ul>
+                                        </h:outputLink>                                          
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_DERECHO_MI _ Derecho_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Derecho</li></ul>
+                                        </h:outputLink>   
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_DERECHO_MP-Derecho-Empresa_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Derecho de la Empresa</li></ul>
+                                        </h:outputLink>           
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_DERECHO_MP_ Derecho_Admin_Contra_Pública(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Derecho Administrativo y Contratación Pública</li></ul>
+                                        </h:outputLink>      
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_DERECHO_MP_ Derecho_Constitucional(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Derecho Constitucional</li></ul>
+                                        </h:outputLink>         
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_EDUACIÓN_ES_Educación y TICS(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Educación y TICS</li></ul>
+                                        </h:outputLink>                                               
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_EDUCACION_ES-Gestion-Calidad-Educacion_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Gestión de la Calidad en Educación</li></ul>
+                                        </h:outputLink>  
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_EDUCACIÓN_MP-Innovación_Educación_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Innovación en Educación</li></ul>
+                                        </h:outputLink>   
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_ESG_MI_Estudios Latinoamericanos_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Estudios Latinoamericanos</li></ul>
+                                        </h:outputLink>             
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_ESG_MP_Relaciones Internacionales_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Relaciones Internacionales</li></ul>
+                                        </h:outputLink>         
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTION_ES_Finanzas_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Finanzas</li></ul>
+                                        </h:outputLink>   
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTION_ES_Gerencia para el desarrollo (ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Gerencia para el Desarrollo</li></ul>
+                                        </h:outputLink>     
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTION_Esp-Gerencia-Integrada-Calidad_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Gerencia Integrada de la Calidad</li></ul>
+                                        </h:outputLink>     
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTION_MP-Adm Finanzas y Gestión Riesgos_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Gestión Financiera y Administración de Riesgos Financieros</li></ul>
+                                        </h:outputLink>   
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTION_MP-Gerencia-Calidad_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Gerencia de la Calidad e Innovación</li></ul>
+                                        </h:outputLink>         
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTION_MP-Gestion-del-desarrollo_(oct-2018).pdf', 'v1');">
+                                            <ul><li>Magíster en Gestión del Desarrollo, Mención Gestión del Desarrollo Social</li></ul>
+                                        </h:outputLink>                                                
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTION_MP_Desarrollo del Talento Humano_(ago-2017).pdf', 'v1');">
+                                            <ul><li>Maestría en Desarrollo del talento humano</li></ul>
+                                        </h:outputLink>    
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTION_PACC_ES_Cambio climático, biodiversidad y serv ecosistémicos_(ago.2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Cambio Climático, Biodiversidad y Servicios Ecosistémicos</li></ul>
+                                        </h:outputLink>  
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTION_PACC_MI_Cambio Climático, Sustentabilidad y Desarrollo_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Cambio Climático, Sustentabilidad y Desarrollo</li></ul>
+                                        </h:outputLink> 
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTIÓN_ES_Administración_Empresas_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Administración de Empresas</li></ul>
+                                        </h:outputLink>     
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTIÓN_ES_Dirreción_Personas y Talento_Humano(ago-2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Dirección de Personas y del Talento Humano</li></ul>
+                                        </h:outputLink>                                            
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTIÓN_ES_Proyectos de Desarrollo_(ago.2018).pdf', 'v1');">
+                                            <ul><li>Especialización Superior en Proyectos de Desarrollo</li></ul>
+                                        </h:outputLink> 
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_GESTIÓN_MP-Adminis-Empresa_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Administración de Empresas</li></ul>
+                                        </h:outputLink>          
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_HISTORIA_MI _ Historia_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Historia</li></ul>
+                                        </h:outputLink>  
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_HISTORIA_MP_ Archiv y SG Documental(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Archivística y Sistemas de Gestión Documental</li></ul>
+                                        </h:outputLink>                                           
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_LETRAS_MI_Esctudios Cultura_(ago-2018).pdf', 'v1');">
+                                            <ul><li>Maestría en Estudios de la Cultura</li></ul>
+                                        </h:outputLink>  
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_SALUD_ MP_Transtornos del Desarrollo Infantil.pdf', 'v1');">
+                                            <ul><li>Maestría en Trastornos del Desarrollo Infantil, mención en Autismo</li></ul>
+                                        </h:outputLink>  
+                                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2018/Resumen_SALUD_MP_acupuntuyra y Moxibustión sep 2018.pdf', 'v1');">
+                                            <ul><li>Maestría en Acupuntura y Moxibustión</li></ul>
+                                        </h:outputLink>  
+                                    </h:panelGrid>
+                                </p:tab>
+                            </p:tab>
+                        </p:accordionPanel>
+                    </p:tab>      
+                </p:accordionPanel>
+            </p:tab>  
+            <!--p:tab title="Informe Anual">
+                <h:panelGrid columns="1" cellpadding="2" cellspacing="2">
+                    <p:commandLink actionListener="#{navigationMgmtBean.navigationPathChange}" immediate="true" update=":pnlContent"   
+                                   value="Llenar informe anual">  
+                        <f:param name="includePath" value="/pages/infoanual/infoAnual"/>
+                    </p:commandLink>
+                    <p:commandLink actionListener="#{navigationMgmtBean.navigationPathChange}" immediate="true" update=":pnlContent"   
+                                   value="Consultar y generar informes">  
+                        <f:param name="includePath" value="/pages/infoanual/repInforme"/>
+                    </p:commandLink>                
+                </h:panelGrid>
+            </p:tab-->          
+            <!--p:tab title="Reportes y Consultas">
+                <p:accordionPanel styleClass="cuaderno" style="color:red">
+                    <p:tab title="Resultado evaluaciones" >
+                        <h:panelGrid columns="1" cellpadding="2" cellspacing="2">
+                            <p:commandLink actionListener="#{navigationMgmtBean.navigationPathChange}" immediate="true" update=":pnlContent" 
+                                           value="Mis Coordinados" >  
+                                <f:param name="includePath" value="/pages/reportes/repcoordinador"/>
+                            </p:commandLink>        
+                            <p:commandLink actionListener="#{navigationMgmtBean.navigationPathChange}" immediate="true" update=":pnlContent" 
+                                           value="Mi Evaluación" >  
+                                <f:param name="includePath" value="/pages/reportes/repdocente"/>
+                            </p:commandLink>     
+                        </h:panelGrid>
+                    </p:tab>
+                </p:accordionPanel>                    
+            </p:tab-->
+            <p:tab title="Cuaderno del docente">
+                <p:accordionPanel styleClass="cuaderno" style="color:red">
+                    <p:tab title="Cuaderno Docente" >
+                        <h:outputLink value="#" onclick="return open_win('https://www.uasb.edu.ec/documents/10181/3422484/cuaderno-del-docente', 'v8');">
+                            <ul><li>Cuaderno docente</li></ul>
+                        </h:outputLink>
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Lineamientos para un proceso educativo en modalidades no presenciales.pdf', 'v1');">
+                            <ul><li>Lineamientos Educacion no presencial</li></ul>
+                        </h:outputLink>
+                        <h:outputLink value="#" onclick="return open_win('https://www.uasb.edu.ec/documents/10181/1316556/Orientaciones_Educacion_no_presencial.pdf', 'v8');">
+                            <ul><li>Orientaciones Educacion no presencial</li></ul>
+                        </h:outputLink>
+                    </p:tab>
+                    <p:tab title="Reglamentos y normas" >
+
+                        <h:outputLink value="#" onclick="return open_win('https://www.uasb.edu.ec/documents/10181/3032588/Resoluci%C3%B3n+CCA+emergencia+Covid+19/ca0c560b-3fd5-4485-8946-7b626c0f0e40/document.pdf', 'v8');">
+                            <ul><li>Resoluciónn COVID19</li></ul>
+                        </h:outputLink> 
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/1 Reglamento General Académico.pdf', 'v1');">
+                            <ul><li>Reglamento general académico</li></ul>
+                        </h:outputLink>
+                        <h:outputLink value="#" onclick="return open_win('https://www.uasb.edu.ec/documents/1908963/2082832/NORMAS+DE+FUNCIONAMIENTO+DE+LOS+PROGRAMAS+DE+POSGRADO', 'v3');">
+                            <ul><li>Normas de Funcionamiento de Programas</li></ul>
+                        </h:outputLink>
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/3 REGLAMENTO PARA LA REALLZACION DE PROGRAMAS DE DOCTORADO.pdf', 'v3');">
+                            <ul><li>Reglamento para Programas de Doctorado</li></ul>
+                        </h:outputLink>           
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/4 Normas infracción a la honestidad intelectual.pdf', 'v4');">
+                            <ul><li>Normas para tratamiento de infracciones</li></ul>
+                        </h:outputLink>        
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/5 Normas para examen final.pdf', 'v5');">
+                            <ul><li>Normas para Examen Final</li></ul>
+                        </h:outputLink>
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019/1 Normas ejercicio año sabático.pdf', 'v5');">
+                            <ul><li>Normas de ejercicio de año sabático, septiembre 2007</li></ul>
+                        </h:outputLink>
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019/2 Normas de funcionamiento de comite de licencias 2017.pdf', 'v5');">
+                            <ul><li>Normas de funcionamiento del comité de licencias, 2005</li></ul>
+                        </h:outputLink>
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019/3 Normas remuneración docentes.pdf', 'v5');">
+                            <ul><li>Normas de remuneración de docentes, 2012</li></ul>
+                        </h:outputLink>
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019/4 Normas sobre escalafón docente UASB.pdf', 'v5');">
+                            <ul><li>Normas sobre escalafón docentes para la UASB-E, 2012</li></ul>
+                        </h:outputLink>
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/2019/5 Normas para selección y contratación de docentes.pdf', 'v5');">
+                            <ul><li>Normas para selección y contratación docente, 2014</li></ul>
+                        </h:outputLink>
+                    </p:tab>
+                    <p:tab title="Manuales y pautas">
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/6 Pautas para la elaboración de la tesis de maestría.pdf', 'v6');">
+                            <ul><li>Pautas para Tesis de Maestría</li></ul>
+                        </h:outputLink>
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/7 Pautas para la elaboración de la Monografía.pdf', 'v7');">
+                            <ul><li>Pautas para Monografía Final</li></ul>
+                        </h:outputLink>
+                        <!--h:outputLink value="#" onclick="return open_win('http://portal.uasb.edu.ec/UserFiles/372/File/pdfs/NORMAS/Manual%20de%20estilo%20U_%20Andina%202014(1).pdf', 'v8');">
+                            <ul><li>Manual de estilo 2014 (promociones hasta 2016-2017)</li></ul>
+                        </h:outputLink-->
+                        <h:outputLink value="#" onclick="return open_win('https://www.uasb.edu.ec/documents/1864533/2087591/Manual_de_estilo_5taed/ea2019b0-245a-42c2-9778-8c8764f5d265/document.pdf', 'v8');">
+                            <ul><li>Manual de estilo</li></ul>
+                        </h:outputLink>
+                        <!--h:outputLink value="#" onclick="return open_win('http://www.uasb.edu.ec/UserFiles/372/File/pdfs/NORMAS/Sistema%20de%20citas%20y%20refrencias_Instructivo%20para%20aplicar%20el%20Sistema%20Chicago%281%29.pdf', 'v9');">
+                            <ul><li>Sistema de citas y referencias</li></ul>
+                        </h:outputLink-->                           
+                    </p:tab>
+                    <p:tab title="Instructivos generales">
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/10 Formulario creación de aula virtual.pdf', 'v13');">
+                            <ul><li>Creación de aulas nuevas</li></ul>
+                        </h:outputLink>                         
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/10 La Universidad y su vínculo con la colectividad.pdf', 'v10');">
+                            <ul><li>Universidad y Colectividad</li></ul>
+                        </h:outputLink>
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/12  INSTRUCTIVO PARA LA PRESENTACION DE  FACTURAS.pdf', 'v11');">
+                            <ul><li>Presentación de facturas</li></ul>
+                        </h:outputLink>                        
+                    </p:tab>             
+                    <p:tab title="Instructivos del Portal Docente">
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Instructivo_silabo2020-2021.pdf', 'v15');">
+                            <ul><li>Instructivo de Sílabo</li></ul>
+                        </h:outputLink>    
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Instructivo_ Informe_Anual_de_Actividades2019.pdf', 'v15');">
+                            <ul><li>Instructivos generales</li></ul>
+                        </h:outputLink>                          
+                        <!--h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/.pdf', 'v2');">
+                            <ul><li>Manual informe anual</li></ul>
+                        </h:outputLink>      
+                        <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/.pdf', 'v2');">
+                            <ul><li>Manual evaluación a docentes</li></ul>
+                        </h:outputLink-->      
+
+                    </p:tab>                    
+                </p:accordionPanel>     
+            </p:tab>    
+            <p:tab title="Andina Diversa y Humana">
+                <h:panelGrid columns="1" cellpadding="0" cellspacing="0" style=" margin-left: -30px;" >
+                    <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Presentación Andina Diversa y Humana.pdf', 'v1');">
+                        <ul><li>Presentación Andina Diversa y Humana</li></ul>
+                    </h:outputLink>
+                    <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Resumen ejecutivo (14.3.2017).pdf', 'v1');">
+                        <ul><li>Resumen ejecutivo</li></ul>
+                    </h:outputLink>
+                    <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Anexo 21. Presentación final del informe.pdf', 'v1');">
+                        <ul><li>Presentación final del informe</li></ul>
+                    </h:outputLink>                                                                    
+                    <h:outputLink value="#" onclick="return open_win('#{facesContext.externalContext.requestScheme}://#{facesContext.externalContext.requestServerName}#{facesContext.externalContext.requestServerPort ne ''?':'.concat(facesContext.externalContext.requestServerPort):''}/PortalD/docs/Informe diagnóstico (14.03.2017).pdf', 'v1');">
+                        <ul><li>Informe diagnóstico</li></ul>
+                    </h:outputLink>          
+                </h:panelGrid>
+            </p:tab>    
+        </p:accordionPanel>        
+    </h:form>        
+</ui:composition>
+

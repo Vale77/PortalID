@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+         <h:panelGrid columns="2" id="gdatdisacad">
+        <h:outputText  value="Alcance*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="galcance">
+            <p:selectOneMenu value="#{presencia.smdisacadalcance.value}" id="ialcance"
+                             required="true" requiredMessage="Distinción Académica/Alcance: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Nacional" itemValue="N" />
+                <f:selectItem  itemLabel="Internacional" itemValue="I" />
+               
+                <p:ajax update="galcance" immediate="true"/>
+            </p:selectOneMenu>
+            <p:message for="ialcance" display="icon"/> 
+        </h:panelGrid>
+        <h:outputText  value="Tipo Distinción *" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gtipdistincion">
+            <p:selectOneMenu value="#{presencia.smdisacadtipdist.value}" id="itipdistincion"
+                             required="true" requiredMessage="Distinción Académica/Tipo Distinción: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Condecoración" itemValue="C" />
+                <f:selectItem  itemLabel="Premio" itemValue="P" />
+               <f:selectItem  itemLabel="Mención" itemValue="M" />
+               <f:selectItem  itemLabel="Reconocimiento" itemValue="R" />
+                <p:ajax update="gtipdistincion" immediate="true"/>
+            </p:selectOneMenu>
+            <p:message for="itipdistincion" display="icon"/> 
+        </h:panelGrid>
+        <h:outputText  value="Fecha*" style="font-weight: bold"/>
+        <h:panelGrid  columns="2"  id="gfecdist" >
+            <p:calendar  value="#{presencia.dfecdistacad}" id="fecdist"
+                         pattern="dd/MM/yyyy"  timeZone="America/Guayaquil" locale="es"
+                         required="true" requiredMessage="Distinción Académica/Fecha Distinción: se requiere un valor"
+                         mindate="#{presencia.feciniciclo}" maxdate="#{presencia.fecfinciclo}">
+                <p:ajax update="gfecdist" immediate="true"/>
+            </p:calendar>
+            <p:message for="fecdist" display="icon"/> 
+        </h:panelGrid>
+        <h:outputText  value="Nombre Distinción *" style="font-weight: bold"/>
+        <h:panelGrid  columns="2" id="gnomdist" >
+            <h:inputText  id="inomdist" binding="#{presencia.itxtdisacadinstitucion}" style="width: 200px; text-transform: uppercase"  
+                          required="true" requiredMessage="Distinción Académica/Nombre Distinción: se requiere un valor"  >
+                <p:ajax update="gnomdist" immediate="true"/>
+            </h:inputText>
+            <p:message for="inomdist" display="icon"/> 
+        </h:panelGrid>
+        <h:outputText  value="Institución que Otorga *" style="font-weight: bold"/>
+        <h:panelGrid  columns="2" id="gnominstitu" >
+            <h:inputText  id="inominstitu" binding="#{presencia.itxtdisacadnombdist}" style="width: 200px; text-transform: uppercase"  
+                          required="true" requiredMessage="Distinción Académica/Institución que otorga: se requiere un valor"  >
+                <p:ajax update="gnominstitu" immediate="true"/>
+            </h:inputText>
+            <p:message for="inominstitu" display="icon"/> 
+        </h:panelGrid>
+        <h:outputText  value="País: " style="font-weight: bold"/>
+        <p:selectOneMenu value="#{presencia.smdisacadpais.value}" >
+            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+            <f:selectItems  value="#{presencia.listPaisdist}" var="lpaistit" itemLabel="#{lpaistit.nomPais}" itemValue="#{lpaistit.codPais}"/>
+            <p:ajax update="iciudad" listener="#{presencia.paisDistChangeListener}"/>
+        </p:selectOneMenu> 
+        <h:outputText  value="Ciudad:" style="font-weight: bold"/>
+        <p:selectOneMenu value="#{presencia.smdisacadciudad.value}" id="iciudad">
+            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+            <f:selectItems  value="#{presencia.listCiudaddist}" var="lciudadtit" itemLabel="#{lciudadtit.nomCiudad}" itemValue="#{lciudadtit.ciudadPK.codCiudad}"/>
+        </p:selectOneMenu>
+    </h:panelGrid>
+    <p:commandButton value="Guardar"  id="btnDAGuardar" actionListener="#{presencia.SaveDistAcad}" update=":finggeneral:messagesgeneral :finggeneral:gdatdisacad :finfoanual:acpinfoanual:infopresencia:gdistAcad"/>
+    <p:commandButton value="Cancelar" id="btnDACancelar" oncomplete="cingdgeneral.hide()"  actionListener="#{presencia.CancelDistAcad}"  update=":finggeneral:gdatdisacad" immediate="true">
+        <p:resetInput target=":finggeneral:gdatdisacad" /> 
+    </p:commandButton>
+    
+</ui:composition>

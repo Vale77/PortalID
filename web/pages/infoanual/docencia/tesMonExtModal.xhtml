@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid columns="2" id="datcotext">
+        <h:outputText  value="País *" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gpais">
+            <p:selectOneMenu value="#{docencia.smpaiscotext.value}" id="ipais"
+                             required="true" requiredMessage="Cotutoría Externa/País: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItems  value="#{docencia.listPais}" var="lpais" itemLabel="#{lpais.nomPais}" itemValue="#{lpais.codPais}"/>
+                <p:ajax update="gpais cotextuniv" listener="#{docencia.paisCotExtvalueChangeListener}"/>                  
+            </p:selectOneMenu> 
+            <p:message for="ipais" display="icon"/>
+        </h:panelGrid>
+        <h:outputText id="oninst" value="Universidad *" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="cotextuniv">  
+            <p:selectOneMenu value="#{docencia.sminstcotextr.value}" id="icotextuni"
+                             required="true" requiredMessage="Cotutoría Externa/Institución: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItems  value="#{docencia.listInstitucion}" var="linst" itemLabel="#{linst[1]}" itemValue="#{linst[1]}"/>
+                <p:ajax update="cotextuniv" immediate="true"/>
+            </p:selectOneMenu> 
+         <p:message for="icotextuni" display="icon"/> 
+        </h:panelGrid>
+        <h:outputText  value="Tipo*" style="font-weight: bold"/>
+        <h:panelGrid columns="1" id="cotexttip" >
+            <p:selectOneMenu value="#{docencia.smtipcotext.value}" id="tipcotext"
+                             required="true" requiredMessage="Cotutorías Externas/Tipo: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="PASANTÍA" itemValue="1" />
+                <f:selectItem  itemLabel="ESPECIALIZACIÓN" itemValue="5" />
+                <f:selectItem  itemLabel="MAESTRÍA" itemValue="4" />
+                <f:selectItem  itemLabel="DOCTORADO" itemValue="2" />
+                <f:selectItem  itemLabel="POSDOCTORADO" itemValue="3" />
+                <p:ajax update="cotexttip" immediate="true"/>
+            </p:selectOneMenu>
+        </h:panelGrid>
+        <h:outputText  value="Programa*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="cotextprog">
+            <h:inputText id="icotextprog" binding="#{docencia.itxtProgcotext}" style="width: 200px; text-transform: uppercase"
+                         required="true" requiredMessage="Cotutorías Externas/Programa: se requiere un valor">
+                <p:ajax update="cotextprog" immediate="true"/>
+            </h:inputText>
+            <p:message for="icotextprog" display="icon"/> 
+        </h:panelGrid>
+         <h:outputText  value="Rol Docente*" style=" font-weight: bold"/>
+        <h:panelGrid columns="2" id="cotextrol">
+            <p:selectOneMenu value="#{docencia.smrolcotext.value}" id="roldcotext"
+                             required="true" requiredMessage="Cotutorías Externas/Rol Docente: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Tutor" itemValue="T" />                                            
+                <f:selectItem  itemLabel="Cotutor" itemValue="C" />
+                <f:selectItem  itemLabel="Tribunal" itemValue="R" />
+
+                <p:ajax update="cotextrol" immediate="true"/>   
+            </p:selectOneMenu>
+        </h:panelGrid>
+        <h:outputText  value="Título Tesis/Monografía* " style="font-weight: bold"/>
+        <h:panelGrid columns="1" id="cotexttit">
+            <p:inputTextarea id="icotexttit" rows="5" cols="40" maxlength="200" counter="counter" 
+                             counterTemplate="{0} Caracteres Restantes"  autoResize="false" binding="#{docencia.itxttitcotext}"
+                             style="text-transform: uppercase"/> 
+            <h:outputText id="counter"/>
+
+            <p:message for="icotexttit" display="icon"/> 
+        </h:panelGrid>
+       
+        <h:outputText  value="Estudiante*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="cotextest">
+            <h:inputText id="icotextest" binding="#{docencia.itxtestcotext}" style="width: 200px; text-transform: uppercase"
+                         required="true" requiredMessage="Cotutorías Externas/Estudiante: se requiere un valor"
+                          >
+                <p:ajax update="cotextest" immediate="true"/> 
+            </h:inputText>
+            <p:message for="icotextest" display="icon"/>    
+        </h:panelGrid>
+        <h:outputText  value="Fecha Inicio*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="cotextfecini">
+            <p:calendar  value="#{docencia.fecinicotext}" id="fecinicotext"
+                         pattern="dd/MM/yyyy" locale="es" timeZone="America/Guayaquil" 
+                         mindate="#{docencia.feciniciclo}" maxdate="#{docencia.fecfinciclo}"
+                         required="true" requiredMessage="Cotutorías Externas/Fecha Inicio: se requiere un valor">
+                <p:ajax update="cotextfecini" immediate="true"/> 
+            </p:calendar>
+            <p:message for="fecinicotext" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Fecha Fin:" style="font-weight: bold"/>  
+        <h:panelGrid columns="2" id="cotextfecfin">
+            <p:calendar  value="#{docencia.fecfincotext}" id="fecfincotext"
+                         mindate="#{docencia.feciniciclo}"
+                         pattern="dd/MM/yyyy" locale="es" timeZone="America/Guayaquil" >            
+            </p:calendar>            
+        </h:panelGrid>
+        <h:outputText  value="N° Consultas*" style="font-weight: bold; width: 50px"/>
+        <h:panelGrid columns="2" id="cotexthcon">
+            <p:inputMask mask="9?9" maxlength="5" placeHolder=""
+                         id="icotexthcon" value="#{docencia.itxtnumhcotext}" style=" width: 50px" required="true" requiredMessage="Cotutorías Externas/N° Consultas: se requiere un valor">
+                <p:ajax update="cotexthcon" immediate="true"/> 
+            </p:inputMask>
+            <p:message for="icotexthcon" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="N° Total Horas Consulta*" style="font-weight: bold; width: 50px"/>
+        <h:panelGrid columns="2" id="cotextthcon">
+            <p:inputMask mask="9?9" maxlength="5" placeHolder=""
+                         id="icotextthcon" value="#{docencia.itxtnumthcotext}" style=" width: 50px" required="true" requiredMessage="Cotutorías Externas/N° Total Horas Consultas: se requiere un valor">
+                <p:ajax update="cotextthcon" immediate="true"/> 
+            </p:inputMask>
+            <p:message for="icotextthcon" display="icon"/>
+        </h:panelGrid>
+    </h:panelGrid>
+    <p:commandButton id="btTEGuardar" value="Guardar" actionListener="#{docencia.SaveCotExterna}" update=":finggeneral:messagesgeneral :finggeneral:datcotext :finfoanual:acpinfoanual:infoacade:gcotext" />
+    <p:commandButton value="Cancelar" oncomplete="cingdgeneral.hide()" actionListener="#{docencia.CancelCotExt}"  update=":finggeneral:datcotext" immediate="true" >
+        <p:resetInput target=":finggeneral:datcotext" />  
+    </p:commandButton> 
+</ui:composition>

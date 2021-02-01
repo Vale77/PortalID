@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui">
+    <h:panelGrid columns="2" id="dattesmon">
+        <h:outputText  value="Programa: " style="font-weight: bold"/>
+        <h:outputLabel  value="#{docencia.tesimonografia[0]}" style="text-transform: uppercase" />
+        <h:outputText  value="Tipo: " style="font-weight: bold" />
+        <h:outputLabel  value="#{docencia.tesimonografia[6]}" style="text-transform: uppercase"/>
+        <h:outputText  value="Título Tesis/Monografía: " style="font-weight: bold"/>
+        <h:outputLabel  value="#{docencia.tesimonografia[2]}" style="width: 100px; text-transform: uppercase" />
+        <h:outputText  value="Rol Docente: " style="font-weight: bold"/>
+        <h:outputLabel  value="#{docencia.tesimonografia[1]}"  style="text-transform: uppercase"/>
+        <h:outputText  value="Estudiante: " style="font-weight: bold"/>
+        <h:outputLabel  value="#{docencia.tesimonografia[5]}" style="text-transform: uppercase"/>
+        <h:outputText  value="Fec. Designación " style="font-weight: bold"/>
+        <h:outputLabel  value="#{docencia.tesimonografia[3]}" />
+        <h:outputText  value="Fec. Entrega Informe: " style="font-weight: bold"/>
+        <h:outputLabel  value="#{docencia.tesimonografia[4]}" />
+        <h:panelGrid columns="3" id="dnconsulta">
+            <h:outputText  value="N° Consultas: " style="font-weight: bold"/>
+            <p:inputMask mask="9?99" maxlength="5" placeHolder=""
+                         id="tesmonncon" value="#{docencia.itxttesmonncon}" style=" width: 50px" required="true" requiredMessage="Tesis UASB/ N° Consultadas: se requiere un valor">
+                <p:ajax update="dnconsulta" immediate="true"/> 
+            </p:inputMask>
+            <p:message for="tesmonncon" display="icon"/>  
+        </h:panelGrid>
+        <h:panelGrid columns="3" id="dnhora">
+            <h:outputText  value="N° Total Horas Consultadas: " style="font-weight: bold"/>
+            <p:inputMask mask="9?99" maxlength="5" placeHolder=""
+                         id="tesmonnhor" value="#{docencia.itxttesmonnhor}" style=" width: 50px" required="true" requiredMessage="Tesis UASB/ Horas Consultadas: se requiere un valor">
+                <p:ajax update="dnhora" immediate="true"/> 
+            </p:inputMask>
+            <p:message for="tesmonnhor" display="icon"/>  
+        </h:panelGrid>
+    </h:panelGrid> 
+    <p:commandButton value="Guardar"   actionListener="#{docencia.SaveTesMonUasb}" update=":finggeneral:messagesgeneral :finggeneral:dattesmon :finfoanual:acpinfoanual:infoacade:gtesmonext" />
+    <p:commandButton value="Cancelar" oncomplete="cingdgeneral.hide()" actionListener="#{docencia.CancelTesMonUasb}"  update=":finggeneral:dattesmon" immediate="true">
+        <p:resetInput target=":finggeneral:dattesmon" />  
+    </p:commandButton>   
+</ui:composition>

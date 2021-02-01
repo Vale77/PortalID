@@ -1,0 +1,197 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Informe Anual</title>
+            </f:facet>           
+            <h:outputScript library="js" name="calendar_es.js" />
+            <h:outputStylesheet library="css" name="infoanual.css"/> 
+        </h:head> 
+        <h:body >
+            <p:panel id="pnlContent" style="font-size: 11px;background-color: aliceblue" >
+                <p:scrollPanel mode="native"  style="height: 600px">
+                    <p:panel id="pnlDetalle"  style="height: 600px; border: 0 ">
+                        <h:panelGrid columns="1" style=" text-align:  left; width: 100% " >
+                            <h:form id="finfoanual">
+                                <p:growl id="messagedato"/> 
+                                <div align="center">
+                                    <p:outputLabel value="#{modal.cicloactivo}" style=" font-family: Arial; font-size: 11pt; font-weight: bold "/>
+                                </div>
+                                <p:accordionPanel  id="acpinfoanual" activeIndex="#{modal.activeIndexAcoordion}" style=" font-family: Arial; font-size: 6pt" >
+                                    <p:ajax event="tabChange" listener="#{modal.onTabChangeAcoordion}" />
+                                    <!--p:tab title="A. DATOS DEL DOCENTE" id="ptabDatDocente" rendered="false">
+                                        <p:tabView id="infoper" orientation="top" >
+                                            <p:ajax event="tabChange" listener="#{modal.onTabChange}"/>
+                                            <p:tab id="tabdatper" title="Información Personal">
+                                                <ui:include src="/pages/infoanual/infoDocente/datPersonal.xhtml"/>                                           
+                                            </p:tab>
+                                            <p:tab id="tabdattit" title="Estudios Realizados" >
+                                                <ui:include src="/pages/infoanual/infoDocente/forAcademica.xhtml"/> 
+                                            </p:tab>
+                                        </p:tabView>                                    
+                                    </p:tab-->
+                                    <p:tab id="pnlDocencia" title="B. DOCENCIA">                                      
+                                        <p:tabView id="infoacade" orientation="top" activeIndex="#{modal.activeIndexTabviewdocencia}">
+                                            <p:ajax event="tabChange" listener="#{modal.onTabChange}"/>
+                                            <p:tab id="tabdatasiguasb" title="Asignaturas Posgrado UASB" >
+                                                <ui:include src="/pages/infoanual/docencia/asigUasb.xhtml"/>                                             
+                                            </p:tab>
+                                            <p:tab id="tabdatasigotuni" title="Asignaturas (Otras Universidades)"  >
+                                                <ui:include src="/pages/infoanual/docencia/asigExterna.xhtml"/>
+                                            </p:tab>
+                                            <!--p:tab id="tabdattesdocuasb" title="Tesis Doctorado UASB"  >
+                                                <ui:include src="/pages/infoanual/docencia/tesDocUasb.xhtml"/>                                           
+                                            </p:tab-->
+                                            <p:tab id="tabdattesmonuasb" title="Tesis Maestría UASB"  >
+                                                <ui:include src="/pages/infoanual/docencia/tesMonUasb.xhtml"/>                                           
+                                            </p:tab>
+                                            <!--p:tab id="tabdatmonuasb" title="Monografías UASB"  >
+                                                <ui:include src="/pages/infoanual/docencia/MonUasb.xhtml"/>                                           
+                                            </p:tab-->
+                                            <!--p:tab id="tabdattesmonexter" title="Tutorías/Co-tutorías(Otras Universidades)">
+                                                <ui:include src="/pages/infoanual/docencia/tesMonExt.xhtml"/> 
+                                            </p:tab-->
+                                            <p:tab id="tabdatexacom" title="Exámenes Complexivo">
+                                                <ui:include src="/pages/infoanual/docencia/exaFinal.xhtml"/> 
+                                            </p:tab>
+                                            <p:tab id="tabdatexacomdoc" title="Exámenes Comprensivo">
+                                                <ui:include src="/pages/infoanual/docencia/exaFinalDoc.xhtml"/> 
+                                            </p:tab>
+                                            <p:tab id="tabdatInvestAso" title="Acompañamiento Investigadores Asociados">
+                                                <ui:include src="/pages/infoanual/investigacion/investAsociados.xhtml"/> 
+                                            </p:tab>
+                                        </p:tabView>
+                                    </p:tab>
+                                    <p:tab  id="pnlInvestigacion" title="C. INVESTIGACIÓN" >                                    
+                                        <p:tabView id="infoinvestigacion" orientation="top" activeIndex="#{modal.activeIndexTabviewinvestigacion}">
+                                            <p:ajax event="tabChange" listener="#{modal.onTabChange}"  immediate="true"/>
+                                            <p:tab id="tabdatFonduasb" title="Proyectos Fondo UASB">
+                                                <ui:include src="/pages/infoanual/investigacion/fondoUasb.xhtml"/> 
+                                            </p:tab>
+                                            <p:tab id="tabdatInvestInter" title="Investigaciones Interinstitucionales">
+                                                <ui:include src="/pages/infoanual/investigacion/investInterinstitucional.xhtml"/> 
+                                            </p:tab>
+
+                                            <p:tab id="tabdatpublicaciones" title="Publicaciones">
+                                                <ui:include src="/pages/infoanual/investigacion/publicacion.xhtml"/> 
+                                            </p:tab>
+                                            
+                                        </p:tabView>
+                                    </p:tab>
+                                    <p:tab  id="pnlVinculacion" title="D. VINCULACIÓN COLECTIVIDAD">                                    
+                                        <p:tabView id="infovinculacion" orientation="top" activeIndex="#{modal.activeIndexTabviewvinculacion}">
+                                            <p:ajax event="tabChange" listener="#{modal.onTabChange}"  immediate="true"/>
+                                            <p:tab id="tabdatFormCont" title="Cursos y Talleres permanentes">
+                                                <ui:include src="/pages/infoanual/vinculacionColectividad/formacionContinua.xhtml"/> 
+                                            </p:tab>
+                                            <p:tab id="tabdatActUasb" title="Actividades y Eventos UASB">
+                                                <ui:include src="/pages/infoanual/vinculacionColectividad/actividadEveUasb.xhtml"/>                                             
+                                            </p:tab>
+                                            <p:tab id="tabdatActExt" title="Actividades y Eventos (Otras Instituciones)">
+                                                <ui:include src="/pages/infoanual/vinculacionColectividad/actividadEveExt.xhtml"/> 
+                                            </p:tab>
+                                            <!--p:tab id="tabdatPert" title="Pertenencia a Org. Académicas/Redes">
+                                                <ui:include src="/pages/infoanual/vinculacionColectividad/pertenenciaOrganizacion.xhtml"/> 
+                                            </p:tab-->
+                                        </p:tabView>
+                                    </p:tab>
+                                    <p:tab  id="pnlGestion" title="E. GESTION ACADEMICA">                                    
+                                        <p:tabView id="infogestion" orientation="top" activeIndex="#{modal.activeIndexTabviewgestion}">
+                                            <p:ajax event="tabChange" listener="#{modal.onTabChange}"  immediate="true"/>
+                                            <p:tab id="tabdatFunAcad" title="Funciones de Dirección">
+                                                <ui:include src="/pages/infoanual/gestionAcademica/funcionAcademica.xhtml"/> 
+                                            </p:tab>
+                                            <p:tab id="tabdatCoorAcad" title="Coordinación Académica">
+                                                <ui:include src="/pages/infoanual/gestionAcademica/coordinacionAcademica.xhtml"/> 
+                                            </p:tab>
+                                            <p:tab id="tabdatComInst" title="Miembro Comité Institucional">
+                                                <ui:include src="/pages/infoanual/gestionAcademica/comiteInstitucional.xhtml"/> 
+                                            </p:tab>
+                                            <p:tab id="tabdatComiTri" title="Miembro Comité Tribunal">
+                                                <ui:include src="/pages/infoanual/gestionAcademica/comiteTribunal.xhtml"/> 
+                                            </p:tab>
+                                            <p:tab id="tabdatProgPos" title="Diseño de Programa de Posgrado">
+                                                <ui:include src="/pages/infoanual/gestionAcademica/programaPosgrado.xhtml"/> 
+                                            </p:tab>
+                                            <p:tab id="tabdatEduCont" title="Diseño de Eduación Continua">
+                                                <ui:include src="/pages/infoanual/gestionAcademica/educacionContinua.xhtml"/> 
+                                            </p:tab>
+                                            <p:tab id="tabdatActVinc" title="Organización Actividades Vinculación">
+                                                <ui:include src="/pages/infoanual/gestionAcademica/actividadVinculacion.xhtml"/> 
+                                            </p:tab>
+                                            <p:tab id="tabdatOtrFun" title="Otra Función">
+                                                <ui:include src="/pages/infoanual/gestionAcademica/otraFuncion.xhtml"/> 
+                                            </p:tab>
+                                        </p:tabView>
+                                    </p:tab>
+                                    <p:tab  id="pnlPerfe" title="F. PERFECCIONAMIENTO DOCENTE">
+                                        <p:tabView id="perfecdoce" orientation="top" activeIndex="#{modal.activeIndexTabviewperfecdoc}">
+                                            <p:ajax event="tabChange" listener="#{modal.onTabChange}"  immediate="true"/>
+                                            <p:tab id="tabdatPerfDocente" title="Perfeccionamiento Docente">
+                                                <ui:include src="/pages/infoanual/perfeccionamientoDocente/perfeccionamientoDocente.xhtml"/> 
+                                            </p:tab>
+                                        </p:tabView>    
+                                    </p:tab>
+                                    <!--p:tab  id="pnlPresencia" title="F. PRESENCIA SOCIAL">
+                                        <p:tabView id="infopresencia" orientation="top" activeIndex="#{modal.activeIndexTabviewpresencia}">
+                                            <p:ajax event="tabChange" listener="#{modal.onTabChange}"  immediate="true"/>
+                                            <p:tab id="tabdatPresMed" title="Presencia en Medios">
+
+                                                <ui:include src="/pages/infoanual/presenciaSocial/presenciaMedios.xhtml"/> 
+                                            </p:tab> 
+                                            <p:tab id="tabdatDistAcad" title="Distinciones Académicas">
+
+                                                <ui:include src="/pages/infoanual/presenciaSocial/distincionAcademica.xhtml"/> 
+                                            </p:tab> 
+                                        </p:tabView>
+                                    </p:tab-->
+                                </p:accordionPanel>
+                            </h:form>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:scrollPanel>
+                <p:dialog id="dgenerenal" widgetVar="cingdgeneral" modal="true" position="center" draggable="false" 
+                          width="450px" height="60%"
+                          header="Edición de Datos" style="font-family: Arial; font-size: 6pt" appendToBody="true" closable="false">
+                    <h:form id="finggeneral">
+                        <p:growl id="messagesgeneral"/> 
+                        <ui:include src="#{modal.urlmodal}"/>                            
+                    </h:form>
+                </p:dialog>
+                <p:dialog id="cdgeneral" widgetVar="cconfelgeneral" modal="true" position="center" header="Confirmación"  style="font-family: Arial; font-size: 8pt" appendToBody="true">
+                    <h:form id="fconfgeneral">
+                        <p:growl id="messagesconfirmacion"/> 
+                        <h:panelGrid columns="1" id="gdconfirm">
+                            <h:outputText  value="Seguro de Eliminar el Registro?" style="font-weight: bold"/> 
+                            <h:panelGrid columns="2" id="gbtnconfirm">
+                                <p:commandButton value="SI"  actionListener="#{modal.bean.eliminarRegistro}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"   />  
+                                <p:commandButton value="NO"  oncomplete="cconfelgeneral.hide()" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>  
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
+                <p:dialog id="dbusarea" widgetVar="cbusarea" modal="true" position="center"  draggable="false" 
+                          width="400px" height="60%"
+                          header="Área Académica" style="font-family: Arial; font-size: 6pt" appendToBody="true">
+                    <h:form id="fbusarea">
+                        <ui:include src="/pages/infoanual/docencia/busqArea.xhtml"/>                            
+                    </h:form>
+                </p:dialog>
+                <p:dialog id="dbusareadoc" widgetVar="cbusareadoc" modal="true" position="center"  draggable="false" 
+                          width="400px" height="60%"
+                          header="Área Académica" style="font-family: Arial; font-size: 6pt" appendToBody="true">
+                    <h:form id="fbusareadoc">
+                        <ui:include src="/pages/infoanual/docencia/busqAreaDoctorado.xhtml"/>                            
+                    </h:form>
+                </p:dialog>
+            </p:panel>
+        </h:body>
+    </f:view> 
+</ui:composition>

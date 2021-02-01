@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid columns="2" id="gdatosperfdoc">
+        <h:outputText  value="Tipo Actividad*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gperfdoctipact">
+            <p:selectOneMenu value="#{gestion.smtipactperfdoc.value}" 
+                             required="true" requiredMessage="Perfeccionamiento Docente/Tipo Actividad: se requiere un valor"
+                             id="iperfdoctipact" >
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Actividad de actualización docente" itemValue="4" />
+                <f:selectItem  itemLabel="Curso de perfeccionamiento docente" itemValue="3" /> 
+                <f:selectItem  itemLabel="Programa Doctorado" itemValue="5" /> 
+                <f:selectItem  itemLabel="Programa de Maestría" itemValue="6" /> 
+                <f:selectItem  itemLabel="Realización de tesis" itemValue="2" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                <f:selectItem  itemLabel="Otra (especifique)" itemValue="-1" />
+                <p:ajax  update="gperfdoctipact gdatosperfdoc" immediate="true" />
+            </p:selectOneMenu>
+            <p:message for="iperfdoctipact" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Detalle Otro Tipo Actividad*" style="font-weight: bold" rendered="#{gestion.smtipactperfdoc.value eq '-1'}"/>
+        <h:panelGrid columns="2" id="gperfdocdetotacti" rendered="#{gestion.smtipactperfdoc.value eq '-1'}" >
+            <h:inputText binding="#{gestion.itxtdetotrotipactperfdoc}"
+                         id="iperfdocdetotact" style=" width: 200px; text-transform: uppercase"
+                         required="true"  requiredMessage="Perfeccionamiento Docente/Detalle Otra Actividad: se requiere un valor">
+                <p:ajax update="gperfdocdetotacti"  immediate="true"/>  
+            </h:inputText>  
+            <p:message for="iperfdocdetotact" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Nombre Programa/Actividad/Curso*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gperfdocnomactividad">
+            <h:inputText binding="#{gestion.itxtnomactividadperfdoc}"
+                         id="iperfdocnomactividad" style=" width: 200px; text-transform: uppercase"
+                         required="true"  requiredMessage="Perfeccionamiento Docente/Nombre Actividad: se requiere un valor">
+                <p:ajax update="gperfdocnomactividad"  immediate="true"/>  
+            </h:inputText>  
+            <p:message for="iperfdocnomactividad" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Institución organizadora*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gperfdocinstitucion">
+            <h:inputText binding="#{gestion.itxtinstitucionperfdoc}"
+                         id="iperfdocinstitucion" style=" width: 200px; text-transform: uppercase"
+                         required="true"  requiredMessage="Perfeccionamiento Docente/Institución: se requiere un valor">
+                <p:ajax update="gperfdocinstitucion"  immediate="true"/>  
+            </h:inputText>  
+            <p:message for="iperfdocinstitucion" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Estado*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gperfdocestado" >
+            <p:selectOneMenu value="#{gestion.smperfdocestado.value}" 
+                             style="width: 90px"
+                             required="true"  requiredMessage="Perfeccionamiento Docente/Estado: se requiere un valor"
+                             id="iperfdocestado">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="En ejecución" itemValue="E" />
+                <f:selectItem  itemLabel="Concluido" itemValue="C" />  
+                <p:ajax  update="gperfdocestado" immediate="true" />                        
+            </p:selectOneMenu>
+            <p:message for="iperfdocestado" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Tipo Organización*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gtipinstit" >
+            <p:selectOneMenu value="#{gestion.smperfdoctiporg.value}" 
+                             style="width: 90px"
+                             required="true"  requiredMessage="Perfeccionamiento Docente/Tipo Institución: se requiere un valor"
+                             id="itipinsti">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Nacional" itemValue="N" />
+                <f:selectItem  itemLabel="Internacional" itemValue="I" />  
+                <p:ajax  update="gtipinstit gpais gdatosperfdoc" immediate="true" />                        
+            </p:selectOneMenu>
+            <p:message for="itipinsti" display="icon"/>
+        </h:panelGrid>
+
+
+        <h:outputText  value="País *" style="font-weight: bold" rendered="#{gestion.smperfdoctiporg.value eq 'I'}"/>
+        <h:panelGrid columns="2" id="gpais" rendered="#{gestion.smperfdoctiporg.value eq 'I'}">
+            <p:selectOneMenu value="#{gestion.smperfdocpais.value}" id="ipais"
+                             required="true" requiredMessage="Perfeccionamiento Docente/País: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItems  value="#{gestion.listperfdocPais}" var="lpais" itemLabel="#{lpais.nomPais}" itemValue="#{lpais.codPais}"/>
+            </p:selectOneMenu> 
+            <p:message for="ipais" display="icon"/>
+        </h:panelGrid>
+
+        <h:outputText  value="N° Horas*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gnumh">
+            <p:inputMask mask="9?9" id="inumhprep" value="#{gestion.sperfdocnumh}" 
+                         style=" width: 50px; text-align: center" validatorMessage="Perfeccionamiento Docente/N° Horas: se requiere un valor" >
+                <f:validateLongRange  minimum="1"  /> 
+                <p:ajax update="gnumh" immediate="true"/>
+            </p:inputMask> 
+            <p:message for="inumhprep" display="icon"/>
+        </h:panelGrid>
+
+        <h:outputText  value="Fecha Inicio*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gperfdocfecini">
+            <p:calendar  value="#{gestion.dfeciniperfdoc}" 
+                         pattern="dd/MM/yyyy" timeZone="America/Guayaquil" locale="es" 
+                         mindate="#{gestion.feciniciclo}" maxdate="#{gestion.fecfinciclo}"
+                         required="true" requiredMessage="Perfeccionamiento Docente/Fecha Inicio: se requiere un valor"
+                         id="iperfdocfecini">
+                <p:ajax  update="gperfdocfecini" immediate="true" />
+            </p:calendar>
+            <p:message for="iperfdocfecini" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Fecha Fin:" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gperfdocfecfin">
+            <p:calendar  value="#{gestion.dfecfinperfdoc}" 
+                         mindate="#{gestion.feciniciclo}"
+                         pattern="dd/MM/yyyy" timeZone="America/Guayaquil" locale="es" />
+        </h:panelGrid>
+        <h:outputText  value="Observación" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gperfdocobservacion">
+            <h:inputText binding="#{gestion.itxtobsperfdoc}"
+                         id="iperfdocobser" style=" width: 200px; text-transform: uppercase">
+            </h:inputText>  
+        </h:panelGrid>
+    </h:panelGrid>
+    <p:commandButton value="Guardar" id="btnPDGuardar" actionListener="#{gestion.SavePerfDoc}" update=":finggeneral:messagesgeneral :finggeneral:gdatosperfdoc :finfoanual:acpinfoanual:infogestion:gperfdocente" />
+    <p:commandButton value="Cancelar" id="btnPDCancelar" oncomplete="cingdgeneral.hide()"  actionListener="#{gestion.CancelPerfDoc}"  update=":finggeneral:gdatosperfdoc" immediate="true">
+        <p:resetInput target=":finggeneral:gdatosperfdoc" /> 
+    </p:commandButton>
+</ui:composition>

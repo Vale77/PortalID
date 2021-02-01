@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:panelGrid columns="2" id="datosproyecinter">
+        <h:outputText  value="Área Académica* " style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="garea">
+            <p:selectOneMenu value="#{investigacion.smproyinterfacultad.value}"  id="iarea"
+                             required="true" requiredMessage="Investigaciones Interinstitucionales/Área Académica: se requiere un valor">
+            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+            <f:selectItems  value="#{investigacion.listFacultad}" var="lfacultad" itemLabel="#{lfacultad.nombreFacultad}" itemValue="#{lfacultad.codigoFacultad}"/>
+            <p:ajax update="garea" immediate="true"/>
+        </p:selectOneMenu> 
+            <p:message for="iarea" display="icon"/> 
+        </h:panelGrid>  
+        <h:outputText  value="Rol Docente *" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gdatrol">
+            <p:selectOneMenu value="#{investigacion.smproyinterroldoc.value}" id="proyinterroldoc"
+                             required="true" requiredMessage="Investigaciones Interinstitucionales/Rol Docente: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Director/Coordinador" itemValue="1" />
+                <f:selectItem  itemLabel="Investigador principal" itemValue="2" />
+                <f:selectItem  itemLabel="Investigador" itemValue="3" />
+                <f:selectItem  itemLabel="Consultor" itemValue="4" />        
+                <p:ajax update="gdatrol" immediate="true"/>
+            </p:selectOneMenu>
+            <p:message for="proyinterroldoc" display="icon"/> 
+        </h:panelGrid>
+        <h:outputText  value="Nombre Proyecto *" style="font-weight: bold"/>
+        <h:panelGrid  columns="2" id="gnomproy" >
+            <h:inputText  id="inompro" binding="#{investigacion.itxtproyinternomproyecto}" style="width: 200px; text-transform: uppercase"  
+                          required="true" requiredMessage="Investigaciones Interinstitucionales/Nombre Proyecto: se requiere un valor"  >
+                <p:ajax update="gnomproy" immediate="true"/>
+            </h:inputText>
+            <p:message for="inompro" display="icon"/> 
+        </h:panelGrid>
+        <h:outputText  value="Estado Proyecto *" style="font-weight: bold"/>
+        <h:panelGrid  columns="2" id="gestaproy" >
+            <p:selectOneMenu value="#{investigacion.smproyinterestproy.value}" 
+                             id="proyinterestproy"
+                             required="true" requiredMessage="Investigaciones Interinstitucionales/Estado Proyecto: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="En elaboración" itemValue="E" />
+                <f:selectItem  itemLabel="En ejecución" itemValue="P" />
+                <f:selectItem  itemLabel="Concluido" itemValue="C" />  
+                <f:selectItem  itemLabel="Suspendido Temporalmente" itemValue="S" />  
+                <f:selectItem  itemLabel="Suspendido Definitivamente" itemValue="D" />  
+                <p:ajax update="gestaproy" immediate="true"/>
+            </p:selectOneMenu> 
+            <p:message for="proyinterestproy" display="icon"/> 
+        </h:panelGrid> 
+        <h:outputText  value="Auspicio *" style="font-weight: bold"/>
+        <h:panelGrid  columns="2" id="gauspproy" >
+            <p:selectOneMenu value="#{investigacion.smproyinterauspicio.value}" id="proyinterauspicio"
+                             required="true" requiredMessage="Investigaciones Interinstitucionales/Auspipcio: se requiere un valor">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="UASB" itemValue="U" />
+                <f:selectItem  itemLabel="Cofinanciamiento(especifique)" itemValue="C" />                       
+                <f:selectItem  itemLabel="Cuenta Propia" itemValue="P" />
+                <p:ajax update="gauspproy gnomoausp datosproyecinter" immediate="true"/>
+            </p:selectOneMenu> 
+            <p:message for="proyinterauspicio" display="icon"/> 
+        </h:panelGrid>
+        <h:outputText  value="Nombre Institución:" style="font-weight: bold" rendered="#{investigacion.smproyinterauspicio.value eq 'C'}"/>
+        <h:panelGrid  columns="1" id="gnomoausp" rendered="#{investigacion.smproyinterauspicio.value eq 'C'}">
+            <h:inputText binding="#{investigacion.itxtproyinternominstitucion}"  style=" text-transform: uppercase"/>
+        </h:panelGrid>
+        <h:outputText  value="País: " style="font-weight: bold"/>
+        <p:selectOneMenu value="#{investigacion.smproyinterpais.value}" 
+                         >
+            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+            <f:selectItems  value="#{investigacion.listPaistit}" var="lpaistit" itemLabel="#{lpaistit.nomPais}" itemValue="#{lpaistit.codPais}"/>
+            <p:ajax update="ciudadproyinter" listener="#{investigacion.paisProyIntervalueChangeListener}"/>
+        </p:selectOneMenu> 
+        <h:outputText  value="Ciudad:" style="font-weight: bold"/>
+        <p:selectOneMenu value="#{investigacion.smproyinterciudad.value}" id="ciudadproyinter">
+            <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+            <f:selectItems  value="#{investigacion.listCiudadtit}" var="lciudadtit" itemLabel="#{lciudadtit.nomCiudad}" itemValue="#{lciudadtit.ciudadPK.codCiudad}"/>
+        </p:selectOneMenu>
+        <h:outputText  value="Fecha Inicio *" style="font-weight: bold"/>
+        <h:panelGrid  columns="2"  id="gfecini" >
+            <p:calendar  value="#{investigacion.feciniproyinter}" id="feciniproyinter"
+                         pattern="dd/MM/yyyy"  timeZone="America/Guayaquil" locale="es"
+                         required="true" requiredMessage="Investigaciones Interinstitucionales/Fecha Inicio: se requiere un valor"
+                         mindate="#{investigacion.feciniciclo}" maxdate="#{investigacion.fecfinciclo}">
+                <p:ajax update="gfecini" immediate="true"/>
+            </p:calendar>
+            <p:message for="feciniproyinter" display="icon"/> 
+        </h:panelGrid>
+        <h:outputText  value="Fecha Fin *" style="font-weight: bold"/>
+        <h:panelGrid  columns="2"  id="gfecfin" >
+            <p:calendar  value="#{investigacion.fecfinproyinter}" id="fecfinproyinter"
+                         pattern="dd/MM/yyyy"   timeZone="America/Guayaquil" locale="es"
+                         mindate="#{investigacion.feciniciclo}">                
+            </p:calendar>            
+        </h:panelGrid>
+    </h:panelGrid>
+    <p:commandButton value="Guardar"  id="btnPIGuardar" actionListener="#{investigacion.SaveProyInter}" update=":finggeneral:messagesgeneral :finggeneral:datosproyecinter :finfoanual:acpinfoanual:infoinvestigacion:gproyinter"/>
+    <p:commandButton value="Cancelar" id="btnPICancelar" oncomplete="cingdgeneral.hide()"  actionListener="#{investigacion.CancelProyInter}"  update=":finggeneral:datosproyecinter" immediate="true">
+        <p:resetInput target=":finggeneral:datosproyecinter" /> 
+    </p:commandButton>
+</ui:composition>

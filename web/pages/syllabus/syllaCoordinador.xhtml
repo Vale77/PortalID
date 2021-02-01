@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <p:panel id="pnlContent" styleClass="myPanelHoja" header="#{aprobSyllabusBean.navigationJSFManagedBean.nombreOpcion}">
+        <style>
+            .red{color: red;}
+            .black{color: black;}
+            .ui-state-default .ui-icon-refrescar {background-image: url("#{resource['/images/refresh.png'] }");background-size: 18px 18px;}
+            .ui-fieldset .ui-fieldset-legend{color: #FF0000;font-size: 8pt;}
+            .tablaSilabo {font-size: 7pt }
+        </style>
+        <h:form id="formAsignaturas">
+            <h:panelGrid columns="4" cellpadding="5" cellspacing="0">
+                <p:outputLabel id="outputLabelCiclo" value="Ciclo Acacémico:" style="font-weight: bold;color: blue" for="selectOneMenuCiclo"/>
+                <p:selectOneMenu id="selectOneMenuCiclo" value="#{aprobSyllabusBean.anio}" style="width: 210px" 
+                                 requiredMessage="Seleccione un Ciclo Académico" required="true">  
+                    <f:selectItem itemValue="" itemLabel="Seleccione ..." noSelectionOption="true" />                        
+                    <f:selectItems value="#{aprobSyllabusBean.ciclos}"  var="ciclo" itemValue="#{ciclo.cicloAcademicoPK.anio}"
+                                   itemLabel="#{ciclo.nombreCiclo}" itemDescription="#{ciclo.nombreCiclo}"/>
+                    <p:ajax update="dataAsig"   listener="#{aprobSyllabusBean.handleCicloChange}" />                 
+                </p:selectOneMenu> 
+                <p:commandButton   icon="ui-icon-refrescar" title="Refrescar registros"   immediate="true" update="dataAsig :mantTema" 
+                                   actionListener="#{aprobSyllabusBean.handleCicloChange}"/>     
+
+            </h:panelGrid>              
+            <p:dataTable id="dataAsig" var="asig" value="#{aprobSyllabusBean.asignaturaSyllabuses}" 
+                         rowIndexVar="rowIndex" selectionMode="single" styleClass="evalFormStyle"
+                         rowStyleClass="tablaSilabo #{asig.estadoSyllabus eq 'A' ? 'black' : 'red'}"
+                         selection="#{aprobSyllabusBean.asignaturaSelected}" rowKey="#{asig.asignaturaSyllabusPK.codigoProfesor}-#{asig.asignaturaSyllabusPK.codigoMateria}:#{asig.asignaturaSyllabusPK.codigoNivel}"  
+                         emptyMessage="Usted no puede aprobar el sílabo en este período !">
+                <p:column headerText="Ord."  width="3%" style="text-align: center;">  
+                    <span style="font-weight: bold">#{rowIndex+1}</span>
+                </p:column>              
+                <p:column headerText="Asignatura"  width="30%" style="text-transform: uppercase">   
+                    #{asig.nombreMateria} - #{asig.identifMateria}
+                </p:column>   
+                <p:column headerText="Paralelo" style="text-align: center" width="3%">  
+                    #{asig.nombreParalelo}
+                </p:column>    
+                <p:column headerText="Trim." style="text-align: center"  width="2%">   
+                    #{asig.asignaturaSyllabusPK.codigoNivel} T
+                </p:column>                  
+                <p:column headerText="Profesor"  width="25%" style="text-transform: uppercase">   
+                    #{asig.apellidoProfesor} #{asig.nombreProfesor}
+                </p:column>                    
+                <p:column headerText="Estado Sílabo"  style="text-align: center"  width="6%">
+                    <h:outputText value="#{asig.estadoSyllabus eq 'A'?'Aprobado':'Pendiente'}" 
+                                  style="color:#{asig.estadoSyllabus eq 'A'?'limegreen':'red'};
+                                  font-weight: #{asig.estadoSyllabus eq 'A'?'bold':'normal'};
+                                  text-transform: uppercase"/>  
+                </p:column>   
+                <p:column headerText="Revisión" width="5%">
+                    <div  align="center">
+                        <p:commandButton id="observSylabusButton"  icon="ui-icon-pencil" title="registrar observaciones" update="dataAsig :mantDialog"
+                                         action="#{aprobSyllabusBean.editarSylabusButton_processAction}" rendered="#{asig.estadoSyllabus eq 'P'}"
+                                         onstart="blockUIContentenidoWidget.block()" oncomplete="blockUIContentenidoWidget.unblock(); mantWidget.show();">  
+                            <f:setPropertyActionListener value="#{asig}" target="#{aprobSyllabusBean.asignaturaSelected}" />  
+                        </p:commandButton>   
+                        <p:commandButton id="selectButton"  icon="ui-icon-search" title="Ver Sílabo"  update="dataAsig :pdfDialog"
+                                         rendered="#{asig.estadoSyllabus eq 'A'}"
+                                         action="#{aprobSyllabusBean.imprimirSp}"  oncomplete="pdfWidget.show();">  
+                            <f:setPropertyActionListener value="#{asig}" target="#{aprobSyllabusBean.asignaturaSelected}" />  
+                        </p:commandButton>                       
+                    </div>
+                </p:column>                       
+                <p:column headerText="Observaciones Coordinador" width="26%" style="text-align: justify;">   
+                    <h:outputText value="#{asig.estadoSyllabus eq 'A' ? 'NINGUNA':asig.observacionCoordinador}" escape="false"  
+                                  style="color:#{asig.estadoSyllabus eq 'A'?'limegreen':'red'}"/>  
+                </p:column>                     
+            </p:dataTable>
+        </h:form> 
+
+    </p:panel>
+</ui:composition>
+

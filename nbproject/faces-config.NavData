@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="pages/infoanual/docencia/asigUasb.xhtml" x="400" y="1200" zoom="true"/>
+        <Node id="pages/datPersona.xhtml" x="1400" y="450" zoom="true"/>
+        <Node id="pages/infoanual/investigacion/investAsociados.xhtml" x="1150" y="150" zoom="true"/>
+        <Node id="pages/infoanual/docencia/tesMonExt.xhtml" x="1150" y="450" zoom="true"/>
+        <Node id="pages/syllabus/syllaCoordinador.xhtml" x="2400" y="150" zoom="true"/>
+        <Node id="pages/syllabus/regSyllabus.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="pages/infoanual/docencia/asigExternaModal.xhtml" x="1650" y="150" zoom="true"/>
+        <Node id="pages/infoanual/investigacion/fondoUasb.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="pages/infoanual/vinculacionColectividad/actividadEveUasbModal.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="pages/infoanual/gestionAcademica/funcionAcademicaModal.xhtml" x="2150" y="300" zoom="true"/>
+        <Node id="pages/infoanual/presenciaSocial/presenciaMediosModal.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="index.xhtml" x="900" y="1050" zoom="true"/>
+        <Node id="pages/infoanual/docencia/exaFinal.xhtml" x="150" y="1200" zoom="true"/>
+        <Node id="pages/infoanual/infoAnual.xhtml" x="1400" y="150" zoom="true"/>
+        <Node id="pages/infoanual/vinculacionColectividad/actividadEveExt.xhtml" x="650" y="600" zoom="true"/>
+        <Node id="general/bienvenida.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="pages/infoanual/investigacion/investInterinstitucionalModal.xhtml" x="650" y="750" zoom="true"/>
+        <Node id="pages/evalPrograma.xhtml" x="150" y="1350" zoom="true"/>
+        <Node id="pages/infoanual/vinculacionColectividad/pertenenciaOrganizacionModal.xhtml" x="1900" y="450" zoom="true"/>
+        <Node id="pages/reportes/repcoordinador.xhtml" x="1400" y="600" zoom="true"/>
+        <Node id="pages/infoanual/gestionAcademica/funcionAcademica.xhtml" x="400" y="900" zoom="true"/>
+        <Node id="pages/infoanual/presenciaSocial/distincionAcademica.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="pages/infoanual/infoDocente/datPersonal.xhtml" x="1150" y="900" zoom="true"/>
+        <Node id="pages/infoanual/vinculacionColectividad/pertenenciaOrganizacion.xhtml" x="1400" y="300" zoom="true"/>
+        <Node id="pages/infoanual/gestionAcademica/perfeccionamientoDocente.xhtml" x="1150" y="600" zoom="true"/>
+        <Node id="pages/infoanual/presenciaSocial/distincionAcademicaModal.xhtml" x="150" y="900" zoom="true"/>
+        <Node id="pages/infoanual/investigacion/publicacionModal.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="pages/infoanual/investigacion/investInterinstitucional.xhtml" x="150" y="750" zoom="true"/>
+        <Node id="pages/infoanual/vinculacionColectividad/formacionContinua.xhtml" x="900" y="750" zoom="true"/>
+        <Node id="pages/infoanual/docencia/asigExterna.xhtml" x="1650" y="300" zoom="true"/>
+        <Node id="pages/infoanual/docencia/tesMonUasbModal.xhtml" x="400" y="1050" zoom="true"/>
+        <Node id="pages/infoanual/docencia/busqArea.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="pages/infoanual/investigacion/publicacion.xhtml" x="400" y="750" zoom="true"/>
+        <Node id="pages/infoanual/presenciaSocial/presenciaMedios.xhtml" x="900" y="900" zoom="true"/>
+        <Node id="pages/formulario.xhtml" x="400" y="1350" zoom="true"/>
+        <Node id="pages/infoanual/docencia/tesMonExtModal.xhtml" x="1650" y="600" zoom="true"/>
+        <Node id="pages/infoanual/gestionAcademica/perfeccionamientoDocenteModal.xhtml" x="900" y="600" zoom="true"/>
+        <Node id="pages/syllabus/regTema.xhtml" x="1150" y="300" zoom="true"/>
+        <Node id="pages/miCuenta.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="pages/syllabus/regObservSyllabus.xhtml" x="1650" y="450" zoom="true"/>
+        <Node id="pages/infoanual/vinculacionColectividad/actividadEveExtModal.xhtml" x="1900" y="300" zoom="true"/>
+        <Node id="pages/infoanual/vinculacionColectividad/formacionContinuaModal.xhtml" x="650" y="1050" zoom="true"/>
+        <Node id="general/contenido.xhtml" x="650" y="1200" zoom="true"/>
+        <Node id="pages/infoanual/comodin.xhtml" x="1900" y="150" zoom="true"/>
+        <Node id="pages/infoanual/docencia/tesMonUasb.xhtml" x="1150" y="750" zoom="true"/>
+        <Node id="pages/reportes/repdocente.xhtml" x="150" y="1050" zoom="true"/>
+        <Node id="pages/evalDocentes.xhtml" x="650" y="900" zoom="true"/>
+        <Node id="pages/infoanual/docencia/exaFinalModal.xhtml" x="1400" y="750" zoom="true"/>
+        <Node id="sessionExpired.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="general/enConstruccion.xhtml" x="900" y="450" zoom="true"/>
+        <Node id="pages/infoanual/vinculacionColectividad/actividadEveUasb.xhtml" x="400" y="600" zoom="true"/>
+        <Node id="principal.xhtml" x="150" y="1500" zoom="true"/>
+        <Node id="pages/infoanual/repInforme.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="pages/infoanual/infoDocente/forAcademica.xhtml" x="2150" y="150" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

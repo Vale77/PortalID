@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid id="gpertorganizacion">
+        <p:dataTable value="#{vinculacion.listPertOrgAcad}" var="pertorg" 
+                     paginator="true" rows="10" paginatorPosition="top"
+                     style=" font-family: Arial; font-size: 6pt; width: 100%" 
+                     rowKey="#{pertorg.otraActividadAcademicaPK}"  
+                     selection="#{vinculacion.selectedpertorgacad}" selectionMode="single"
+                     resizableColumns="true"
+                     emptyMessage="#{vinculacion.msgtablavacia}">
+            <p:ajax event="rowSelect" listener="#{vinculacion.onRowSelect}" update="btnPOEditar btnPOEliminar" /> 
+            <p:ajax event="rowUnselect" listener="#{vinculacion.onRowUnselect}" update="btnPOEditar btnPOEliminar"/> 
+            <f:facet name="header">
+                <div align="right" >
+                    <p:commandButton icon="ui-icon-document"   id="btnPONuevo" value="Nuevo" actionListener="#{vinculacion.nuevoRegistro}" update=":finggeneral btnPOEditar btnPOEliminar"/>                                          
+                    <p:commandButton icon="ui-icon-pencil" id="btnPOEditar" value="Editar" actionListener="#{vinculacion.editarRegistro}" update=":finggeneral" disabled="#{vinculacion.selectedpertorgacad eq null}"/>
+                    <p:commandButton icon="ui-icon-trash"  id="btnPOEliminar" value="Eliminar" onclick="cconfelgeneral.show()" update=":finfoanual:messagedato" disabled="#{vinculacion.selectedpertorgacad eq null}"/>                                                     
+                </div>
+            </f:facet>
+            <p:column headerText="Tipo Organización" style=" width: 15%; text-align: center">
+                <h:outputText value="#{pertorg.getnomtiporgpertorg()}"  style="text-transform: uppercase"/>
+            </p:column>
+            <p:column headerText="Nombre Organización" style=" width: 35%; text-align: center">
+                <h:outputText value="#{pertorg.nombreActividad}" style="text-transform: uppercase" />
+            </p:column>
+            <p:column headerText="Rol Docente" style=" width: 10%; text-align: center">
+                <h:outputText value="#{pertorg.getnompartpertorg()}" style="text-transform: uppercase" />
+            </p:column>
+            <p:column headerText="Fecha Inicio" style=" width: 10%; text-align: center">
+                <h:outputText value="#{pertorg.finicioActividad}" id="fecinipertorg">
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="fecinipertorg" timeZone="America/Guayaquil"  />
+                </h:outputText>                                        
+            </p:column> 
+            <p:column headerText="Fecha Fin" style=" width: 10%; text-align: center">
+                <h:outputText value="#{pertorg.ffinActividad}" id="fecfinpertorg">
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="fecfinpertorg" timeZone="America/Guayaquil"  />
+                </h:outputText>                                        
+            </p:column> 
+            <p:column headerText="Observación" style=" width: 20%">
+                <h:outputText value="#{pertorg.obsActividad}" style="text-transform: uppercase" />
+            </p:column>
+        </p:dataTable>
+    </h:panelGrid>
+
+</ui:composition>

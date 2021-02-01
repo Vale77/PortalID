@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:panelGrid id="gdistAcad">
+        <p:dataTable value="#{presencia.listDisAcad}" var="disacad" 
+                     paginator="true" rows="4" paginatorPosition="top" style=" font-family: Arial; font-size: 6pt; width: 100%" 
+                     rowKey="#{disacad.otraActividadAcademicaPK}"  
+                     selection="#{presencia.selecteddisacad}" selectionMode="single"                   
+                     resizableColumns="true"
+                     emptyMessage="#{presencia.msgtablavacia}">
+            <p:ajax event="rowSelect" listener="#{presencia.onRowSelect}" update="btnDAEditar btnDAEliminar" /> 
+            <p:ajax event="rowUnselect" listener="#{presencia.onRowUnselect}" update="btnDAEditar btnDAEliminar"/> 
+            <f:facet name="header">
+                <div align="right" >
+                    <p:commandButton icon="ui-icon-document"   id="btnDANuevo" value="Nuevo" actionListener="#{presencia.nuevoRegistro}" update=":finggeneral btnDAEditar btnDAEliminar"/>                                          
+                    <p:commandButton icon="ui-icon-pencil" id="btnDAEditar" value="Editar" actionListener="#{presencia.editarRegistro}" update=":finggeneral" disabled="#{presencia.selecteddisacad eq null}"/>
+                    <p:commandButton icon="ui-icon-trash"  id="btnDAEliminar" value="Eliminar" onclick="cconfelgeneral.show()" update=":finfoanual:messagedato" disabled="#{presencia.selecteddisacad eq null}"/>                                                     
+                </div>
+            </f:facet>
+            <p:column headerText="Alcance" style=" width: 15%">
+                <h:outputText value="#{disacad.nomtipinsteducon}" style="text-transform: uppercase" />   
+            </p:column>
+            <p:column headerText="Fecha" style="width: 5%">
+                <h:outputText value="#{disacad.finicioActividad}" id="fecinipertorg">
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="fecinipertorg" timeZone="America/Guayaquil"  />
+                </h:outputText>                                        
+            </p:column> 
+            <p:column headerText="Tipo Distincion" style=" width: 10%">
+                <h:outputText value="#{disacad.nomEstproyecto}" style="text-transform: uppercase"/>   
+            </p:column>
+            <p:column headerText="Nombre Distinción" style=" width:30%">
+                <h:outputText value="#{disacad.nombreActividad}" style="text-transform: uppercase"/>                                            
+            </p:column> 
+            <p:column headerText="Institución" style=" width:20%">
+                <h:outputText value="#{disacad.institucionActividad}" style="text-transform: uppercase"/>                                            
+            </p:column> 
+            <p:column headerText="País" style=" width:10%">
+                <h:outputText value="#{disacad.nomPas}" style="text-transform: uppercase"/>                                            
+            </p:column> 
+            <p:column headerText="Ciudad" style=" width:10%">
+                <h:outputText value="#{disacad.nomCiudad}" style="text-transform: uppercase"/>                                            
+            </p:column> 
+        </p:dataTable> 
+    </h:panelGrid>
+
+</ui:composition>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid columns="2" id="datosfunacad">
+        <h:outputText  value="Función de Dirección*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gtipfunacad" >
+            <p:selectOneMenu value="#{gestion.smtipfunacad.value}" 
+                             required="true"  requiredMessage="Pert. Organizaciones/Tipo Función: se requiere un valor"
+                             id="itipfunacad" >
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <!--f:selectItem  itemLabel="Autoridad institucional" itemValue="1" />
+                <f:selectItem  itemLabel="Con licencia para función pública" itemValue="2" />                                                                                                                                                                                                                                                                                                 
+                <f:selectItem  itemLabel="Coordinador de actividades de educación continúa" itemValue="3" />  
+                <f:selectItem  itemLabel="Coordinador de maestría o especialización superior" itemValue="5" />
+                <f:selectItem  itemLabel="Delegado institucional" itemValue="6" />
+                <f:selectItem  itemLabel="Director académico de doctorado" itemValue="4" />          
+                <f:selectItem  itemLabel="Director de área académica" itemValue="7" />
+                <f:selectItem  itemLabel="Editor de la revista institucional" itemValue="8" />
+                <f:selectItem  itemLabel="Integrantes de directiva gremial" itemValue="9" />
+                <f:selectItem  itemLabel="Miembros de Comité, comisión o grupo de trabajo" itemValue="10" />
+                <f:selectItem  itemLabel="Miembros de Comité Editorial de una revista institucional" itemValue="11" /-->
+                
+                <f:selectItem  itemLabel="Rector" itemValue="12" />
+                <f:selectItem  itemLabel="Vicerrector" itemValue="13" />
+                <f:selectItem  itemLabel="Director General Académico" itemValue="14" />
+                <f:selectItem  itemLabel="Director de área" itemValue="15" />
+                <f:selectItem  itemLabel="Coordinador de investigaciones" itemValue="16" />
+                <f:selectItem  itemLabel="Coordinador del Comité de Vinculación con la Colectividad" itemValue="17" />
+                <f:selectItem  itemLabel="Coordinador del PADH" itemValue="18" />
+                <f:selectItem  itemLabel="Comité de Coordinación Académica" itemValue="19" />
+                <f:selectItem  itemLabel="Consejo Superior" itemValue="21" />
+                <f:selectItem  itemLabel="Otro" itemValue="20" />
+                <p:ajax  update="gtipfunacad" immediate="true" />   
+            </p:selectOneMenu>
+            <p:message for="itipfunacad" display="icon"/>
+        </h:panelGrid>
+
+        <h:outputText  value="Nombre de la Función*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gdetfuncion">
+            <h:inputText binding="#{gestion.itxtdetfunacad}"
+                         style=" width: 300px; text-transform: uppercase"
+                         required="true" requiredMessage="Pert. Organizaciones/Detalle Función: se requiere un valor"
+                         id="idetfuncion">
+                <p:ajax  update="gdetfuncion" immediate="true" />   
+            </h:inputText>
+            <p:message for="idetfuncion" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Fecha Inicio*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gfdesde">
+            <p:calendar  value="#{gestion.dfecinifunacad}" 
+                         pattern="dd/MM/yyyy"   timeZone="America/Guayaquil"  locale="es" 
+                         required="true" requiredMessage="Pert. Organizaciones/Fecha Desde: se requiere un valor"
+                         mindate="#{gestion.feciniciclo}"  maxdate="#{gestion.fecfinciclo}"
+                         id="ifdesde">
+                <p:ajax  update="gfdesde" immediate="true" />
+            </p:calendar>
+            <p:message for="ifdesde" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Fecha Fin:" style="font-weight: bold"/>
+        <p:calendar  value="#{gestion.dfecfinfunacad}" 
+                     mindate="#{gestion.feciniciclo}"
+                     pattern="dd/MM/yyyy" timeZone="America/Guayaquil" locale="es" />
+        <h:outputText  value="Observaciones:" style="font-weight: bold"/>
+        <h:inputText binding="#{gestion.itxtobsfunacad}" style=" width: 300px; text-transform: uppercase" />     
+    </h:panelGrid>
+    <p:commandButton value="Guardar" id="btnFAGuardar"  actionListener="#{gestion.SaveFunacad}" update=":finggeneral:messagesgeneral :finggeneral:datosfunacad :finfoanual:acpinfoanual:infogestion:gfunacademica"/>
+    <p:commandButton value="Cancelar" id="btnFACancelar" oncomplete="cingdgeneral.hide()"  actionListener="#{gestion.CancelFuncacad}"  update=":finggeneral:datosfunacad" immediate="true">
+        <p:resetInput target=":finggeneral:datosfunacad" /> 
+    </p:commandButton>
+</ui:composition>

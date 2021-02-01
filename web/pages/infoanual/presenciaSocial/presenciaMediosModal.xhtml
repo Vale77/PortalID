@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    
+     <h:panelGrid columns="2" id="gdatospresmed">
+        <h:outputText  value="Tipo Medio*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gpresmedtipomedio">
+            <p:selectOneMenu value="#{presencia.smpresmedtipmedio.value}" 
+                             required="true" requiredMessage="Presencia Medios/Tipo Medio: se requiere un valor"
+                             id="ipresmedtipmedio" >
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Prensa" itemValue="Prensa" />
+                <f:selectItem  itemLabel="Radio" itemValue="Radio" />                                                                                                                                                                                                                                                                                                 
+                <f:selectItem  itemLabel="Televisión" itemValue="Televisión" />                                                                                                                                                                                                                                                                                               
+                <f:selectItem  itemLabel="Revista" itemValue="Revista" />
+                <f:selectItem  itemLabel="Sitio Web" itemValue="Sitio Web" />
+                <f:selectItem  itemLabel="Periódico digital" itemValue="Periódico digital" />                
+                <p:ajax  update="gpresmedtipomedio gdatospresmed" immediate="true" />
+            </p:selectOneMenu>
+            <p:message for="ipresmedtipmedio" display="icon"/>
+        </h:panelGrid>
+       
+        <h:outputText  value="Descripción*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gpresmeddescripcion">
+            <h:inputText binding="#{presencia.itxtpresmeddescripcion}"
+                         id="ipresmeddescripcion" style=" width: 200px; text-transform: uppercase"
+                         required="true"  requiredMessage="Presencia Medios/Descripción: se requiere un valor">
+                <p:ajax update="gpresmeddescripcion"  immediate="true"/>  
+            </h:inputText>  
+            <p:message for="ipresmeddescripcion" display="icon"/>
+        </h:panelGrid>
+         <h:outputText  value="N° Presentaciones*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gpresmednum">
+            <p:inputMask mask="9?9" id="ipresmednum" value="#{presencia.spresmednumpre}" 
+                         style=" width: 50px; text-align: center" validatorMessage="Presencia Medios/N°: se requiere un valor" >
+                <f:validateLongRange  minimum="1"  /> 
+                <p:ajax update="gpresmednum" immediate="true"/>
+            </p:inputMask> 
+            <p:message for="ipresmednum" display="icon"/>
+        </h:panelGrid>
+         
+    </h:panelGrid>
+    <p:commandButton value="Guardar" id="btnPMGuardar" actionListener="#{presencia.SavePresMed}" update=":finggeneral:messagesgeneral :finggeneral:gdatospresmed :finfoanual:acpinfoanual:infopresencia:gpresMed" />
+    <p:commandButton value="Cancelar" id="btnPMCancelar" oncomplete="cingdgeneral.hide()"  actionListener="#{presencia.CancelPresMed}"  update=":finggeneral:gdatospresmed" immediate="true">
+        <p:resetInput target=":finggeneral:gdatospresmed" /> 
+    </p:commandButton>
+</ui:composition>

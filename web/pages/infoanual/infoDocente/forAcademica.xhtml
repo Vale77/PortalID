@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    
+    <p:dataTable value="#{infoDocente.listTituloProfesor}" var="titProf" 
+                 paginator="true" rows="5" paginatorPosition="top"
+                 style=" font-family: Arial; font-size: 6pt;width: 100% "                 
+                 resizableColumns="true"
+                 emptyMessage="#{infoDocente.msgtablavacia}"
+                 >
+        <p:column headerText="Tipo">
+            <h:outputText value="#{titProf.titulo.getnomtiptitulo()}" />                                            
+        </p:column>
+        <p:column headerText="Titulo">
+            <h:outputText value="#{titProf.titulo.nombreTitulo}" />                                            
+        </p:column>
+        <p:column headerText="País">
+            <h:outputText value="#{titProf.nomPas}" />                                            
+        </p:column>
+        <p:column headerText="Ciudad">
+            <h:outputText value="#{titProf.nomCiudad}" />                                            
+        </p:column>
+        <p:column headerText="Universidad">
+            <h:outputText value="#{titProf.universidad}" style="text-transform: uppercase" />                                            
+        </p:column>
+        <p:column headerText="Registro Senescyt">
+            <h:outputText value="#{titProf.registroConesup}" />                                            
+        </p:column>
+        <p:column headerText="Fecha">
+            <h:outputText value="#{titProf.fechaTitulo}" id="fecregtitulo">
+                <f:convertDateTime pattern="dd/MM/yyyy" for="fecregtitulo" timeZone="America/Guayaquil"  />
+            </h:outputText>
+
+        </p:column>                                       
+    </p:dataTable>  
+    <h:panelGrid columns="1">
+        <h:outputText style="font-weight: bold" value="En caso de que la información sea inconsistente, acérquese a la Oficina de Recursos Humanos, con la documentación que valide el cambio."/>
+        
+    </h:panelGrid>
+</ui:composition>

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:panelGrid columns="2" id="datospertorg">
+        <h:outputText  value="Nombre Organización* " style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gecnomorganizacion">
+            <h:inputText binding="#{vinculacion.itxtpertorgnomborg}" id="inomorganizacion"
+                         style="text-transform: uppercase; width: 300px"
+                         required="true"  requiredMessage="Pertencia Organizaciones/Nombre Organización: se requiere un valor">
+                <p:ajax update="gecnomorganizacion"  immediate="true"/>  
+            </h:inputText>
+            <p:message for="inomorganizacion" display="icon"/>
+        </h:panelGrid>
+
+        <h:outputText  value="Tipo Organización*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gtipinstit" >
+            <p:selectOneMenu value="#{vinculacion.smpertorgtiporg.value}" 
+                             required="true"  requiredMessage="Pertencia Organizaciones/Tipo Institución: se requiere un valor"
+                             id="itipinsti">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+           <f:selectItem  itemLabel="Estado" itemValue="5" />
+                <f:selectItem  itemLabel="Organismo Internacional" itemValue="6" />                                                                                                                                                 
+                <f:selectItem  itemLabel="ONG" itemValue="7" /> 
+                <f:selectItem  itemLabel="Empresa privada" itemValue="8" /> 
+                <f:selectItem  itemLabel="Organización social" itemValue="9" /> 
+                <f:selectItem  itemLabel="Universidad" itemValue="10" /> 
+                <f:selectItem  itemLabel="Otra instancia académica" itemValue="11" />  
+                <p:ajax  update="gtipinstit" immediate="true" />                        
+            </p:selectOneMenu>
+            <p:message for="itipinsti" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Rol Docente*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="groldocente" >
+            <p:selectOneMenu value="#{vinculacion.smpertorgforpart.value}" 
+                             required="true"  requiredMessage="Pertencia Organizaciones/Rol Docente: se requiere un valor"
+                             id="iroldocente">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Directiva" itemValue="D" />
+                <f:selectItem  itemLabel="Miembro" itemValue="M" />   
+                <p:ajax  update="groldocente" immediate="true" />
+            </p:selectOneMenu>
+            <p:message for="iroldocente" display="icon"/>
+        </h:panelGrid>
+
+        <h:outputText  value="Fecha Inicio*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gfecinicio" >
+            <p:calendar  value="#{vinculacion.dfecinipertorg}" 
+                         pattern="dd/MM/yyyy" timeZone="America/Guayaquil" locale="es" 
+                         mindate="#{vinculacion.feciniciclo}" maxdate="#{vinculacion.fecfinciclo}"
+                         id="fecinicio" required="true" requiredMessage="Pertencia Organizaciones/Fecha Fin: se requiere un valor">
+                <p:ajax update="gfecinicio" immediate="true"/>
+            </p:calendar>
+            <p:message for="fecinicio" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Fecha Fin:" style="font-weight: bold"/>
+        <p:calendar  value="#{vinculacion.dfecfinpertorg}" 
+                     mindate="#{vinculacion.feciniciclo}"
+                     pattern="dd/MM/yyyy" timeZone="America/Guayaquil" locale="es" />
+        <h:outputText  value="Observación:" style="font-weight: bold"/>
+        <h:inputText binding="#{vinculacion.itxtpertorgobserv}" style="text-transform: uppercase; width: 300px"/> 
+    </h:panelGrid>
+
+    <p:commandButton value="Guardar"  id="btnPOGuardar"  actionListener="#{vinculacion.SavePertOrg}" update= ":finggeneral:messagesgeneral :finggeneral:datospertorg :finfoanual:acpinfoanual:infovinculacion:gpertorganizacion"/>
+    <p:commandButton value="Cancelar" oncomplete="cingdgeneral.hide()"  actionListener="#{vinculacion.CancelPertOrg}"  update=":finggeneral:datospertorg" immediate="true">
+        <p:resetInput target=":finggeneral:datospertorg" /> 
+    </p:commandButton>
+</ui:composition>

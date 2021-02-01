@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid columns="2" id="gdatosactevenext">
+        <h:outputText  value="Tipo Actividad*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gectipactividad">
+            <p:selectOneMenu value="#{vinculacion.smdtipactactevext.value}" id="itipactividad"
+                             required="true"  requiredMessage="Actividades y Eventos (Otra Universidad)/Tipo Actividad: se requiere un valor" >
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Cursos" itemValue="15" />   
+                <f:selectItem  itemLabel="Seminarios" itemValue="5" />                
+                <f:selectItem  itemLabel="Congresos" itemValue="6" />                                                                                            
+                <f:selectItem  itemLabel="Simposios" itemValue="7" />     
+                <f:selectItem  itemLabel="Conferencias" itemValue="8" />
+                <f:selectItem  itemLabel="Mesas Redondas" itemValue="12" />
+                <f:selectItem  itemLabel="Foros" itemValue="13" />
+                <f:selectItem  itemLabel="Talleres específicos" itemValue="14" />                        
+                <p:ajax update="gectipactividad"  immediate="true"/>  
+            </p:selectOneMenu> 
+            <p:message for="itipactividad" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Nombre Actividad*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gecnomactividad">
+            <h:inputText binding="#{vinculacion.itxtnomactiactevext}" id="inomactividad"
+                         style=" width: 200px; text-transform: uppercase"
+                         required="true"  requiredMessage="Actividades y Eventos (Otra Universidad)/Nombre Actividad: se requiere un valor">
+                <p:ajax update="gecnomactividad"  immediate="true"/>  
+            </h:inputText>
+            <p:message for="inomactividad" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Rol Docente*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="groldocente">
+            <p:selectOneMenu value="#{vinculacion.smacteveextroldoc.value}" id="iroldocente"
+                             required="true" requiredMessage="Actividades y Eventos (Otra Universidad)/Rol Docente: se requiere un valor"
+                             style="font-size: 7pt">
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Organizador" itemValue="O" />
+                <f:selectItem  itemLabel="Expositor" itemValue="E" />                                                          
+                <f:selectItem  itemLabel="Moderador" itemValue="M" /> 
+                <p:ajax update="groldocente" immediate="true"/>
+            </p:selectOneMenu> 
+            <p:message for="iroldocente" display="icon"/>
+        </h:panelGrid>    
+        <h:outputText  value="Fecha Inicio*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gfeciniacteve">
+            <p:calendar  value="#{vinculacion.dfeciniactevext}" 
+                         pattern="dd/MM/yyyy"   timeZone="America/Guayaquil" locale="es"
+                         id="fecinicio" required="true" requiredMessage="Actividades y Eventos (Otra Universidad)/Fecha Inicio: se requiere un valor"
+                         mindate="#{vinculacion.feciniciclo}" maxdate="#{vinculacion.fecfinciclo}">
+                <p:ajax update="gfeciniacteve" immediate="true"/>
+            </p:calendar>
+            <p:message for="fecinicio" display="icon"/>
+        </h:panelGrid>
+
+        <h:outputText  value="Fecha Fin*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gfecfinacteve">
+            <p:calendar  value="#{vinculacion.dfecfinactevext}" 
+                         pattern="dd/MM/yyyy"  timeZone="America/Guayaquil" locale="es"
+                         id="fecfin" required="true" requiredMessage="Actividades y Eventos (Otra Universidad)/Fecha Fin: se requiere un valor" 
+                         mindate="#{vinculacion.feciniciclo}">
+                <p:ajax update="gfecfinacteve" immediate="true"/>
+            </p:calendar>
+            <p:message for="fecfin" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="N° Horas Preparación*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="ghpreparacion">
+            <p:inputMask mask="9?9" id="inumhprep" value="#{vinculacion.sacevextnumhprep}" 
+                         style=" width: 50px; text-align: center" validatorMessage="Actividades y Eventos (Otra Universidad)/N° Horas Preparación." >
+                <f:validateLongRange  minimum="1"  /> 
+                <p:ajax update="ghpreparacion" immediate="true"/>
+            </p:inputMask> 
+            <p:message for="inumhprep" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Tipo Institución*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gtipinstit" >
+            <p:selectOneMenu value="#{vinculacion.smtipinstactevext.value}" 
+                             required="true"  requiredMessage="Actividades y Eventos (Otra Universidad)/Tipo Institución: se requiere un valor"
+                             id="itipinsti"
+                             >
+                <f:selectItem  itemLabel="Escoja uno.." itemValue="" />
+                <f:selectItem  itemLabel="Estado" itemValue="E" />
+                <f:selectItem  itemLabel="Organismo Internacional" itemValue="C" />                                                                                                                                                 
+                <f:selectItem  itemLabel="ONG" itemValue="O" /> 
+                <f:selectItem  itemLabel="Empresa privada" itemValue="M" /> 
+                <f:selectItem  itemLabel="Organización social" itemValue="R" /> 
+                <f:selectItem  itemLabel="Universidad" itemValue="U" /> 
+                <f:selectItem  itemLabel="Otra instancia académica" itemValue="T" /> 
+                <p:ajax  update="gtipinstit" immediate="true" />                        
+            </p:selectOneMenu>
+            <p:message for="itipinsti" display="icon"/>
+        </h:panelGrid>
+        <h:outputText  value="Nombre Institución*" style="font-weight: bold"/>
+        <h:panelGrid columns="2" id="gnominstit" >
+            <h:inputText binding="#{vinculacion.itxtnominstiactevext}" 
+                         style=" width: 200px; text-transform: uppercase"
+                         required="true"  requiredMessage="Actividades y Eventos (Otra Universidad)/Nombre Institución: se requiere un valor"
+                         id="inominsti">
+                <p:ajax  update="gnominstit" immediate="true" />  
+            </h:inputText>
+            <p:message for="inominsti" display="icon"/>
+        </h:panelGrid>
+    </h:panelGrid>
+    <p:commandButton value="Guardar" id="btnAcEEGuardar"  actionListener="#{vinculacion.SaveActEvext}" update=":finggeneral:messagesgeneral :finggeneral:gdatosactevenext :finfoanual:acpinfoanual:infovinculacion:gacteveExt" />
+    <p:commandButton value="Cancelar" id="btnAcEECancelar" oncomplete="cingdgeneral.hide()"  actionListener="#{vinculacion.CancelActevenext}"  update=":finggeneral:gdatosactevenext" immediate="true">
+        <p:resetInput target=":finggeneral:gdatosactevenext" /> 
+    </p:commandButton>
+</ui:composition>

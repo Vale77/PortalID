@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 xmlns:p="http://primefaces.org/ui" 
+                 xmlns:pe="http://primefaces.org/ui/extensions" 
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+        .ui-buttonset{
+            margin-right: 122px;
+        }
+        .ui-buttonset .ui-button {
+             width: 89px; 
+            margin-left: -3px;
+            margin-right: 22px;
+            cursor: none;
+            color: blue;
+            background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #C4C4C4;
+        }
+        .ui-selectoneradioOpciones label {
+            margin-right: 15px;
+            padding-left: 85px;
+        }        
+    </style>
+
+    <pe:dynaForm id="dynaForm" value="#{beanForm.modelo}" var="data" >
+        <pe:dynaFormControl type="separator" for="txt" styleClass="separator">  
+            <h:panelGrid columns="2" columnClasses="separatorText">  
+                <h:outputText id="txt" value="#{data}"/>  
+                <p:separator />  
+            </h:panelGrid>  
+        </pe:dynaFormControl>      
+        <pe:dynaFormControl type="radiochoiceTit" for="selTit">
+            <p:selectOneButton id="selTit" value="#{data.value}">
+                <f:selectItems value="#{data.selectItems}" />
+            </p:selectOneButton>
+        </pe:dynaFormControl>         
+        <pe:dynaFormControl type="radiochoice" for="selectOneRadio" styleClass="ui-selectoneradioOpciones">
+            <p:selectOneRadio id="selectOneRadio" value="#{data.value}">
+                <f:selectItems value="#{data.selectItems}" />
+            </p:selectOneRadio>
+        </pe:dynaFormControl>  
+        <pe:dynaFormControl type="textarea" for="inputTextArea">  
+            <h:panelGrid>
+                <p:inputTextarea id="inputTextArea" value="#{data.value}" rows="3"  
+                                 counterTemplate="{0} caracteres disponibles." counter="counterArea" 
+                                 required="#{data.required}"  maxlength="512" autoResize="true" />
+                <h:outputText id="counterArea" style="color: brown;font-weight: bold;" />    
+            </h:panelGrid>
+        </pe:dynaFormControl>  
+        <f:facet name="buttonBar">
+            <p:commandButton  id="saveBtn" icon="ui-icon-check" actionListener="#{beanForm.saveBtn_actionProccess}"
+                              value="Aceptar" action="#{beanForm.submitForm()}" rendered="#{beanForm.modelo.controls.size()!=0}"
+                              process="dynaForm" update=":pnlMessages"
+                             onstart="blockUIContentenidoWidget.block()" 
+                              oncomplete="blockUIContentenidoWidget.unblock();handleMessages(xhr, status, args)"/>                    
+        </f:facet>           
+    </pe:dynaForm>       
+</ui:composition>
+

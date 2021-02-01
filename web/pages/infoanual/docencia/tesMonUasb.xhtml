@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid id="gtesmonext">
+        <p:dataTable value="#{docencia.listTesisuasb}" var="tesisuasb1" 
+                     paginator="true" paginatorPosition="top" rows="4" 
+                     style=" font-family: Arial; font-size: 6pt;width: 100% "
+                     rowKey="#{tesisuasb1[13]}#{tesisuasb1[14]}#{tesisuasb1[17]}#{tesisuasb1[18]}" 
+                     resizableColumns="true"
+                     selection="#{docencia.tesimonografia}" selectionMode="single"
+                     emptyMessage="#{docencia.msgtablavacia}">
+            <p:ajax event="rowSelect" listener="#{docencia.onRowSelect}"   
+                    update="btnTUasbEditar" />  
+            <p:ajax event="rowUnselect" listener="#{docencia.onRowUnselect}" update="btnTUasbEditar"/> 
+            <f:facet name="header">
+                <div align="right" >                    
+                    <p:commandButton icon="ui-icon-pencil" id="btnTUasbEditar" value="Editar" actionListener="#{docencia.editarRegistro}" update=":finggeneral" disabled="#{docencia.tesimonografia[13] eq null}" />                                                      
+                </div>
+            </f:facet>
+            <p:column headerText="Carrera/Programa" style="width: 20%; text-align: center">
+                <h:outputText value="#{tesisuasb1[0]}" style="text-transform: uppercase" />                                            
+            </p:column>
+            <p:column headerText="Tipo" style="width: 10%; text-align: center">
+                <h:outputText value="#{tesisuasb1[6]}" style="text-transform: uppercase"/>                                            
+            </p:column>
+            <p:column headerText="Título Tesis/Monografía" style="width: 20%; text-align: center">
+                <h:outputText value="#{tesisuasb1[2]}" style="text-transform: uppercase"/>                                            
+            </p:column>
+            <p:column headerText="Rol docente" style="width: 8%;text-align: center">
+                <h:outputText value="#{tesisuasb1[1]}" style="text-transform: uppercase"/>                                            
+            </p:column>
+            <p:column headerText="Estudiante" style="width: 15%; text-align: center">
+                <h:outputText value="#{tesisuasb1[5]}" style="text-transform: uppercase"/>                                            
+            </p:column>  
+            <p:column headerText="Fec. Designación" style="width: 9%; text-align: center">
+                <h:outputText value="#{tesisuasb1[3]}" />                                            
+            </p:column>
+            <!--p:column headerText="Fec. Entrega Informe" style="width: 8%; text-align: center">
+                <h:outputText value="#{tesisuasb1[4]}" />                                            
+            </p:column-->
+            <p:column headerText="N° Consultas" style="width: 5%; text-align: center">
+                <h:outputText value="#{tesisuasb1[7]}" />                                            
+            </p:column>
+            <p:column headerText="N° Total Horas Consulta" style="width: 5%; text-align: center">
+                <h:outputText value="#{tesisuasb1[8]}" />                                            
+            </p:column>
+        </p:dataTable>
+    </h:panelGrid>
+    
+     <h:panelGrid columns="1">
+            <h:outputText style="font-weight: bold" value="En caso de que la información sea inconsistente, acérquese a la Secretaría General"/>
+        </h:panelGrid>
+</ui:composition>

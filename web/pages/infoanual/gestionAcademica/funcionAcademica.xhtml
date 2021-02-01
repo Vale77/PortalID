@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid id="gfunacademica">
+        <p:dataTable value="#{gestion.listFunAcad}" var="funcacad" 
+                     paginator="true" rows="7" paginatorPosition="top"
+                     style=" font-family: Arial; font-size: 6pt; width: 100%" 
+                     rowKey="#{funcacad.otraActividadAcademicaPK}"  
+                     selection="#{gestion.selectedfuncacad}" selectionMode="single"
+                     resizableColumns="true"
+                     emptyMessage="#{gestion.msgtablavacia}">
+            <p:ajax event="rowSelect" listener="#{gestion.onRowSelect}" update="btnFAEditar btnFAEliminar" /> 
+            <p:ajax event="rowUnselect" listener="#{gestion.onRowUnselect}" update="btnFAEditar btnFAEliminar"/> 
+            <f:facet name="header">
+                <div align="right" >
+                    <p:commandButton icon="ui-icon-document"   id="btnFANuevo" value="Nuevo" actionListener="#{gestion.nuevoRegistro}" update=":finggeneral btnFAEditar btnFAEliminar"/>                                          
+                    <p:commandButton icon="ui-icon-pencil" id="btnFAEditar" value="Editar" actionListener="#{gestion.editarRegistro}" update=":finggeneral" disabled="#{gestion.selectedfuncacad eq null}" />
+                    <p:commandButton icon="ui-icon-trash"  id="btnFAEliminar" value="Eliminar" onclick="cconfelgeneral.show()" update=":finfoanual:messagedato" disabled="#{gestion.selectedfuncacad eq null}"/>                                                     
+                </div>
+            </f:facet>
+            <p:column headerText="Función Académica" style=" width: 20%">
+                <h:outputText value="#{funcacad.getnomfuncion()}"  style="text-transform: uppercase"/>
+            </p:column>
+            <p:column headerText="Detalle Función" style=" width: 40%">
+                <h:outputText value="#{funcacad.nombreActividad}"  style="text-transform: uppercase"/>
+            </p:column>
+            <p:column headerText="Fec. Inicio" style=" width: 10%; text-align: center">
+                <h:outputText value="#{funcacad.finicioActividad}" id="fecinipertorg">
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="fecinipertorg" timeZone="America/Guayaquil"  />
+                </h:outputText>                                        
+            </p:column> 
+            <p:column headerText="Fec. Fin" style=" width: 10% ; text-align: center">
+                <h:outputText value="#{funcacad.ffinActividad}" id="fecfinpertorg">
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="fecfinpertorg" timeZone="America/Guayaquil"  />
+                </h:outputText>                                        
+            </p:column> 
+            <p:column headerText="Observación" style=" width: 20%">
+                <h:outputText value="#{funcacad.obsActividad}" style="text-transform: uppercase" />
+            </p:column>
+        </p:dataTable>
+    </h:panelGrid>
+</ui:composition>

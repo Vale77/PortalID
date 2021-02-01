@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid id="gacteveExt">
+        <p:dataTable value="#{vinculacion.listActEvenext}" var="acteventext" 
+                     paginator="true" rows="4" paginatorPosition="top"
+                     style=" font-family: Arial; font-size: 6pt; width: 100%" 
+                     rowKey="#{acteventext.otraActividadAcademicaPK}"  
+                     selection="#{vinculacion.selectedactevenext}" selectionMode="single"
+                     resizableColumns="true"
+                     emptyMessage="#{vinculacion.msgtablavacia}">
+            <p:ajax event="rowSelect" listener="#{vinculacion.onRowSelect}" update="btnAcEEEditar btnAcEEEliminar" />  
+            <p:ajax event="rowUnselect" listener="#{vinculacion.onRowUnselect}" update="btnAcEEEditar btnAcEEEliminar"/> 
+            <f:facet name="header">
+                <div align="right" >
+                    <p:commandButton icon="ui-icon-document"   id="btnAcEENuevo" value="Nuevo" actionListener="#{vinculacion.nuevoRegistro}" update=":finggeneral btnAcEEEditar btnAcEEEliminar"/>                                          
+                    <p:commandButton icon="ui-icon-pencil" id="btnAcEEEditar" value="Editar" actionListener="#{vinculacion.editarRegistro}" update=":finggeneral" disabled="#{vinculacion.selectedactevenext eq null}"/>
+                    <p:commandButton icon="ui-icon-trash"  id="btnAcEEEliminar" value="Eliminar" onclick="cconfelgeneral.show()" update=":finfoanual:messagedato" disabled="#{vinculacion.selectedactevenext eq null}"/>                                                     
+                </div>
+            </f:facet>
+            <p:column headerText="Tipo Actividad" style=" width: 10%">
+                <h:outputText value="#{acteventext.getnomtipactactevuasb()}" style="text-transform: uppercase" />   
+            </p:column>
+            <p:column headerText="Nombre Actividad/Evento" style=" width: 30%">
+                <h:outputText value="#{acteventext.nombreActividad}" style="text-transform: uppercase" />   
+            </p:column>
+            <p:column headerText="Tipo Institución" style=" width:20%">
+                <h:outputText value="#{acteventext.getnomtipinsteducon()}" style="text-transform: uppercase" />                                            
+            </p:column> 
+            <p:column headerText="Nombre Institución" style=" width: 20%">
+                <h:outputText value="#{acteventext.tituloActividad}" style="text-transform: uppercase" />                                            
+            </p:column> 
+            <p:column headerText="Fecha Inicio" style=" width: 10% ; text-align: center">
+                <h:outputText value="#{acteventext.finicioActividad}" id="finieduccont" > 
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="finieduccont" timeZone="America/Guayaquil"  />
+                </h:outputText>
+            </p:column> 
+            <p:column headerText="Fecha Fin" style="width: 10%; text-align: center">
+                <h:outputText value="#{acteventext.ffinActividad}" id="ffineduccont">  
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="ffineduccont" timeZone="America/Guayaquil"  />
+                </h:outputText>
+            </p:column> 
+        </p:dataTable> 
+    </h:panelGrid>
+</ui:composition>

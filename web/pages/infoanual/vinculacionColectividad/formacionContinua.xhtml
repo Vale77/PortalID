@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:panelGrid id="gformcontinua">
+        <p:dataTable value="#{vinculacion.listEduCOnUasb}" var="educcontinua" 
+                     paginator="true" rows="4" paginatorPosition="top"
+                     style=" font-family: Arial; font-size: 6pt; width: 100%"
+                     rowKey="#{educcontinua.otraActividadAcademicaPK}" resizableColumns="true" 
+                     selection="#{vinculacion.selectededuccontuasb}" selectionMode="single"
+                     emptyMessage="#{vinculacion.msgtablavacia}">
+            <p:ajax event="rowSelect" listener="#{vinculacion.onRowSelect}" update="btnFCEditar btnFCEliminar" /> 
+            <p:ajax event="rowUnselect" listener="#{vinculacion.onRowUnselect}" update="btnFCEditar btnFCEliminar"/> 
+            <f:facet name="header">
+                <div align="Center">
+                    <h:outputText value="Formación Continua" style="font-weight: bold"/>
+                </div>
+                <div align="right" >
+                    <p:commandButton icon="ui-icon-document"   id="btnFCNuevo" value="Nuevo" actionListener="#{vinculacion.nuevoRegistro}" update=":finggeneral btnFCEditar btnFCEliminar"/>                                          
+                    <p:commandButton icon="ui-icon-pencil" id="btnFCEditar" value="Editar" actionListener="#{vinculacion.editarRegistro}" update=":finggeneral" disabled="#{vinculacion.selectededuccontuasb eq null}"/>
+                    <p:commandButton icon="ui-icon-trash"  id="btnFCEliminar" value="Eliminar" onclick="cconfelgeneral.show()"  update=":finfoanual:messagedato" disabled="#{vinculacion.selectededuccontuasb eq null}"/>                                                     
+                </div>
+            </f:facet>
+            <p:column headerText="Programa" style=" width: 15%">
+                <h:outputText value="#{educcontinua.areaVinculacion.avcNombre}"/>                                                                                 
+            </p:column>
+            <p:column headerText="Proyecto" style=" width: 20%">
+                <h:outputText value="#{educcontinua.detalleVinculacion.davcNombre}"/>                                                                                 
+            </p:column>
+            <p:column headerText="Tipo Actividad" style=" width: 10%">
+                <h:outputText value="#{educcontinua.getnomtipoeducon()}"/>                                                                                 
+            </p:column>
+            <p:column headerText="Área Académica" style=" width: 10%">
+                <h:outputText value="#{educcontinua.facultad.nombreFacultad}"/>                                                                                 
+            </p:column>
+            <p:column headerText="Institución" style=" width: 10%">
+                <h:outputText value="#{educcontinua.tituloActividad}" />                                            
+            </p:column> 
+            <p:column headerText="Tipo Institución" style=" width: 10%">
+                <h:outputText value="#{educcontinua.getnomtipinsteducon()}" />                                            
+            </p:column> 
+            <p:column headerText="Nombre Actividad/Curso" style=" width: 15%">
+                <h:outputText value="#{educcontinua.nombreActividad}" />                                            
+            </p:column> 
+            <p:column headerText="Fecha Inicio" style=" width: 5%">
+                <h:outputText value="#{educcontinua.finicioActividad}" id="finieduccont" > 
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="finieduccont" timeZone="America/Guayaquil"  />
+                </h:outputText>
+            </p:column> 
+            <p:column headerText="Fecha Fin" style=" width: 5%">
+                <h:outputText value="#{educcontinua.ffinActividad}" id="ffineduccont">  
+                    <f:convertDateTime pattern="dd/MM/yyyy" for="ffineduccont" timeZone="America/Guayaquil"  />
+                </h:outputText>
+            </p:column> 
+        </p:dataTable> 
+    </h:panelGrid>
+    <h:panelGrid>
+    </h:panelGrid>
+<br/><br/>
+
+    <h:panelGrid id="gcursoabierto">
+        <p:dataTable value="#{vinculacion.listCurAbierto}" var="curabierto" 
+                     paginator="true" rows="4" paginatorPosition="top"
+                     style=" font-family: Arial; font-size: 6pt; width: 100%"
+                     resizableColumns="true"                      
+                     emptyMessage="#{vinculacion.msgtablavacia}">
+            <f:facet name="header">
+                <div align="Center">
+                    <h:outputText value="Cursos Abiertos" style="font-weight: bold"/>
+                </div>
+            </f:facet>
+            <p:column headerText="Area" style=" width: 20%">
+                <h:outputText value="#{curabierto[0]}"/>                                                                                 
+            </p:column>
+            <p:column headerText="Nombre Curso" style=" width: 25%">
+                <h:outputText value="#{curabierto[1]}"/>                                                                                 
+            </p:column>
+            <p:column headerText="Nombre Conferencia" style=" width: 25%">
+                <h:outputText value="#{curabierto[3]}"/>                                                                                 
+            </p:column>
+            <p:column headerText="Fecha Realización" style=" width: 10%; text-align: center">
+                <h:outputText value="#{curabierto[6]}"/>                                                                                 
+            </p:column>
+            <p:column headerText="N° Clases" style=" width: 5%; text-align: center">
+                <h:outputText value="#{curabierto[7]}"/>                                                                                 
+            </p:column>
+             <p:column headerText="Tipo Actividad" style=" width: 10%">
+                <h:outputText value="#{curabierto[2]}"/>                                                                                 
+            </p:column>
+        </p:dataTable>
+    </h:panelGrid>
+<h:panelGrid columns="1">
+            <h:outputText style="font-weight: bold" value="En caso de que la información sea inconsistente, acérquese a la Secretaría General"/>
+        </h:panelGrid>
+</ui:composition>

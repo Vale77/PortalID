@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid columns="2" id="datosareadoc">
+        <h:outputText  value="Escoja el Área:" style="font-weight: bold"/>
+        <p:commandButton value="..."  onclick="cbusareadoc.show()"/>
+        <h:outputText  value="Área Académica:" style="font-weight: bold"/>
+        <h:outputText  value="#{docencia.selectareaacaddoc[3]}" />
+        <h:outputText  value="Programa:" style="font-weight: bold"/>
+        <h:outputText  value="#{docencia.selectareaacaddoc[10]}" style="font-family: Arial; font-size: 7pt" />           
+        <h:outputText  value="Exámenes Elaborados:" style="font-weight: bold"/>
+        <p:inputMask mask="9?9" id="iexprep" value="#{docencia.numpreparadosdoc}" style=" width: 50px; text-align: center">
+            <f:validateLongRange  minimum="0"  />                                        
+        </p:inputMask>                
+        <h:outputText  value="Exámenes Calificados:" style="font-weight: bold"/>
+        <p:inputMask mask="9?9" id="iexcal" value="#{docencia.numcalificadodoc}" style=" width: 50px; text-align: center">
+            <f:validateLongRange  minimum="0"  />                                        
+        </p:inputMask>                         
+    </h:panelGrid>
+    <p:commandButton value="Guardar"  id="btnEFGuardar" actionListener="#{docencia.saveExaCompren}" update=":finggeneral:messagesgeneral :finggeneral:datosareadoc :finfoanual:acpinfoanual:infoacade:gexacomplexdoc"/>
+    <p:commandButton value="Cancelar" id="btnEFCancelar" oncomplete="cingdgeneral.hide()"  actionListener="#{docencia.cancelExaCompren}"  update=":finggeneral:datosareadoc" immediate="true">
+        <p:resetInput target=":finggeneral:datosareadoc" />  
+    </p:commandButton>             
+</ui:composition>

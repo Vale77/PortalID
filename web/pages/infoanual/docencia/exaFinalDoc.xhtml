@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:panelGrid id="gexacomplexdoc">
+        <p:dataTable  id="tabexacomplexdoc" value="#{docencia.listExacomplexDoc}" var="exacomplexdoc" 
+                      paginator="true" rows="5" paginatorPosition="top" 
+                      style=" font-family: Arial; font-size: 6pt;width: 100%"
+                      rowKey="#{exacomplexdoc[1]}"  
+                      selection="#{docencia.selectedExaCompren}" 
+                      selectionMode="single" resizableColumns="true"
+                      emptyMessage="#{docencia.msgtablavacia}">      
+            <p:ajax event="rowSelect" listener="#{docencia.onRowSelect}" update="btnEFEditar btnEFEliminar"/>
+            <p:ajax event="rowUnselect" listener="#{docencia.onRowUnselect}" update="btnEFEditar btnEFEliminar"/> 
+            <f:facet name="header">
+                <div align="right" >
+                    <p:commandButton icon="ui-icon-document"   id="btnEFNuevo" value="Nuevo" actionListener="#{docencia.nuevoRegistro}"  update=":finggeneral btnEFEditar btnEFEliminar"/>                                          
+                    <p:commandButton icon="ui-icon-pencil" id="btnEFEditar" value="Editar" actionListener="#{docencia.editarRegistro}" update=":finggeneral" disabled="#{docencia.selectedExaCompren[1] eq null}"/>
+                    <p:commandButton icon="ui-icon-trash"  id="btnEFEliminar" value="Eliminar" onclick="cconfelgeneral.show()" update=":finfoanual:messagedato" disabled="#{docencia.selectedExaCompren[1] eq null}"/>                                                     
+                </div>
+            </f:facet>
+            <p:column headerText="Programa" style="width: 60%">
+                <h:outputText value="#{exacomplexdoc[13]}" />                                            
+            </p:column>                                                   
+            <p:column headerText="N° Elaborados" style=" text-align: center;width: 10%" >
+                <h:outputText value="#{exacomplexdoc[5]}"/>                                            
+            </p:column>
+            <p:column headerText="N° Calificados" style=" text-align: center;width: 10%">
+                <h:outputText value="#{exacomplexdoc[6]}"/>                                            
+            </p:column>
+        </p:dataTable>  
+    </h:panelGrid>  
+</ui:composition>

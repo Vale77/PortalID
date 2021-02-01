@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="materia_docente_ciclo_academico" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="5d51d71c-c732-4815-ad1c-2c42428cfb1d">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="anio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  distinct dbo.f_ret_area_materia(V_PENSUM_MATERIA.ANIO,V_PENSUM_MATERIA.CICLO,V_PENSUM_MATERIA.CODIGO_MATERIA,V_PENSUM_MATERIA.CODIGO_NIVEL,'P') programa ,
+         V_PENSUM_MATERIA.TRIMESTRE,
+         V_PENSUM_MATERIA.HORAS_MATERIA_DICTAR,
+         V_PENSUM_MATERIA.NOMBRE_MATERIA,
+         V_PENSUM_MATERIA.HORAS_MATERIA_DICTAR*2 as horasaula,
+         V_PENSUM_MATERIA.HORAS_MATERIA_DICTAR*4 as horaspreparacion,
+V_PENSUM_MATERIA.FECHA_ULTMODIFIC
+    FROM V_PENSUM_MATERIA
+ WHERE V_PENSUM_MATERIA.ANIO = $P{anio} AND V_PENSUM_MATERIA.CICLO = 1 AND
+         ( V_PENSUM_MATERIA.CODIGO_PROFESOR =  $P{codigo}) AND
+         ( V_PENSUM_MATERIA.NUM_ALUMNOS > 0 )]]>
+	</queryString>
+	<field name="programa" class="java.lang.String"/>
+	<field name="TRIMESTRE" class="java.lang.String"/>
+	<field name="HORAS_MATERIA_DICTAR" class="java.math.BigDecimal"/>
+	<field name="NOMBRE_MATERIA" class="java.lang.String"/>
+	<field name="horasaula" class="java.math.BigDecimal"/>
+	<field name="horaspreparacion" class="java.math.BigDecimal"/>
+	<field name="FECHA_ULTMODIFIC" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="12" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="0" width="260" height="12" forecolor="#0000FF" uuid="5532d383-a322-4a46-9d3e-65eb6efde610"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ASIGNATURAS UASB]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="298" height="24" uuid="10ad4f6b-c108-4aaf-97c7-31954cad97a2"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+					<paragraph firstLineIndent="5"/>
+				</textElement>
+				<text><![CDATA[Programas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="1" width="74" height="24" uuid="2feecda4-62cd-41a1-aead-c9c3f7b033cb"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Trimestre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="1" width="226" height="24" uuid="b52683d0-3759-4e7d-b116-f976ceaab588"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+					<paragraph firstLineIndent="5"/>
+				</textElement>
+				<text><![CDATA[Asignatura  / Módulo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="598" y="1" width="46" height="24" uuid="53f40eaf-41b0-4e28-a22a-e0ea159493a0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[N° Clases Dictadas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="644" y="1" width="46" height="24" uuid="943f7051-75cb-485b-911a-8663e415682d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Horas Aula]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="690" y="1" width="57" height="24" uuid="c4a0b3a9-2197-4ada-8f1f-0a9c52af3869"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Horas Preparación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="747" y="1" width="53" height="24" uuid="994da98c-028a-4157-ab3b-784bd1775ed6"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha última Actualización]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="298" height="11" uuid="92247494-c0e9-4818-bc87-e41d289a9744"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{programa}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="298" y="0" width="74" height="11" uuid="5a1ed7bf-fa6a-465a-b3f3-f804a6edda79"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TRIMESTRE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="372" y="0" width="226" height="11" uuid="33aeaed2-86b9-4d57-bd42-7618d31f49fb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE_MATERIA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement x="598" y="0" width="46" height="11" uuid="81d96c53-7482-4531-8ce7-a1227380552d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HORAS_MATERIA_DICTAR}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="644" y="0" width="46" height="11" uuid="1a8156eb-6f7d-40f2-99ac-384a9db10253"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{horasaula}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="690" y="0" width="57" height="11" uuid="24cf4505-61bd-4b1d-8c73-7e7e9809e079"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{horaspreparacion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="747" y="0" width="53" height="11" uuid="5c5dc862-8a2a-4afe-bc44-e59837798403"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA_ULTMODIFIC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+	<noData>
+		<band height="37">
+			<staticText>
+				<reportElement x="182" y="13" width="392" height="20" forecolor="#FF0000" uuid="aa049af4-285d-40a0-af3f-b07cb7591f15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO HA REALIZADO NINGUNA ACTIVIDAD..........]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="0" width="260" height="12" forecolor="#0000FF" uuid="6f7dd0e6-0aec-4b78-b2b7-b126eac7a29d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ASIGNATURAS UASB]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>
